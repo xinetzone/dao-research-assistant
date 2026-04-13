@@ -35,9 +35,9 @@
     "uploadFailed": "文件上传失败",
     "fetchFailed": "网址获取失败",
     "deleteCollectionTitle": "删除集合",
-    "deleteCollectionDesc": "确定要删除"{{name}}"及其所有文档吗？此操作无法撤销。",
+    "deleteCollectionDesc": "确定要删除「{{name}}」及其所有文档吗？此操作无法撤销。",
     "deleteDocTitle": "移除文档",
-    "deleteDocDesc": "确定要移除"{{name}}"吗？此操作无法撤销。",
+    "deleteDocDesc": "确定要移除「{{name}}」吗？此操作无法撤销。",
     "contextActive": "当前使用：{{name}}"
   },
   "prompts": {
