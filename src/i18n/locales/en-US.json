@@ -10,7 +10,35 @@
     "newChat": "New Chat",
     "searchPlaceholder": "Ask a follow-up...",
     "thinking": "Thinking...",
-    "thinkingProcess": "Thinking process"
+    "thinkingProcess": "Thinking process",
+    "docs": "Docs"
+  },
+  "docs": {
+    "title": "Document Collections",
+    "collection": "Collection",
+    "noCollections": "No collections yet. Create one to get started.",
+    "noDocuments": "No documents yet. Upload a file or add a URL.",
+    "newCollection": "New Collection",
+    "collectionNamePlaceholder": "Collection name...",
+    "create": "Create",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "uploadFile": "Upload File",
+    "addWebsite": "Add URL",
+    "addUrl": "Fetch & Add",
+    "fetching": "Fetching...",
+    "useAsContext": "Use as Context",
+    "deactivate": "Context Active — Click to Deactivate",
+    "chars": "chars",
+    "supportedFormats": "Supports: TXT, MD, HTML, JSON, CSV, XML, YAML",
+    "unsupportedFormat": "Unsupported format: {{name}}",
+    "uploadFailed": "Failed to upload file",
+    "fetchFailed": "Failed to fetch URL",
+    "deleteCollectionTitle": "Delete Collection",
+    "deleteCollectionDesc": "Are you sure you want to delete \"{{name}}\" and all its documents? This cannot be undone.",
+    "deleteDocTitle": "Remove Document",
+    "deleteDocDesc": "Are you sure you want to remove \"{{name}}\"? This cannot be undone.",
+    "contextActive": "Using: {{name}}"
   },
   "prompts": {
     "creative": {

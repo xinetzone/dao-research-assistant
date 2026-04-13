@@ -3109,7 +3109,70 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      document_collections: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      documents: {
+        Row: {
+          collection_id: string
+          content: string
+          created_at: string | null
+          file_name: string | null
+          file_size: number | null
+          id: string
+          name: string
+          source_type: string
+          source_url: string | null
+        }
+        Insert: {
+          collection_id: string
+          content: string
+          created_at?: string | null
+          file_name?: string | null
+          file_size?: number | null
+          id?: string
+          name: string
+          source_type: string
+          source_url?: string | null
+        }
+        Update: {
+          collection_id?: string
+          content?: string
+          created_at?: string | null
+          file_name?: string | null
+          file_size?: number | null
+          id?: string
+          name?: string
+          source_type?: string
+          source_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_collection_id_fkey"
+            columns: ["collection_id"]
+            referencedRelation: "document_collections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

@@ -14,7 +14,17 @@ Deno.serve(async (req) => {
       throw new Error("AI_API_TOKEN is not configured");
     }
 
-    const { messages, model } = await req.json();
+    const { messages, model, system } = await req.json();
+
+    const body: Record<string, unknown> = {
+      model: model || "anthropic/claude-sonnet-4.5",
+      messages,
+      stream: true,
+    };
+
+    if (system) {
+      body.system = system;
+    }
 
     const response = await fetch("https://api.enter.pro/code/api/v1/ai/messages", {
       method: "POST",
@@ -22,15 +32,10 @@ Deno.serve(async (req) => {
         Authorization: `Bearer ${AI_API_TOKEN}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        model: model || "anthropic/claude-sonnet-4.5",
-        messages,
-        stream: true,
-      }),
+      body: JSON.stringify(body),
     });
 
     if (!response.ok) {
-      // Parse upstream SSE error response
       const text = await response.text();
       let errorMessage = "AI service error";
       let errorCode = "api_error";
@@ -44,7 +49,6 @@ Deno.serve(async (req) => {
         } catch { /* use defaults */ }
       }
       
-      // Return error in SSE format to match frontend expectations
       const errorSSE = `event: error\ndata: ${JSON.stringify({
         type: "error",
         error: { type: errorCode, message: errorMessage }
@@ -56,7 +60,6 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Stream SSE response to client
     return new Response(response.body, {
       headers: {
         ...corsHeaders,
@@ -65,7 +68,6 @@ Deno.serve(async (req) => {
       },
     });
   } catch (error) {
-    // Return error in SSE format for consistency
     const errorSSE = `event: error\ndata: ${JSON.stringify({
       type: "error",
       error: { type: "api_error", message: error.message }

@@ -10,7 +10,35 @@
     "newChat": "新对话",
     "searchPlaceholder": "提出后续问题...",
     "thinking": "思考中...",
-    "thinkingProcess": "思考过程"
+    "thinkingProcess": "思考过程",
+    "docs": "文档"
+  },
+  "docs": {
+    "title": "文档集合",
+    "collection": "集合",
+    "noCollections": "暂无文档集合，点击下方创建一个吧。",
+    "noDocuments": "暂无文档，上传文件或添加网址。",
+    "newCollection": "新建集合",
+    "collectionNamePlaceholder": "集合名称...",
+    "create": "创建",
+    "cancel": "取消",
+    "delete": "删除",
+    "uploadFile": "上传文件",
+    "addWebsite": "添加网址",
+    "addUrl": "获取并添加",
+    "fetching": "获取中...",
+    "useAsContext": "用作对话上下文",
+    "deactivate": "上下文已激活 — 点击停用",
+    "chars": "字符",
+    "supportedFormats": "支持格式：TXT、MD、HTML、JSON、CSV、XML、YAML",
+    "unsupportedFormat": "不支持的格式：{{name}}",
+    "uploadFailed": "文件上传失败",
+    "fetchFailed": "网址获取失败",
+    "deleteCollectionTitle": "删除集合",
+    "deleteCollectionDesc": "确定要删除"{{name}}"及其所有文档吗？此操作无法撤销。",
+    "deleteDocTitle": "移除文档",
+    "deleteDocDesc": "确定要移除"{{name}}"吗？此操作无法撤销。",
+    "contextActive": "当前使用：{{name}}"
   },
   "prompts": {
     "creative": {

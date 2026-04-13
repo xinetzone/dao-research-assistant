@@ -24,7 +24,11 @@ export function useAIChat(supabaseUrl: string, supabaseAnonKey: string) {
   const [error, setError] = useState<string | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const sendMessage = useCallback(async (content: string, model = "anthropic/claude-sonnet-4.5") => {
+  const sendMessage = useCallback(async (
+    content: string,
+    model = "anthropic/claude-sonnet-4.5",
+    documentContext?: string
+  ) => {
     abortControllerRef.current = new AbortController();
 
     const userMessage: Message = { role: "user", content };
@@ -50,6 +54,7 @@ export function useAIChat(supabaseUrl: string, supabaseAnonKey: string) {
             role: m.role, content: m.content,
           })),
           model,
+          ...(documentContext ? { system: `You are a helpful research assistant. The user has provided the following reference documents to help answer their questions. Use this information as context when responding:\n\n${documentContext}` } : {}),
         }),
         signal: abortControllerRef.current.signal,
         
