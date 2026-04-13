@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight, User, Sparkles } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import type { Message } from "@/hooks/useAIChat";
 
@@ -8,6 +9,7 @@ interface ChatMessageProps {
 }
 
 export function ChatMessage({ message }: ChatMessageProps) {
+  const { t } = useTranslation();
   const [showThinking, setShowThinking] = useState(true);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
               <div className="h-2 w-2 rounded-full bg-current animate-bounce [animation-delay:-0.15s]"></div>
               <div className="h-2 w-2 rounded-full bg-current animate-bounce"></div>
             </div>
-            <span className="text-sm">Thinking...</span>
+            <span className="text-sm">{t('chat.thinking')}</span>
           </div>
         )}
 
@@ -51,7 +53,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
               className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors group"
             >
               {showThinking ? <ChevronDown className="h-3.5 w-3.5" /> : <ChevronRight className="h-3.5 w-3.5" />}
-              <span>Thinking process</span>
+              <span>{t('chat.thinkingProcess')}</span>
             </button>
             
             {showThinking && (

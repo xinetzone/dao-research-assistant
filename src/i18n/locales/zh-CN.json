@@ -1,0 +1,53 @@
+{
+  "landing": {
+    "title": "我可以帮你研究什么？",
+    "subtitle": "提出任何问题，获取由 AI 驱动的详细、深入的研究答案",
+    "searchPlaceholder": "问我任何问题...",
+    "tryPrompts": "尝试这些提示"
+  },
+  "chat": {
+    "header": "研究助手",
+    "newChat": "新对话",
+    "searchPlaceholder": "提出后续问题...",
+    "thinking": "思考中...",
+    "thinkingProcess": "思考过程"
+  },
+  "prompts": {
+    "creative": {
+      "title": "创意写作",
+      "text": "帮我写一个关于人工智能的引人入胜的故事"
+    },
+    "market": {
+      "title": "市场分析",
+      "text": "2026年人工智能技术的主要趋势是什么？"
+    },
+    "research": {
+      "title": "学术研究",
+      "text": "用简单的术语解释量子计算"
+    },
+    "coding": {
+      "title": "编程帮助",
+      "text": "如何优化处理大型数据集的 React 性能？"
+    },
+    "problem": {
+      "title": "问题解决",
+      "text": "学习新编程语言的最佳方法是什么？"
+    },
+    "tech": {
+      "title": "科技话题",
+      "text": "人工智能的伦理影响是什么？"
+    }
+  },
+  "errors": {
+    "authentication_error": "身份验证失败，请刷新页面。",
+    "rate_limit_error": "请求过多，请稍后再试。",
+    "invalid_request_error": "无效请求，请重试。",
+    "overloaded_error": "服务繁忙，请稍后再试。",
+    "insufficient_credits": "该网站的 AI 额度已用完，请联系网站管理员。",
+    "permission_error": "网站所有者已禁用 AI 功能，请联系网站管理员。",
+    "api_error": "服务暂时不可用。"
+  },
+  "common": {
+    "language": "语言"
+  }
+}

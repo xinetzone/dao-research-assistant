@@ -1,0 +1,53 @@
+{
+  "landing": {
+    "title": "What can I help you research?",
+    "subtitle": "Ask me anything and get detailed, well-researched answers powered by AI",
+    "searchPlaceholder": "Ask anything...",
+    "tryPrompts": "Try these prompts"
+  },
+  "chat": {
+    "header": "Research Assistant",
+    "newChat": "New Chat",
+    "searchPlaceholder": "Ask a follow-up...",
+    "thinking": "Thinking...",
+    "thinkingProcess": "Thinking process"
+  },
+  "prompts": {
+    "creative": {
+      "title": "Creative Writing",
+      "text": "Help me write a compelling story about artificial intelligence"
+    },
+    "market": {
+      "title": "Market Analysis",
+      "text": "What are the key trends in AI technology for 2026?"
+    },
+    "research": {
+      "title": "Research",
+      "text": "Explain quantum computing in simple terms"
+    },
+    "coding": {
+      "title": "Coding Help",
+      "text": "How do I optimize React performance with large datasets?"
+    },
+    "problem": {
+      "title": "Problem Solving",
+      "text": "What's the best approach to learn a new programming language?"
+    },
+    "tech": {
+      "title": "Technology",
+      "text": "What are the ethical implications of artificial intelligence?"
+    }
+  },
+  "errors": {
+    "authentication_error": "Authentication failed. Please refresh the page.",
+    "rate_limit_error": "Too many requests. Please try again later.",
+    "invalid_request_error": "Invalid request. Please try again.",
+    "overloaded_error": "Service is busy. Please try again later.",
+    "insufficient_credits": "This website's AI credits have been exhausted. Please contact the website administrator.",
+    "permission_error": "AI capability is disabled by the website owner. Please contact the website administrator.",
+    "api_error": "Service temporarily unavailable."
+  },
+  "common": {
+    "language": "Language"
+  }
+}

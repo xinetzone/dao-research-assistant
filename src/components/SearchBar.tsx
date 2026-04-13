@@ -5,11 +5,11 @@ import { cn } from "@/lib/utils";
 interface SearchBarProps {
   onSubmit: (query: string) => void;
   isLoading?: boolean;
-  placeholder?: string;
+  placeholder: string;
   variant?: "landing" | "chat";
 }
 
-export function SearchBar({ onSubmit, isLoading, placeholder = "Ask anything...", variant = "landing" }: SearchBarProps) {
+export function SearchBar({ onSubmit, isLoading, placeholder, variant = "landing" }: SearchBarProps) {
   const [query, setQuery] = useState("");
 
   const handleSubmit = () => {

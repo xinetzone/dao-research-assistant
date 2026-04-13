@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
+import i18n from "@/i18n/config";
 
 export interface Message {
   role: "user" | "assistant";
@@ -8,21 +9,13 @@ export interface Message {
   isStreaming?: boolean;
 }
 
-const FALLBACK_MESSAGES: Record<string, string> = {
-  authentication_error: "Authentication failed. Please refresh the page.",
-  rate_limit_error: "Too many requests. Please try again later.",
-  invalid_request_error: "Invalid request. Please try again.",
-  overloaded_error: "Service is busy. Please try again later.",
-  insufficient_credits: "This website's AI credits have been exhausted. Please contact the website administrator.",
-  permission_error: "AI capability is disabled by the website owner. Please contact the website administrator.",
-  api_error: "Service temporarily unavailable.",
-};
-
 function getUserErrorMessage(code: string, backendMessage: string): string {
   if (backendMessage) {
     return backendMessage;
   }
-  return FALLBACK_MESSAGES[code] || "Service temporarily unavailable.";
+  const key = `errors.${code}`;
+  const translated = i18n.t(key);
+  return translated !== key ? translated : i18n.t('errors.api_error');
 }
 
 export function useAIChat(supabaseUrl: string, supabaseAnonKey: string) {
