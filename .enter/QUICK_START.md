@@ -3,7 +3,7 @@
 ## 前提条件
 
 在开始之前，请确保：
-- ✅ 已在 GitHub 创建 `daoApps/dao-research-assistant` 仓库
+- ✅ 已在 GitHub 创建 `xinetzone/dao-research-assistant` 仓库
 - ✅ 仓库设置为 Public
 - ✅ **不要勾选** "Initialize with README"（我们已经有了）
 - ✅ 有该仓库的推送权限
@@ -32,7 +32,7 @@ bash publish-to-github.sh
 git remote remove origin 2>/dev/null || true
 
 # 添加 GitHub 仓库
-git remote add origin https://github.com/daoApps/dao-research-assistant.git
+git remote add origin https://github.com/xinetzone/dao-research-assistant.git
 
 # 验证配置
 git remote -v
@@ -50,7 +50,7 @@ git push origin --tags
 
 ### Step 3: 验证
 
-访问 https://github.com/daoApps/dao-research-assistant 确认：
+访问 https://github.com/xinetzone/dao-research-assistant 确认：
 - ✅ 代码已上传
 - ✅ README.md 正确显示
 - ✅ LICENSE 文件存在
@@ -104,13 +104,13 @@ git push origin --tags
 ### 📖 快速开始
 
 ```bash
-git clone https://github.com/daoApps/dao-research-assistant.git
+git clone https://github.com/xinetzone/dao-research-assistant.git
 cd dao-research-assistant
 pnpm install
 pnpm dev
 ```
 
-详见 [README.md](https://github.com/daoApps/dao-research-assistant#readme)
+详见 [README.md](https://github.com/xinetzone/dao-research-assistant#readme)
 
 ### 🙏 致谢
 
@@ -138,12 +138,12 @@ Settings → Branches → Add branch protection rule:
 
 使用 Personal Access Token:
 ```bash
-git remote set-url origin https://YOUR_USERNAME:YOUR_TOKEN@github.com/daoApps/dao-research-assistant.git
+git remote set-url origin https://YOUR_USERNAME:YOUR_TOKEN@github.com/xinetzone/dao-research-assistant.git
 ```
 
 或使用 SSH:
 ```bash
-git remote set-url origin git@github.com:daoApps/dao-research-assistant.git
+git remote set-url origin git@github.com:xinetzone/dao-research-assistant.git
 ```
 
 ### Q: 推送失败，提示 "repository not found"
@@ -176,7 +176,7 @@ git push origin v1.1.0
 
 发布完成后，请验证：
 
-- [ ] 访问 https://github.com/daoApps/dao-research-assistant
+- [ ] 访问 https://github.com/xinetzone/dao-research-assistant
 - [ ] README.md 完整显示
 - [ ] LICENSE 文件存在
 - [ ] 所有代码文件已上传

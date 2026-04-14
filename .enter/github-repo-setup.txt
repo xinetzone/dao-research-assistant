@@ -19,11 +19,11 @@ Topics:
 ai, research, dao, cultivation, react, typescript, supabase, claude, i18n, web-search, document-management, perplexity, meditation
 
 【推送命令】
-git remote add origin https://github.com/daoApps/dao-research-assistant.git
+git remote add origin https://github.com/xinetzone/dao-research-assistant.git
 git push -u origin main
 git push origin --tags
 
 【仓库链接】
-https://github.com/daoApps/dao-research-assistant
+https://github.com/xinetzone/dao-research-assistant
 
 ==============================================

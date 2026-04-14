@@ -9,7 +9,7 @@
 1. **系统性复盘**：使用 task-execution-summary 技能生成完整的项目执行报告
 2. **Git 规范化**：完善 .gitignore，清理敏感信息，规范提交历史
 3. **文档完善**：创建专业的 README.md 介绍项目
-4. **GitHub 发布**：推送到 https://github.com/daoApps/dao-research-assistant
+4. **GitHub 发布**：推送到 https://github.com/xinetzone/dao-research-assistant
 
 ## 🔍 项目现状分析
 
@@ -278,7 +278,7 @@ git tag -a v0.6.0 3d2cde7 -m "Cultivation tutorial feature"
 git remote remove origin
 
 # 添加新的 GitHub remote
-git remote add origin https://github.com/daoApps/dao-research-assistant.git
+git remote add origin https://github.com/xinetzone/dao-research-assistant.git
 
 # 验证
 git remote -v

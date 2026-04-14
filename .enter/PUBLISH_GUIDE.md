@@ -42,7 +42,7 @@ cd /workspace/thread
 git remote remove origin
 
 # 添加 GitHub 仓库作为 origin
-git remote add origin https://github.com/daoApps/dao-research-assistant.git
+git remote add origin https://github.com/xinetzone/dao-research-assistant.git
 
 # 验证远程仓库配置
 git remote -v
@@ -50,8 +50,8 @@ git remote -v
 
 预期输出：
 ```
-origin  https://github.com/daoApps/dao-research-assistant.git (fetch)
-origin  https://github.com/daoApps/dao-research-assistant.git (push)
+origin  https://github.com/xinetzone/dao-research-assistant.git (fetch)
+origin  https://github.com/xinetzone/dao-research-assistant.git (push)
 ```
 
 ### Step 3: 推送代码到 GitHub
@@ -101,7 +101,7 @@ git push origin --tags
 
 ### 检查清单
 
-访问 https://github.com/daoApps/dao-research-assistant 确认：
+访问 https://github.com/xinetzone/dao-research-assistant 确认：
 
 - [ ] 仓库可以正常访问
 - [ ] README.md 完整展示
@@ -205,6 +205,6 @@ git push origin v1.1.0
 
 ---
 
-**项目链接**: https://github.com/daoApps/dao-research-assistant
+**项目链接**: https://github.com/xinetzone/dao-research-assistant
 
 **祝项目顺利！愿道研助手帮助更多人找到内心的宁静与智慧 🌟**

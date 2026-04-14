@@ -42,10 +42,10 @@ cd /workspace/thread
 export GITHUB_TOKEN="YOUR_TOKEN"
 
 # 推送主分支
-git push "https://${GITHUB_TOKEN}@github.com/daoApps/dao-research-assistant.git" main
+git push "https://${GITHUB_TOKEN}@github.com/xinetzone/dao-research-assistant.git" main
 
 # 推送标签
-git push "https://${GITHUB_TOKEN}@github.com/daoApps/dao-research-assistant.git" --tags
+git push "https://${GITHUB_TOKEN}@github.com/xinetzone/dao-research-assistant.git" --tags
 
 # 设置上游
 git branch --set-upstream-to=github/main main
@@ -59,7 +59,7 @@ git branch --set-upstream-to=github/main main
 cd /workspace/thread
 
 # 修改远程 URL 为 SSH
-git remote set-url github git@github.com:daoApps/dao-research-assistant.git
+git remote set-url github git@github.com:xinetzone/dao-research-assistant.git
 
 # 推送
 git push -u github main
@@ -95,7 +95,7 @@ git branch -a
 git ls-remote --tags github
 
 # 或直接访问仓库
-open https://github.com/daoApps/dao-research-assistant
+open https://github.com/xinetzone/dao-research-assistant
 ```
 
 你应该能看到：

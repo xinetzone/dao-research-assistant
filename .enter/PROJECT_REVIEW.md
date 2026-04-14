@@ -371,4 +371,4 @@
 **项目复盘完成时间**: 2026-04-14  
 **复盘人**: AI Agent  
 **项目状态**: ✅ Ready for GitHub Release  
-**下一步**: 推送到 https://github.com/daoApps/dao-research-assistant
+**下一步**: 推送到 https://github.com/xinetzone/dao-research-assistant

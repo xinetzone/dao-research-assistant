@@ -4,7 +4,7 @@
 
 代码已成功推送到 GitHub！
 
-**仓库地址**：https://github.com/daoApps/dao-research-assistant
+**仓库地址**：https://github.com/xinetzone/dao-research-assistant
 
 ---
 
@@ -22,7 +22,7 @@
 
 ### 1. 访问仓库 ⭐
 
-立即访问：https://github.com/daoApps/dao-research-assistant
+立即访问：https://github.com/xinetzone/dao-research-assistant
 
 你应该看到：
 - ✅ 完整的项目文档（README.md）
@@ -100,9 +100,9 @@ MIT License - 详见 [LICENSE](./LICENSE)
 在 README.md 顶部添加徽章（可选）：
 
 ```markdown
-[![GitHub Stars](https://img.shields.io/github/stars/daoApps/dao-research-assistant?style=social)](https://github.com/daoApps/dao-research-assistant)
+[![GitHub Stars](https://img.shields.io/github/stars/xinetzone/dao-research-assistant?style=social)](https://github.com/xinetzone/dao-research-assistant)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/daoApps/dao-research-assistant/releases)
+[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/xinetzone/dao-research-assistant/releases)
 ```
 
 ### 5. 分享项目 📢

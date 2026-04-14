@@ -16,7 +16,7 @@
 - 格式应该是：`https://github.com/xxx/xxx`
 
 **例如**：
-- ✅ `https://github.com/daoApps/dao-research-assistant`
+- ✅ `https://github.com/xinetzone/dao-research-assistant`
 - ✅ `https://github.com/your-username/dao-research-assistant`
 - ❌ `https://github.com/daoApps/other-name`
 
