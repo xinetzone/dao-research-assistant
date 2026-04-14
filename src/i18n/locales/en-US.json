@@ -83,5 +83,27 @@
   },
   "common": {
     "language": "Language"
+  },
+  "cultivation": {
+    "guide": "Cultivation Guide",
+    "tutorialNew": "New",
+    "tutorial": {
+      "welcome": "Welcome to Cultivation",
+      "realms": "Cultivation Realms",
+      "moods": "Mind States",
+      "firstCheckIn": "First Check-in",
+      "gift": "Welcome Gift",
+      "next": "Next",
+      "previous": "Previous",
+      "complete": "Complete",
+      "startCheckIn": "Start Check-in",
+      "rewardReceived": "Received Welcome Gift",
+      "pointsGifted": "{{points}} EP Gifted",
+      "welcomeContent": "Integrating the Dao De Jing's 'action through non-action', Buddhist 'unmoving direct mind', and quantum field theory. Daily check-ins cultivate awareness and transcend the cycle of reincarnation.",
+      "realmsContent": "10 realms on the cultivation path: Mortal → Qi Refining → Foundation → Golden Core → Nascent Soul → Spirit Transformation → Integration → Mahayana → Tribulation → True Immortal. Each realm requires different Enlightenment Points.",
+      "moodsContent": "Daily observe your mind state:\n• Transparent: Mind like mirror, all is empty (+15)\n• Tranquil: Still water, no attachments (+10)\n• Ripple: Gentle waves, foundation stable (+5)\n• Chaotic: Mind scattered, needs stillness (+3)\n\nHonest reflection is practice.",
+      "firstCheckInContent": "Now, let's complete your first check-in together. Choose your mood, set Wu Wei score, sense the Dao field, and write your reflections. The Master will provide personalized guidance based on your practice.",
+      "giftContent": "Congratulations on completing the tutorial!\n\n50 Enlightenment Points gifted as a welcome gift. Remember:\n• Daily check-ins increase streak bonuses\n• Honest reflection matters more than high scores\n• Follow the Dao naturally, let things be\n\nMay you find your true self on this cultivation path."
+    }
   }
 }

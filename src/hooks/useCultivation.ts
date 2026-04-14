@@ -26,6 +26,7 @@ export interface CultivationState {
   totalCheckIns: number;
   lastCheckInDate: string | null;
   records: CheckInRecord[];
+  tutorialCompleted?: boolean;
 }
 
 const REALMS: CultivationRealm[] = [
@@ -65,6 +66,7 @@ function getInitialState(): CultivationState {
     totalCheckIns: 0,
     lastCheckInDate: null,
     records: [],
+    tutorialCompleted: false,
   };
 }
 
@@ -155,6 +157,20 @@ export function useCultivation() {
     return pointsEarned;
   }, [state.lastCheckInDate, calculatePoints]);
 
+  const completeTutorial = useCallback(() => {
+    const TUTORIAL_REWARD = 50;
+    setState(prev => ({
+      ...prev,
+      tutorialCompleted: true,
+      enlightenmentPoints: prev.enlightenmentPoints + TUTORIAL_REWARD,
+    }));
+    return TUTORIAL_REWARD;
+  }, []);
+
+  const getTutorialCompleted = useCallback((): boolean => {
+    return state.tutorialCompleted === true;
+  }, [state.tutorialCompleted]);
+
   return {
     state,
     realms: REALMS,
@@ -164,5 +180,7 @@ export function useCultivation() {
     canCheckInToday,
     checkIn,
     calculatePoints,
+    completeTutorial,
+    getTutorialCompleted,
   };
 }

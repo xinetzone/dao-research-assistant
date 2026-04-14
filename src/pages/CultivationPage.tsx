@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useCultivation } from "@/hooks/useCultivation";
-import { ArrowLeft, Flame, Star, Calendar, TrendingUp, ChevronRight, Sparkles, Loader2 } from "lucide-react";
+import { ArrowLeft, Flame, Star, Calendar, TrendingUp, ChevronRight, Sparkles, Loader2, BookOpen, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,14 +11,16 @@ import { Progress } from "@/components/ui/progress";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
 import { supabase } from "@/integrations/supabase/client";
 
-type ViewState = "home" | "checkin" | "result" | "records";
+type ViewState = "home" | "checkin" | "result" | "records" | "tutorial";
 
 export default function CultivationPage() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const { state, moods, getCurrentRealm, getNextRealm, canCheckInToday, checkIn } = useCultivation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { state, moods, realms, getCurrentRealm, getNextRealm, canCheckInToday, checkIn, completeTutorial, getTutorialCompleted } = useCultivation();
   
   const [view, setView] = useState<ViewState>("home");
+  const [tutorialStep, setTutorialStep] = useState(0);
   const [selectedMood, setSelectedMood] = useState<string>("");
   const [wuWeiScore, setWuWeiScore] = useState<number>(0);
   const [daoFieldActive, setDaoFieldActive] = useState<boolean>(false);
@@ -27,15 +29,68 @@ export default function CultivationPage() {
   const [isLoadingAI, setIsLoadingAI] = useState(false);
   const [earnedPoints, setEarnedPoints] = useState<number>(0);
   const [previousRealm, setPreviousRealm] = useState(getCurrentRealm().id);
+  const [fromTutorial, setFromTutorial] = useState(false);
 
   const currentRealm = getCurrentRealm();
   const nextRealm = getNextRealm();
   const canCheckIn = canCheckInToday();
   const isZh = i18n.language === "zh-CN";
 
+  // Tutorial steps definition
+  const TUTORIAL_STEPS = [
+    {
+      step: 0,
+      icon: "sparkles",
+      title: t("cultivation.tutorial.welcome"),
+      content: t("cultivation.tutorial.welcomeContent"),
+    },
+    {
+      step: 1,
+      icon: "flame",
+      title: t("cultivation.tutorial.realms"),
+      content: t("cultivation.tutorial.realmsContent"),
+      showRealms: true,
+    },
+    {
+      step: 2,
+      icon: "star",
+      title: t("cultivation.tutorial.moods"),
+      content: t("cultivation.tutorial.moodsContent"),
+      showMoods: true,
+    },
+    {
+      step: 3,
+      icon: "checkin",
+      title: t("cultivation.tutorial.firstCheckIn"),
+      content: t("cultivation.tutorial.firstCheckInContent"),
+      action: "startCheckIn",
+    },
+    {
+      step: 4,
+      icon: "award",
+      title: t("cultivation.tutorial.gift"),
+      content: t("cultivation.tutorial.giftContent"),
+      showReward: true,
+      rewardPoints: 50,
+    },
+  ];
+
+  const currentTutorialStep = TUTORIAL_STEPS[tutorialStep] || TUTORIAL_STEPS[0];
+
   const progressPercent = nextRealm
     ? ((state.enlightenmentPoints - currentRealm.minEP) / (nextRealm.minEP - currentRealm.minEP)) * 100
     : 100;
+
+  // URL parameter handling for tutorial
+  useEffect(() => {
+    const shouldShowTutorial = searchParams.get('tutorial') === 'true';
+    if (shouldShowTutorial && !getTutorialCompleted()) {
+      setView("tutorial");
+      setTutorialStep(0);
+      // Clean URL
+      setSearchParams({});
+    }
+  }, [searchParams, getTutorialCompleted, setSearchParams]);
 
   const handleCheckInStart = () => {
     setSelectedMood("");
@@ -98,7 +153,15 @@ export default function CultivationPage() {
       const points = checkIn(selectedMood, wuWeiScore, daoFieldActive, insight, fullGuidance);
       setEarnedPoints(points);
       setAiGuidance(fullGuidance);
-      setView("result");
+      
+      // If from tutorial, go to tutorial gift step
+      if (fromTutorial) {
+        setView("tutorial");
+        setTutorialStep(4);
+        setFromTutorial(false);
+      } else {
+        setView("result");
+      }
     } catch (error) {
       console.error("AI guidance failed:", error);
       const fallbackGuidance = isZh
@@ -107,13 +170,51 @@ export default function CultivationPage() {
       const points = checkIn(selectedMood, wuWeiScore, daoFieldActive, insight, fallbackGuidance);
       setEarnedPoints(points);
       setAiGuidance(fallbackGuidance);
-      setView("result");
+      
+      if (fromTutorial) {
+        setView("tutorial");
+        setTutorialStep(4);
+        setFromTutorial(false);
+      } else {
+        setView("result");
+      }
     } finally {
       setIsLoadingAI(false);
     }
-  }, [selectedMood, wuWeiScore, daoFieldActive, insight, checkIn, currentRealm.id, moods, isZh]);
+  }, [selectedMood, wuWeiScore, daoFieldActive, insight, checkIn, currentRealm.id, moods, isZh, fromTutorial]);
 
   const hasLeveledUp = getCurrentRealm().id > previousRealm;
+
+  const handleTutorialNext = () => {
+    if (tutorialStep === 3) {
+      // Go to check-in
+      setFromTutorial(true);
+      handleCheckInStart();
+    } else if (tutorialStep === 4) {
+      // Complete tutorial and give reward
+      completeTutorial();
+      setView("home");
+    } else if (tutorialStep < TUTORIAL_STEPS.length - 1) {
+      setTutorialStep(tutorialStep + 1);
+    }
+  };
+
+  const getTutorialIcon = (iconName: string) => {
+    switch (iconName) {
+      case "sparkles":
+        return <Sparkles className="h-10 w-10" style={{ color: currentRealm.color }} />;
+      case "flame":
+        return <Flame className="h-10 w-10" style={{ color: currentRealm.color }} />;
+      case "star":
+        return <Star className="h-10 w-10" style={{ color: currentRealm.color }} />;
+      case "checkin":
+        return <BookOpen className="h-10 w-10" style={{ color: currentRealm.color }} />;
+      case "award":
+        return <Award className="h-10 w-10" style={{ color: currentRealm.color }} />;
+      default:
+        return <Sparkles className="h-10 w-10" style={{ color: currentRealm.color }} />;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#060a14] text-white relative overflow-hidden">
@@ -130,11 +231,13 @@ export default function CultivationPage() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => view === "home" ? navigate("/") : setView("home")}
+            onClick={() => view === "home" ? navigate("/") : view === "tutorial" ? setView("home") : setView("home")}
             className="text-white/70 hover:text-white hover:bg-white/10 transition-all gap-1.5 px-2.5 sm:px-3 min-h-[32px] sm:min-h-[36px]"
           >
             <ArrowLeft className="h-4 w-4 sm:h-[18px] sm:w-[18px] shrink-0" />
-            <span className="hidden sm:inline whitespace-nowrap">{view === "home" ? (isZh ? "返回" : "Back") : (isZh ? "主界面" : "Home")}</span>
+            <span className="hidden sm:inline whitespace-nowrap">
+              {view === "home" ? (isZh ? "返回" : "Back") : (isZh ? "主界面" : "Home")}
+            </span>
           </Button>
           <h1 className="text-base sm:text-xl font-bold tracking-wider text-center flex-1 mx-2">
             {isZh ? "今天你用心了嘛？" : "Did You Cultivate Today?"}
@@ -404,6 +507,151 @@ export default function CultivationPage() {
                 })}
               </div>
             )}
+          </div>
+        )}
+
+        {/* Tutorial View */}
+        {view === "tutorial" && (
+          <div className="space-y-6 animate-in fade-in duration-500">
+            {/* Progress Indicator */}
+            <div className="flex justify-center gap-2">
+              {TUTORIAL_STEPS.map((_, idx) => (
+                <div
+                  key={idx}
+                  className={`h-2 rounded-full transition-all ${
+                    idx === tutorialStep
+                      ? "w-8"
+                      : idx < tutorialStep
+                      ? "w-2 opacity-60"
+                      : "w-2 opacity-30"
+                  }`}
+                  style={{
+                    backgroundColor: idx <= tutorialStep ? currentRealm.color : "rgba(255,255,255,0.3)"
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Tutorial Content Card */}
+            <Card className="bg-white/5 border-white/10 p-8 space-y-6">
+              {/* Icon */}
+              <div className="flex justify-center">
+                <div
+                  className="w-20 h-20 rounded-full flex items-center justify-center"
+                  style={{
+                    background: `radial-gradient(circle, ${currentRealm.color}30, transparent)`,
+                    boxShadow: `0 0 30px ${currentRealm.color}40`,
+                  }}
+                >
+                  {getTutorialIcon(currentTutorialStep.icon)}
+                </div>
+              </div>
+
+              {/* Title */}
+              <h2 className="text-2xl font-bold text-center">
+                {currentTutorialStep.title}
+              </h2>
+
+              {/* Content */}
+              <p className="text-white/80 leading-relaxed whitespace-pre-line text-center px-2">
+                {currentTutorialStep.content}
+              </p>
+
+              {/* Realms Display */}
+              {currentTutorialStep.showRealms && (
+                <div className="grid grid-cols-2 gap-3 max-h-96 overflow-y-auto">
+                  {realms.map((realm) => (
+                    <div
+                      key={realm.id}
+                      className="p-4 rounded-lg border-2 bg-white/5 text-left"
+                      style={{ borderColor: `${realm.color}40` }}
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <Flame className="h-5 w-5" style={{ color: realm.color }} />
+                        <div className="font-bold" style={{ color: realm.color }}>
+                          {isZh ? realm.name : realm.nameEn}
+                        </div>
+                      </div>
+                      <div className="text-xs text-white/60 mb-1">
+                        {isZh ? realm.description : realm.descriptionEn}
+                      </div>
+                      <div className="text-xs text-white/40">
+                        {realm.minEP.toLocaleString()} EP
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Moods Display */}
+              {currentTutorialStep.showMoods && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {moods.map((mood) => (
+                    <div
+                      key={mood.id}
+                      className="p-4 rounded-lg border-2 border-white/20 bg-white/5 text-left"
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <Star className="h-5 w-5" style={{ color: currentRealm.color }} />
+                        <div className="font-bold">
+                          {isZh ? mood.name : mood.nameEn}
+                        </div>
+                        <Badge variant="secondary" className="ml-auto text-xs">
+                          +{mood.points}
+                        </Badge>
+                      </div>
+                      <div className="text-xs text-white/60">
+                        {isZh ? mood.description : mood.descriptionEn}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Reward Animation */}
+              {currentTutorialStep.showReward && (
+                <div className="text-center space-y-4 py-6">
+                  <div
+                    className="text-6xl font-bold animate-in zoom-in duration-500"
+                    style={{ color: currentRealm.color }}
+                  >
+                    +{currentTutorialStep.rewardPoints}
+                  </div>
+                  <div className="text-xl text-white/80">
+                    {t("cultivation.tutorial.pointsGifted", { points: currentTutorialStep.rewardPoints })}
+                  </div>
+                  <div className="flex justify-center">
+                    <Award className="h-16 w-16 animate-pulse" style={{ color: currentRealm.color }} />
+                  </div>
+                </div>
+              )}
+
+              {/* Navigation Buttons */}
+              <div className="flex gap-3 pt-4">
+                {tutorialStep > 0 && tutorialStep < 4 && (
+                  <Button
+                    variant="outline"
+                    onClick={() => setTutorialStep(tutorialStep - 1)}
+                    className="flex-1 border-white/20 hover:bg-white/10"
+                  >
+                    {t("cultivation.tutorial.previous")}
+                  </Button>
+                )}
+                <Button
+                  onClick={handleTutorialNext}
+                  className="flex-1"
+                  style={{
+                    background: `linear-gradient(135deg, ${currentRealm.color}, ${currentRealm.color}dd)`
+                  }}
+                >
+                  {tutorialStep === 4
+                    ? t("cultivation.tutorial.complete")
+                    : currentTutorialStep.action === "startCheckIn"
+                    ? t("cultivation.tutorial.startCheckIn")
+                    : t("cultivation.tutorial.next")}
+                </Button>
+              </div>
+            </Card>
           </div>
         )}
       </div>
