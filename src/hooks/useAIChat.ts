@@ -2,10 +2,17 @@ import { useState, useRef, useCallback } from "react";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
 import i18n from "@/i18n/config";
 
+export interface SearchResult {
+  title: string;
+  url: string;
+  snippet: string;
+}
+
 export interface Message {
   role: "user" | "assistant";
   content: string;
   thinking?: string;
+  sources?: SearchResult[];
   isStreaming?: boolean;
 }
 
@@ -27,7 +34,8 @@ export function useAIChat(supabaseUrl: string, supabaseAnonKey: string) {
   const sendMessage = useCallback(async (
     content: string,
     model = "anthropic/claude-sonnet-4.5",
-    documentContext?: string
+    documentContext?: string,
+    enableWebSearch?: boolean
   ) => {
     abortControllerRef.current = new AbortController();
 
@@ -55,6 +63,7 @@ export function useAIChat(supabaseUrl: string, supabaseAnonKey: string) {
           })),
           model,
           ...(documentContext ? { system: `You are a helpful research assistant. The user has provided the following reference documents to help answer their questions. Use this information as context when responding:\n\n${documentContext}` } : {}),
+          ...(enableWebSearch ? { enable_web_search: true } : {}),
         }),
         signal: abortControllerRef.current.signal,
         
@@ -121,6 +130,10 @@ export function useAIChat(supabaseUrl: string, supabaseAnonKey: string) {
                 block.content += data.delta.text || "";
                 setMessages(prev => updateLastAssistant(prev, { content: block.content }));
               }
+              break;
+            }
+            case "search_results": {
+              setMessages(prev => updateLastAssistant(prev, { sources: data.results }));
               break;
             }
             case "message_stop": {

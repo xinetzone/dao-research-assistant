@@ -1,8 +1,49 @@
 import { useState, useEffect } from "react";
-import { ChevronDown, ChevronRight, User, Sparkles } from "lucide-react";
+import { ChevronDown, ChevronRight, User, Sparkles, Globe, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
-import type { Message } from "@/hooks/useAIChat";
+import type { Message, SearchResult } from "@/hooks/useAIChat";
+
+interface ChatMessageProps {
+  message: Message;
+}
+
+function SourceCard({ source }: { source: SearchResult }) {
+  const getDomain = (url: string) => {
+    try {
+      return new URL(url).hostname.replace("www.", "");
+    } catch {
+      return url;
+    }
+  };
+
+  return (
+    <a
+      href={source.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex flex-col gap-1.5 p-2.5 sm:p-3 rounded-lg border border-border/50 bg-card/50 hover:bg-accent/50 hover:border-border transition-all group"
+    >
+      <div className="flex items-start gap-2">
+        <Globe className="h-3.5 w-3.5 text-muted-foreground shrink-0 mt-0.5" />
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-1.5">
+            <h4 className="text-xs sm:text-sm font-medium line-clamp-1 group-hover:text-primary transition-colors">
+              {source.title}
+            </h4>
+            <ExternalLink className="h-3 w-3 text-muted-foreground shrink-0" />
+          </div>
+          <p className="text-xs text-muted-foreground mt-0.5">{getDomain(source.url)}</p>
+        </div>
+      </div>
+      {source.snippet && (
+        <p className="text-xs text-muted-foreground line-clamp-2 pl-5 sm:pl-6">
+          {source.snippet}
+        </p>
+      )}
+    </a>
+  );
+}
 
 interface ChatMessageProps {
   message: Message;
@@ -74,6 +115,20 @@ export function ChatMessage({ message }: ChatMessageProps) {
               {message.isStreaming && (
                 <span className="inline-block w-1.5 h-4 bg-foreground/70 animate-pulse ml-0.5" />
               )}
+            </div>
+          </div>
+        )}
+
+        {message.sources && message.sources.length > 0 && (
+          <div className="space-y-2 pt-1">
+            <h4 className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+              <Globe className="h-3.5 w-3.5" />
+              {t("webSearch.sources")} ({message.sources.length})
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {message.sources.map((source, idx) => (
+                <SourceCard key={idx} source={source} />
+              ))}
             </div>
           </div>
         )}

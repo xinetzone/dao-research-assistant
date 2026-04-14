@@ -75,6 +75,12 @@
     "permission_error": "AI capability is disabled by the website owner. Please contact the website administrator.",
     "api_error": "Service temporarily unavailable."
   },
+  "webSearch": {
+    "title": "Web Search",
+    "enableAutoSearch": "Enable web search",
+    "sources": "Sources",
+    "searching": "Searching the web..."
+  },
   "common": {
     "language": "Language"
   }

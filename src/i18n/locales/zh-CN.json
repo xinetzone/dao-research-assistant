@@ -75,6 +75,12 @@
     "permission_error": "网站所有者已禁用 AI 功能，请联系网站管理员。",
     "api_error": "服务暂时不可用。"
   },
+  "webSearch": {
+    "title": "搜索网页",
+    "enableAutoSearch": "启用联网搜索",
+    "sources": "来源",
+    "searching": "正在搜索网络..."
+  },
   "common": {
     "language": "语言"
   }

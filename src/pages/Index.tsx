@@ -8,9 +8,10 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { DocumentPanel } from "@/components/DocumentPanel";
 import { useAIChat } from "@/hooks/useAIChat";
 import { useDocumentCollections } from "@/hooks/useDocumentCollections";
-import { Sparkles, RotateCcw, AlertCircle, FolderOpen, CheckCircle2, Flame } from "lucide-react";
+import { Sparkles, RotateCcw, AlertCircle, FolderOpen, CheckCircle2, Flame, Globe } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
 
 const SUPABASE_URL = "https://spb-t4nnhrh7ch7j2940.supabase.opentrust.net";
 const SUPABASE_ANON_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYW5vbiIsInJlZiI6InNwYi10NG5uaHJoN2NoN2oyOTQwIiwiaXNzIjoic3VwYWJhc2UiLCJpYXQiOjE3NzYwNzQ1MjMsImV4cCI6MjA5MTY1MDUyM30.5GFdUIA3rHOUoCI99ocBzBxDZjjQxOHRV-T6CKiHzCQ";
@@ -24,6 +25,7 @@ export default function Index() {
   const [hasStartedChat, setHasStartedChat] = useState(false);
   const [docPanelOpen, setDocPanelOpen] = useState(false);
   const [activeCollectionId, setActiveCollectionId] = useState<string | null>(null);
+  const [webSearchEnabled, setWebSearchEnabled] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -42,8 +44,8 @@ export default function Index() {
     if (activeCollectionId) {
       docContext = await getCollectionContext(activeCollectionId);
     }
-    sendMessage(query, "anthropic/claude-sonnet-4.5", docContext);
-  }, [hasStartedChat, activeCollectionId, getCollectionContext, sendMessage]);
+    sendMessage(query, "anthropic/claude-sonnet-4.5", docContext, webSearchEnabled);
+  }, [hasStartedChat, activeCollectionId, getCollectionContext, sendMessage, webSearchEnabled]);
 
   const handleReset = () => {
     clearMessages();
@@ -74,6 +76,19 @@ export default function Index() {
                 <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5 rounded-full bg-primary ring-2 ring-background" />
               )}
             </button>
+            <button
+              onClick={() => setWebSearchEnabled(!webSearchEnabled)}
+              className="flex items-center justify-center gap-1.5 px-2.5 py-2 sm:px-3 sm:py-2.5 rounded-lg text-sm font-medium transition-all border shadow-sm hover:shadow min-h-[36px] sm:min-h-[40px]"
+              style={{
+                color: webSearchEnabled ? 'hsl(var(--primary))' : 'hsl(var(--muted-foreground))',
+                backgroundColor: webSearchEnabled ? 'hsl(var(--primary) / 0.1)' : 'transparent',
+                borderColor: webSearchEnabled ? 'hsl(var(--primary) / 0.5)' : 'hsl(var(--border) / 0.4)'
+              }}
+              title={t("webSearch.enableAutoSearch")}
+            >
+              <Globe className="h-4 w-4 sm:h-[18px] sm:w-[18px] shrink-0" />
+              <span className="hidden md:inline whitespace-nowrap">{t("webSearch.title")}</span>
+            </button>
             <LanguageSwitcher />
           </div>
 
@@ -95,6 +110,15 @@ export default function Index() {
                 <div className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-primary/10 border border-primary/20 text-xs sm:text-sm text-primary">
                   <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   <span className="truncate max-w-[200px] sm:max-w-none">{t("docs.contextActive", { name: activeCollectionName })}</span>
+                </div>
+              </div>
+            )}
+
+            {webSearchEnabled && (
+              <div className="flex justify-center px-4">
+                <div className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-primary/10 border border-primary/20 text-xs sm:text-sm text-primary">
+                  <Globe className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  <span>{t("webSearch.enableAutoSearch")}</span>
                 </div>
               </div>
             )}
@@ -126,6 +150,12 @@ export default function Index() {
                     <span className="truncate max-w-[120px]">{activeCollectionName}</span>
                   </div>
                 )}
+                {webSearchEnabled && (
+                  <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs text-primary font-medium">
+                    <Globe className="h-3 w-3" />
+                    <span>{isZh ? "联网" : "Web"}</span>
+                  </div>
+                )}
               </div>
               <div className="flex items-center gap-1.5">
                 <button
@@ -146,6 +176,19 @@ export default function Index() {
                   {activeCollectionId && (
                     <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2 rounded-full bg-primary ring-2 ring-background" />
                   )}
+                </button>
+                <button
+                  onClick={() => setWebSearchEnabled(!webSearchEnabled)}
+                  className="flex items-center justify-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg text-sm font-medium transition-all border min-h-[32px] sm:min-h-[36px]"
+                  style={{
+                    color: webSearchEnabled ? 'hsl(var(--primary))' : 'hsl(var(--muted-foreground))',
+                    backgroundColor: webSearchEnabled ? 'hsl(var(--primary) / 0.1)' : 'transparent',
+                    borderColor: webSearchEnabled ? 'hsl(var(--primary) / 0.5)' : 'transparent'
+                  }}
+                  title={t("webSearch.enableAutoSearch")}
+                >
+                  <Globe className="h-4 w-4 sm:h-[18px] sm:w-[18px] shrink-0" />
+                  <span className="hidden lg:inline whitespace-nowrap">{t("webSearch.enableAutoSearch")}</span>
                 </button>
                 <div className="hidden sm:block">
                   <LanguageSwitcher />
