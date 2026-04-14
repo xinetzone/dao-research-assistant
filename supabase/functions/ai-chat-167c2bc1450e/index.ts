@@ -12,26 +12,40 @@ interface ToolUse {
   input: Record<string, unknown>;
 }
 
-async function callWebSearch(query: string): Promise<Array<{ title: string; url: string; snippet: string }>> {
-  const response = await fetch(`${SUPABASE_URL}/functions/v1/web-search`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
-    },
-    body: JSON.stringify({ query, limit: 5 }),
-  });
+async function callWebSearch(query: string, timeoutMs = 20000): Promise<Array<{ title: string; url: string; snippet: string }>> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-  if (!response.ok) {
-    throw new Error(`Web search failed: ${response.status}`);
+  try {
+    const response = await fetch(`${SUPABASE_URL}/functions/v1/web-search`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+      },
+      body: JSON.stringify({ query, limit: 5 }),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`Web search failed: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.results || [];
+  } catch (error) {
+    clearTimeout(timeoutId);
+    throw error;
   }
-
-  const data = await response.json();
-  return data.results || [];
 }
 
-async function fetchUrlContent(url: string): Promise<{ content: string; title: string }> {
+async function fetchUrlContent(url: string, timeoutMs = 15000): Promise<{ content: string; title: string }> {
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
     const response = await fetch(`${SUPABASE_URL}/functions/v1/fetch-url-content`, {
       method: "POST",
       headers: {
@@ -39,7 +53,10 @@ async function fetchUrlContent(url: string): Promise<{ content: string; title: s
         "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
       },
       body: JSON.stringify({ url }),
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       return { content: "", title: "" };
@@ -47,7 +64,8 @@ async function fetchUrlContent(url: string): Promise<{ content: string; title: s
 
     const data = await response.json();
     return { content: data.content || "", title: data.title || "" };
-  } catch {
+  } catch (error) {
+    console.log(`Failed to fetch ${url}:`, error.message);
     return { content: "", title: "" };
   }
 }
@@ -221,9 +239,28 @@ Deno.serve(async (req) => {
                 // Execute search
                 const searchResults = await callWebSearch(query);
 
-                // Fetch content from top 3 results
-                const contentPromises = searchResults.slice(0, 3).map(r => fetchUrlContent(r.url));
-                const contents = await Promise.all(contentPromises);
+                // Send keepalive + status update
+                controller.enqueue(encoder.encode(`data: ${JSON.stringify({
+                  type: "search_status",
+                  status: "fetching_content",
+                  query
+                })}\n\n`));
+
+                // Fetch content from top 3 results with individual progress updates
+                const contents: Array<{ content: string; title: string }> = [];
+                const urlsToFetch = searchResults.slice(0, 3);
+                
+                for (let i = 0; i < urlsToFetch.length; i++) {
+                  // Send progress keepalive
+                  controller.enqueue(encoder.encode(`data: ${JSON.stringify({
+                    type: "search_status",
+                    status: "fetching_content",
+                    progress: `${i + 1}/${urlsToFetch.length}`
+                  })}\n\n`));
+                  
+                  const content = await fetchUrlContent(urlsToFetch[i].url);
+                  contents.push(content);
+                }
 
                 // Build tool result
                 let resultText = `Search results for "${query}":\n\n`;
