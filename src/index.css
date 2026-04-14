@@ -568,104 +568,56 @@ body,
   color: hsl(200 60% 65%);
 }
 
-/* ======= Cultivation Page: Cosmic Theme ======= */
-
-.cultivation-bg {
-  background: linear-gradient(165deg, #060a14 0%, #0c1222 40%, #111827 100%);
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Star field layers */
-@keyframes twinkle {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 1; }
-}
-
-.stars-small,
-.stars-medium,
-.stars-large {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-image:
-    radial-gradient(2px 2px at 20px 30px, white, transparent),
-    radial-gradient(2px 2px at 60px 70px, white, transparent),
-    radial-gradient(1px 1px at 50px 50px, white, transparent),
-    radial-gradient(1px 1px at 130px 80px, white, transparent),
-    radial-gradient(2px 2px at 90px 10px, white, transparent);
-  background-repeat: repeat;
-  animation: twinkle 3s infinite;
-}
-
-.stars-medium {
-  background-size: 280px 280px;
-  animation-duration: 4s;
-}
-
-.stars-large {
-  background-size: 380px 380px;
-  animation-duration: 5s;
-}
+/* ======= Cultivation Page: Warm Scholarly Theme ======= */
 
 /* Spirit orb pulse */
 @keyframes orb-pulse {
-  0%, 100% { transform: scale(1); filter: brightness(1); }
-  50% { transform: scale(1.05); filter: brightness(1.2); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
 .spirit-orb {
   animation: orb-pulse 3s ease-in-out infinite;
 }
 
-/* Glass morphism card for dark cultivation theme */
-.cult-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
+/* Cultivation card (warm) */
 .cult-card-glow {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2),
-              inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  background: hsl(var(--card));
+  border: 2.5px solid hsl(var(--foreground) / 0.6);
+  border-radius: 4px;
+  box-shadow: var(--shadow-card);
 }
 
-/* Mood selection card */
+/* Mood selection card (warm) */
 .cult-mood-card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1.5px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
+  background: hsl(var(--card));
+  border: 1.5px solid hsl(var(--border));
+  border-radius: 8px;
   padding: 1rem;
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .cult-mood-card:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: hsl(var(--secondary));
+  border-color: hsl(var(--foreground) / 0.25);
   transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
 }
 
 .cult-mood-card.selected {
   border-width: 2px;
-  background: rgba(255, 255, 255, 0.1);
+  border-color: hsl(var(--primary));
+  background: hsl(var(--primary) / 0.05);
   transform: scale(1.02);
-  box-shadow: 0 0 20px rgba(var(--cult-accent-rgb, 255 255 255) / 0.15);
+  box-shadow: 0 0 16px hsl(var(--primary) / 0.12);
 }
 
-/* Progress bar for cultivation */
+/* Progress bar (warm) */
 .cult-progress-track {
   height: 8px;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.08);
+  background: hsl(var(--muted));
   overflow: hidden;
   position: relative;
 }
@@ -684,7 +636,7 @@ body,
   right: 0;
   width: 20px;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4));
+  background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.5));
   border-radius: 4px;
   animation: progress-shimmer 2s infinite;
 }
@@ -694,91 +646,53 @@ body,
   50% { opacity: 1; }
 }
 
-/* Stat card */
+/* Stat card (warm) */
 .cult-stat {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
   padding: 1.25rem 1rem;
   text-align: center;
   transition: all 0.2s ease;
 }
 
 .cult-stat:hover {
-  background: rgba(255, 255, 255, 0.07);
+  background: hsl(var(--secondary));
   transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
 }
 
-/* CTA button glow */
+/* CTA button */
 .cult-btn-glow {
   position: relative;
-  border-radius: 14px;
+  border-radius: 8px;
   transition: all 0.25s ease;
   overflow: hidden;
 }
 
-.cult-btn-glow::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: 14px;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  -webkit-mask-composite: xor;
-  pointer-events: none;
-}
-
 .cult-btn-glow:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 16px hsl(var(--primary) / 0.2);
 }
 
-/* Record card */
+/* Record card (warm) */
 .cult-record {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
   padding: 1rem 1.25rem;
   transition: all 0.2s ease;
 }
 
 .cult-record:hover {
-  background: rgba(255, 255, 255, 0.07);
+  background: hsl(var(--secondary));
 }
 
-/* Guidance card for markdown rendering */
-.cult-guidance .dao-markdown {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.cult-guidance .dao-markdown strong {
-  color: rgba(255, 255, 255, 1);
-}
-
-.cult-guidance .dao-blockquote {
-  background: rgba(255, 255, 255, 0.05);
-  border-left-color: rgba(255, 255, 255, 0.3);
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.cult-guidance .dao-inline-code {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.cult-guidance .dao-md-link {
-  color: rgba(255, 255, 255, 0.8);
-  border-bottom-color: rgba(255, 255, 255, 0.3);
-}
-
-/* Level up animation */
+/* Level up animation (warm) */
 @keyframes level-up-glow {
-  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
-  50% { box-shadow: 0 0 40px 10px rgba(255, 255, 255, 0.1); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+  0% { box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4); }
+  50% { box-shadow: 0 0 40px 10px hsl(var(--primary) / 0.1); }
+  100% { box-shadow: 0 0 0 0 hsl(var(--primary) / 0); }
 }
 
 .cult-level-up {
