@@ -1,0 +1,34 @@
+=======================================================
+道研助手 - GitHub 推送命令清单
+=======================================================
+
+【快速推送（3个命令）】
+
+1. 获取 GitHub Token:
+   访问 https://github.com/settings/tokens
+   创建 token，勾选 "repo" 权限
+
+2. 在本地终端执行（替换 YOUR_TOKEN）:
+
+   cd /workspace/thread
+   
+   git push https://YOUR_TOKEN@github.com/daoApps/dao-research-assistant.git main
+   
+   git push https://YOUR_TOKEN@github.com/daoApps/dao-research-assistant.git --tags
+
+3. 验证:
+   访问 https://github.com/daoApps/dao-research-assistant
+
+【或使用推送脚本】
+
+   bash push-with-token.sh YOUR_TOKEN
+
+=======================================================
+
+当前项目状态：
+- 提交数: 25
+- 标签: v1.0.0
+- 文件数: 106
+- 代码质量: ✅ ESLint 通过
+
+=======================================================
