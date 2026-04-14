@@ -1,80 +1,50 @@
-# 计划：将联网搜索开关移入搜索框
+# Plan: Landing Page Redesign (Reference: 飞书知识问答 Style)
 
-## 背景
+## Context
+User provided a reference screenshot of 飞书知识问答's landing page. The goal is to adopt its clean, spacious, card-based design style while keeping our existing functionality.
 
-用户截图显示：
-- **绿色框 1**（侧边栏）：导航栏里有"搜索网页"按钮（带"已启用"标签）
-- **绿色框 2**（主区域）：搜索框上方有独立的"启用联网搜索"浮动按钮
-- **红色框**：搜索框右侧发送按钮左边的空白区域
+## Key Design Changes (from reference image)
 
-用户希望：将两个绿色框合并成一个 Globe 图标开关按钮，嵌入到搜索框内部（红色框位置）。
+### 1. SearchBar Redesign (`src/components/SearchBar.tsx`)
+- **Card-style container**: Rounded white card with subtle shadow
+- **Textarea area**: Clean, separated from toolbar
+- **Bottom toolbar row**: Separated with a subtle border
+  - Left side: `+` circle button (doc panel), Globe "联网搜索" pill toggle
+  - Right side: `...` circle button (options), Send circle button (filled)
+- Props: add `webSearchEnabled`, `onWebSearchToggle`, `onDocPanelOpen`
 
----
+### 2. Landing Page Layout (`src/pages/Index.tsx`)
+- **Centered hero**: Logo icon → Title → Subtitle (more spacious)
+- **Remove floating status badges** for web search / collection (integrated into search bar)
+- **Pass webSearch/doc props** to SearchBar instead of separate indicators
+- **Keep hamburger menu** for mobile sidebar access
 
-## 修改方案
+### 3. SuggestedPrompts Redesign (`src/components/SuggestedPrompts.tsx`)
+- **2-column card layout** (like reference):
+  - Left card: "你可能感兴趣" with 3 suggestion rows (icon + text + arrow)
+  - Right card: "探索更多" with 3 more rows
+- Each row is clickable, clean text with arrow indicator
+- Simpler than current 6-card masonry grid
 
-### 1. `src/components/SearchBar.tsx`
+### 4. Design Tokens (`src/index.css`)
+- Add softer accent color tokens
+- Add card-toolbar-specific shadow tokens
 
-**目标**：在搜索框底部工具栏添加 Globe 切换开关
+## Files to Modify
+1. `src/components/SearchBar.tsx` - Full redesign with toolbar
+2. `src/pages/Index.tsx` - Cleaner layout, pass props to SearchBar
+3. `src/components/SuggestedPrompts.tsx` - 2-column compact card layout
+4. `src/index.css` - New tokens for softer shadows/accents
 
-新增 props：
-```typescript
-interface SearchBarProps {
-  onSubmit: (query: string) => void;
-  isLoading?: boolean;
-  placeholder: string;
-  variant?: "landing" | "chat";
-  webSearchEnabled?: boolean;         // 新增
-  onWebSearchToggle?: () => void;     // 新增
-}
-```
+## What Stays the Same
+- NavigationSidebar (left sidebar with all nav)
+- Chat interface (only landing page changes)
+- All backend/AI functionality
+- i18n translations (reuse existing keys)
+- Dark mode support
 
-UI 变化：将 textarea 放在独立行，底部增加一个工具栏行，工具栏左侧放 Globe 开关按钮（文字+图标），右侧放发送按钮（原位置的绝对定位改为 flex 布局）。
-
-```
-┌────────────────────────────────────────┐
-│ 输入文字...                             │
-│ ─────────────────────────────────────  │
-│ [Globe 联网搜索] (切换)   [→ 发送]     │
-└────────────────────────────────────────┘
-```
-
-Globe 按钮样式：
-- 关闭：ghost 样式，文字"联网搜索" / "Web Search"，灰色
-- 开启：primary/10 背景，主色文字，文字"联网搜索 ✓"，有视觉高亮
-
-### 2. `src/pages/Index.tsx`
-
-**目标**：将 webSearch 相关 props 传入 SearchBar，移除旧的功能入口
-
-- 给两处 `<SearchBar>` 都传入 `webSearchEnabled` 和 `onWebSearchToggle`
-- 删除主区域顶部独立的"启用联网搜索"浮动按钮（第 112-119 行）
-
-### 3. `src/components/NavigationSidebar.tsx`
-
-**目标**：移除"搜索网页"导航项及相关 props
-
-- 删除 `webSearchEnabled` prop
-- 删除 `onWebSearchToggle` prop  
-- 删除"搜索网页"按钮（第 122-137 行）
-- 更新接口类型定义
-
----
-
-## 关键文件
-
-| 文件 | 修改内容 |
-|------|---------|
-| `src/components/SearchBar.tsx` | 添加 Globe 开关按钮，重构底部布局 |
-| `src/pages/Index.tsx` | 传递 webSearch props，删除旧浮动按钮 |
-| `src/components/NavigationSidebar.tsx` | 移除搜索网页导航项和相关 props |
-
----
-
-## 验证
-
-1. 搜索框底部出现 Globe 图标 + "联网搜索"文字按钮
-2. 点击开关后按钮高亮/暗淡切换
-3. 侧边栏无"搜索网页"项
-4. 主区域无独立"启用联网搜索"浮动按钮
-5. 提交查询时 webSearchEnabled 状态仍正确传递给 AI
+## Verification
+- Landing page matches reference style: centered hero + card search + 2-col suggestions
+- Web search toggle works inside search bar toolbar
+- Mobile responsive layout preserved
+- Chat mode unaffected
