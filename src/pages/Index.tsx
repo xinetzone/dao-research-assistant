@@ -92,12 +92,12 @@ export default function Index() {
               <Menu className="h-5 w-5" />
             </Button>
 
-            <div className="w-full max-w-2xl space-y-6 sm:space-y-8 animate-in fade-in duration-700">
+            <div className="w-full max-w-2xl space-y-5 sm:space-y-6 animate-in fade-in duration-700">
               {/* Hero Card */}
-              <div className="dao-card dao-tape px-6 sm:px-10 py-8 sm:py-12 text-center space-y-5">
+              <div className="dao-card dao-tape px-6 sm:px-10 py-8 sm:py-10 text-center space-y-4">
                 {/* Avatar */}
-                <div className="inline-flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-accent to-secondary border-2 border-foreground/20">
-                  <BookOpen className="h-10 w-10 sm:h-12 sm:w-12 text-foreground/70" />
+                <div className="inline-flex items-center justify-center w-18 h-18 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-accent to-secondary border-2 border-foreground/20">
+                  <BookOpen className="h-9 w-9 sm:h-10 sm:w-10 text-foreground/70" />
                 </div>
 
                 {/* Title */}
@@ -106,16 +106,13 @@ export default function Index() {
                 </h1>
 
                 {/* Subtitle */}
-                <p className="text-base sm:text-lg text-muted-foreground">
+                <p className="text-sm sm:text-base text-muted-foreground">
                   {t("landing.subtitle")}
                 </p>
 
-                {/* Feature Tags & Questions */}
-                <SuggestedPrompts onSelect={handleSubmit} />
-
                 {/* Status badges */}
                 {(activeCollectionId || webSearchEnabled) && (
-                  <div className="flex flex-wrap justify-center gap-2 pt-2">
+                  <div className="flex flex-wrap justify-center gap-2">
                     {activeCollectionId && activeCollectionName && (
                       <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-primary/10 border border-primary/20 text-xs text-primary">
                         <CheckCircle2 className="h-3.5 w-3.5" />
@@ -131,6 +128,9 @@ export default function Index() {
                   </div>
                 )}
               </div>
+
+              {/* Feature Tags & Questions - Between hero and search */}
+              <SuggestedPrompts onSelect={handleSubmit} />
 
               {/* Search Bar */}
               <SearchBar

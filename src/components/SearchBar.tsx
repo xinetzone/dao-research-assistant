@@ -46,7 +46,7 @@ export function SearchBar({
     <div className={cn(
       "w-full",
       variant === "landing"
-        ? "dao-card dao-tape p-1"
+        ? "bg-card border-2 border-foreground/15 rounded-md p-1 shadow-sm"
         : "border-2 border-foreground/20 rounded bg-card p-1",
       isLoading && "opacity-60"
     )}>

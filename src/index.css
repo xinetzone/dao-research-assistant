@@ -167,16 +167,18 @@ body,
 
 /* Question pill */
 .dao-question {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  padding: 8px 16px;
+  padding: 8px 14px;
   background: hsl(var(--card));
   border: 1.5px solid hsl(var(--border));
-  border-radius: 999px;
+  border-radius: 8px;
   font-size: 13px;
-  color: hsl(var(--foreground) / 0.8);
+  color: hsl(var(--foreground) / 0.75);
   cursor: pointer;
   transition: all 0.2s ease;
+  text-align: left;
+  line-height: 1.4;
 }
 
 .dao-question:hover {

@@ -36,15 +36,15 @@ export function SuggestedPrompts({ onSelect, className }: SuggestedPromptsProps)
         ))}
       </div>
 
-      {/* Suggested Questions */}
-      <div className="flex flex-wrap justify-center gap-2 px-2">
+      {/* Suggested Questions - 2-column grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 px-2">
         {questions.map((q, index) => (
           <button
             key={index}
             onClick={() => onSelect(q)}
-            className="dao-question text-xs sm:text-sm"
+            className="dao-question text-xs sm:text-sm text-left"
           >
-            {q}
+            <span className="line-clamp-1">{q}</span>
           </button>
         ))}
       </div>

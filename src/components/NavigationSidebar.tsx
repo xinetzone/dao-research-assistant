@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Flame, FolderOpen, Globe, RotateCcw, Sparkles, X, BookOpen } from "lucide-react";
+import { Flame, FolderOpen, Globe, RotateCcw, X, BookOpen } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { LanguageSwitcher } from "./LanguageSwitcher";
@@ -53,7 +53,7 @@ export function NavigationSidebar({
         <div className="flex items-center justify-between p-4 border-b border-border">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-sm bg-accent border border-foreground/20">
-              <Sparkles className="h-4 w-4 text-foreground/70" />
+              <BookOpen className="h-4 w-4 text-foreground/70" />
             </div>
             <span className="font-semibold">{t("chat.header")}</span>
           </div>
