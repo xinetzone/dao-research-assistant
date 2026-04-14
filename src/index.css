@@ -240,3 +240,328 @@ body,
   width: 25px;
   height: 25px;
 }
+
+/* ======= Markdown Renderer Styles ======= */
+
+.dao-markdown {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: hsl(var(--foreground));
+  word-break: break-word;
+}
+
+.dao-markdown > *:first-child {
+  margin-top: 0;
+}
+
+.dao-markdown > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Headings */
+.dao-markdown h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 1.5rem 0 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px dashed hsl(var(--foreground) / 0.12);
+  color: hsl(var(--foreground));
+  letter-spacing: 0.02em;
+}
+
+.dao-markdown h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 1.25rem 0 0.625rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px dashed hsl(var(--foreground) / 0.1);
+  color: hsl(var(--foreground));
+}
+
+.dao-markdown h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem;
+  color: hsl(var(--foreground));
+}
+
+.dao-markdown h4,
+.dao-markdown h5,
+.dao-markdown h6 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0.875rem 0 0.5rem;
+  color: hsl(var(--foreground));
+}
+
+/* Paragraphs */
+.dao-markdown p {
+  margin: 0.625rem 0;
+}
+
+/* Lists */
+.dao-markdown ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  list-style-type: disc;
+}
+
+.dao-markdown ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  list-style-type: decimal;
+}
+
+.dao-markdown li {
+  margin: 0.25rem 0;
+  padding-left: 0.25rem;
+}
+
+.dao-markdown li > ul,
+.dao-markdown li > ol {
+  margin: 0.125rem 0;
+}
+
+.dao-markdown li::marker {
+  color: hsl(var(--primary));
+}
+
+/* Links */
+.dao-md-link {
+  color: hsl(var(--primary));
+  text-decoration: none;
+  border-bottom: 1px solid hsl(var(--primary) / 0.3);
+  transition: all 0.15s ease;
+}
+
+.dao-md-link:hover {
+  border-bottom-color: hsl(var(--primary));
+  background: hsl(var(--primary) / 0.06);
+}
+
+/* Blockquote */
+.dao-blockquote {
+  margin: 0.75rem 0;
+  padding: 0.625rem 1rem;
+  border-left: 3px solid hsl(var(--primary) / 0.5);
+  background: hsl(var(--muted) / 0.5);
+  border-radius: 0 4px 4px 0;
+  color: hsl(var(--foreground) / 0.85);
+}
+
+.dao-blockquote p {
+  margin: 0.25rem 0;
+}
+
+/* Horizontal rule */
+.dao-markdown hr {
+  margin: 1.25rem 0;
+  border: none;
+  border-top: 2px dashed hsl(var(--foreground) / 0.12);
+}
+
+/* Strong / Bold */
+.dao-markdown strong {
+  font-weight: 650;
+  color: hsl(var(--foreground));
+}
+
+/* Italic */
+.dao-markdown em {
+  font-style: italic;
+  color: hsl(var(--foreground) / 0.9);
+}
+
+/* Strikethrough */
+.dao-markdown del {
+  text-decoration: line-through;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Inline code */
+.dao-inline-code {
+  display: inline;
+  padding: 0.15em 0.4em;
+  font-size: 0.85em;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  background: hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
+  border-radius: 3px;
+  color: hsl(var(--primary));
+  word-break: break-all;
+}
+
+/* Code block container */
+.dao-code-block {
+  margin: 0.75rem 0;
+  border: 1.5px solid hsl(var(--foreground) / 0.15);
+  border-radius: 6px;
+  overflow: hidden;
+  background: hsl(var(--foreground) / 0.03);
+}
+
+.dao-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.875rem;
+  background: hsl(var(--foreground) / 0.06);
+  border-bottom: 1px solid hsl(var(--foreground) / 0.08);
+  color: hsl(var(--muted-foreground));
+}
+
+.dao-code-pre {
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+}
+
+.dao-code-content {
+  display: block;
+  padding: 0.875rem 1rem;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  background: transparent !important;
+  color: hsl(var(--foreground) / 0.9);
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.dao-code-pre::-webkit-scrollbar {
+  height: 6px;
+}
+
+.dao-code-pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dao-code-pre::-webkit-scrollbar-thumb {
+  background: hsl(var(--foreground) / 0.15);
+  border-radius: 3px;
+}
+
+/* Table */
+.dao-table-wrap {
+  margin: 0.75rem 0;
+  overflow-x: auto;
+  border-radius: 4px;
+  border: 1.5px solid hsl(var(--foreground) / 0.15);
+}
+
+.dao-markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.dao-markdown thead {
+  background: hsl(var(--muted) / 0.6);
+}
+
+.dao-markdown th {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 1.5px solid hsl(var(--foreground) / 0.12);
+  white-space: nowrap;
+}
+
+.dao-markdown td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid hsl(var(--border) / 0.7);
+}
+
+.dao-markdown tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.dao-markdown tbody tr:hover {
+  background: hsl(var(--muted) / 0.3);
+}
+
+/* Task lists (GFM) */
+.dao-markdown input[type="checkbox"] {
+  margin-right: 0.5rem;
+  accent-color: hsl(var(--primary));
+}
+
+/* Images */
+.dao-markdown img {
+  max-width: 100%;
+  border-radius: 4px;
+  margin: 0.75rem 0;
+}
+
+/* ======= Highlight.js theme overrides ======= */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-name {
+  color: hsl(var(--primary));
+}
+
+.hljs-string,
+.hljs-attr,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+  color: hsl(140 50% 38%);
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-title.class_,
+.hljs-title.function_ {
+  color: hsl(30 70% 45%);
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-deletion,
+.hljs-meta {
+  color: hsl(var(--muted-foreground));
+  font-style: italic;
+}
+
+.hljs-number,
+.hljs-literal {
+  color: hsl(270 50% 50%);
+}
+
+.hljs-type,
+.hljs-params {
+  color: hsl(200 50% 45%);
+}
+
+.dark .hljs-keyword,
+.dark .hljs-selector-tag,
+.dark .hljs-built_in,
+.dark .hljs-name {
+  color: hsl(4 78% 68%);
+}
+
+.dark .hljs-string,
+.dark .hljs-attr,
+.dark .hljs-symbol,
+.dark .hljs-bullet,
+.dark .hljs-addition {
+  color: hsl(140 50% 60%);
+}
+
+.dark .hljs-title,
+.dark .hljs-section,
+.dark .hljs-title.class_,
+.dark .hljs-title.function_ {
+  color: hsl(35 80% 65%);
+}
+
+.dark .hljs-number,
+.dark .hljs-literal {
+  color: hsl(270 60% 70%);
+}
+
+.dark .hljs-type,
+.dark .hljs-params {
+  color: hsl(200 60% 65%);
+}

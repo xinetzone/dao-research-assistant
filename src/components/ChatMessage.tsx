@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight, User, Sparkles, Globe, ExternalLink } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
+import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 import type { Message, SearchResult } from "@/hooks/useAIChat";
 
 interface ChatMessageProps {
@@ -105,13 +106,17 @@ export function ChatMessage({ message }: ChatMessageProps) {
         )}
 
         {message.content && (
-          <div className="prose prose-sm max-w-none dark:prose-invert prose-headings:font-semibold prose-a:text-accent-foreground prose-a:no-underline hover:prose-a:underline">
-            <div className="whitespace-pre-wrap leading-relaxed text-sm sm:text-base break-words">
-              {message.content}
-              {message.isStreaming && (
-                <span className="inline-block w-1.5 h-4 bg-foreground/70 animate-pulse ml-0.5" />
-              )}
-            </div>
+          <div className="max-w-none">
+            {message.role === "user" ? (
+              <div className="whitespace-pre-wrap leading-relaxed text-sm sm:text-base break-words">
+                {message.content}
+              </div>
+            ) : (
+              <MarkdownRenderer content={message.content} className="text-sm sm:text-base" />
+            )}
+            {message.isStreaming && (
+              <span className="inline-block w-1.5 h-4 bg-foreground/70 animate-pulse ml-0.5" />
+            )}
           </div>
         )}
 
