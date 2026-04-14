@@ -7,10 +7,10 @@ import { routers } from "./router";
 import { useTranslation } from 'react-i18next';
 
 const queryClient = new QueryClient();
+const router = createBrowserRouter(routers);
 
 const App = () => {
   const { ready } = useTranslation();
-  const router = createBrowserRouter(routers);
   
   if (!ready) {
     return (

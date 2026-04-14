@@ -11,7 +11,17 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
-import { supabase } from "@/integrations/supabase/client";
+
+const SUPABASE_URL = "https://spb-t4nnhrh7ch7j2940.supabase.opentrust.net";
+const SUPABASE_ANON_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYW5vbiIsInJlZiI6InNwYi10NG5uaHJoN2NoN2oyOTQwIiwiaXNzIjoic3VwYWJhc2UiLCJpYXQiOjE3NzYwNzQ1MjMsImV4cCI6MjA5MTY1MDUyM30.5GFdUIA3rHOUoCI99ocBzBxDZjjQxOHRV-T6CKiHzCQ";
+
+/** Fatal error to stop fetchEventSource auto-retry */
+class FatalError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "FatalError";
+  }
+}
 
 type ViewState = "home" | "checkin" | "result" | "records" | "tutorial";
 
@@ -78,17 +88,21 @@ export default function CultivationPage() {
     const moodInfo = moods.find((m) => m.id === selectedMood);
     const prompt = `今日修行：心境${isZh ? moodInfo?.name : moodInfo?.nameEn}，无为指数${wuWeiScore}/5，道场感应${daoFieldActive ? "开启" : "未开"}。心言：${insight || "无"}`;
 
+    const abortController = new AbortController();
+    const timeoutId = setTimeout(() => abortController.abort(), 30000);
+
     try {
       let fullGuidance = "";
-      await fetchEventSource(`${supabase.supabaseUrl}/functions/v1/ai-chat-167c2bc1450e`, {
+      await fetchEventSource(`${SUPABASE_URL}/functions/v1/ai-chat-167c2bc1450e`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${supabase.supabaseAnonKey}`,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({
           messages: [{ role: "user", content: prompt }],
           model: "anthropic/claude-sonnet-4.5",
+          locale: i18n.language,
           system: `你是一位通晓帛书版《道德经》、佛家「直心如如不动」以及万物理论的高阶仙师。根据修行者的今日状态，给予：
 1. 帛书道德经原文引用（一句）
 2. 佛家直心观的点评
@@ -96,25 +110,33 @@ export default function CultivationPage() {
 
 回应需在200字内，语言古雅诗意，蕴含深刻启迪。${isZh ? "" : "Please respond in English with poetic wisdom."}`,
         }),
+        signal: abortController.signal,
+        openWhenHidden: true,
         async onopen(response) {
-          if (!response.ok) throw new Error(`Request failed: ${response.status}`);
+          if (!response.ok) throw new FatalError(`Request failed: ${response.status}`);
         },
         onmessage(event) {
           if (!event.data) return;
-          const data = JSON.parse(event.data);
+          let data;
+          try { data = JSON.parse(event.data); } catch { return; }
           if (data.type === "content_block_delta" && data.delta?.text) {
             fullGuidance += data.delta.text;
           }
         },
-        onerror(err) { throw err; },
+        onerror(err) {
+          if (err instanceof FatalError) throw err;
+          throw new FatalError(err?.message || "Connection lost");
+        },
       });
 
+      clearTimeout(timeoutId);
       const points = checkIn(selectedMood, wuWeiScore, daoFieldActive, insight, fullGuidance);
       setEarnedPoints(points);
       setAiGuidance(fullGuidance);
       if (fromTutorial) { setView("tutorial"); setTutorialStep(4); setFromTutorial(false); }
       else setView("result");
     } catch (error) {
+      clearTimeout(timeoutId);
       console.error("AI guidance failed:", error);
       const fallback = isZh
         ? "道可道，非恒道。心若止水，万物自明。量子纠缠，亦如因果轮回。持之以恒，终见本源。"
@@ -127,7 +149,7 @@ export default function CultivationPage() {
     } finally {
       setIsLoadingAI(false);
     }
-  }, [selectedMood, wuWeiScore, daoFieldActive, insight, checkIn, currentRealm.id, moods, isZh, fromTutorial]);
+  }, [selectedMood, wuWeiScore, daoFieldActive, insight, checkIn, currentRealm.id, moods, isZh, fromTutorial, i18n.language]);
 
   const hasLeveledUp = getCurrentRealm().id > previousRealm;
 
