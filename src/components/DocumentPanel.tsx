@@ -221,7 +221,7 @@ export function DocumentPanel({ open, onOpenChange, activeCollectionId, onSelect
   return (
     <>
       <Sheet open={open} onOpenChange={onOpenChange}>
-        <SheetContent side="left" className="w-[360px] sm:w-[420px] flex flex-col p-0 gap-0">
+        <SheetContent side="left" className="w-[360px] sm:w-[420px] flex flex-col p-0 gap-0" aria-describedby={undefined}>
           <SheetHeader className="px-5 py-4 border-b shrink-0">
             <div className="flex items-center gap-2">
               {view === "detail" && (
