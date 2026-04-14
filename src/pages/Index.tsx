@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { SearchBar } from "@/components/SearchBar";
 import { SuggestedPrompts } from "@/components/SuggestedPrompts";
@@ -7,7 +8,7 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { DocumentPanel } from "@/components/DocumentPanel";
 import { useAIChat } from "@/hooks/useAIChat";
 import { useDocumentCollections } from "@/hooks/useDocumentCollections";
-import { Sparkles, RotateCcw, AlertCircle, FolderOpen, CheckCircle2 } from "lucide-react";
+import { Sparkles, RotateCcw, AlertCircle, FolderOpen, CheckCircle2, Flame } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 
@@ -15,7 +16,9 @@ const SUPABASE_URL = "https://spb-t4nnhrh7ch7j2940.supabase.opentrust.net";
 const SUPABASE_ANON_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYW5vbiIsInJlZiI6InNwYi10NG5uaHJoN2NoN2oyOTQwIiwiaXNzIjoic3VwYWJhc2UiLCJpYXQiOjE3NzYwNzQ1MjMsImV4cCI6MjA5MTY1MDUyM30.5GFdUIA3rHOUoCI99ocBzBxDZjjQxOHRV-T6CKiHzCQ";
 
 export default function Index() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const isZh = i18n.language === "zh-CN";
   const { messages, isLoading, error, sendMessage, clearMessages } = useAIChat(SUPABASE_URL, SUPABASE_ANON_KEY);
   const { collections, getCollectionContext } = useDocumentCollections();
   const [hasStartedChat, setHasStartedChat] = useState(false);
@@ -52,6 +55,13 @@ export default function Index() {
       {!hasStartedChat ? (
         <div className="flex flex-col items-center justify-center min-h-full px-6 py-12">
           <div className="absolute top-6 right-6 flex items-center gap-2">
+            <button
+              onClick={() => navigate("/cultivate")}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors border border-border/50"
+            >
+              <Flame className="h-4 w-4" />
+              <span className="hidden sm:inline">{isZh ? "今天你用心了嘛？" : "Cultivate"}</span>
+            </button>
             <button
               onClick={() => setDocPanelOpen(true)}
               className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors border border-border/50"
@@ -116,6 +126,13 @@ export default function Index() {
                 )}
               </div>
               <div className="flex items-center gap-2">
+                <button
+                  onClick={() => navigate("/cultivate")}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                >
+                  <Flame className="h-4 w-4" />
+                  <span className="hidden sm:inline">{isZh ? "修仙" : "Cultivate"}</span>
+                </button>
                 <button
                   onClick={() => setDocPanelOpen(true)}
                   className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
