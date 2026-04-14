@@ -2,7 +2,7 @@
 
 <div align="center">
 
-**帛书版《道德经》AI 学者 -- 融合道家智慧与现代 AI 技术的研究型对话助手**
+**帛书版《道德经》AI 学者 — 融合道家智慧与现代 AI 技术的研究型对话助手**
 
 **[English](#english) | [中文](#chinese)**
 
@@ -27,54 +27,52 @@
 
 ### 核心理念
 
-> "道，可道也，非恒道也。" -- 帛书版《道德经》
+> "道，可道也，非恒道也。" — 帛书版《道德经》
 
 ---
 
 ## 核心特性
 
 ### AI 深度研究
-- **中国古典学术风 UI** -- 暖米色宣纸底、朱红强调色、手绘风卡片
-- **流式响应** -- 实时显示 AI 思考过程
-- **Markdown 富文本渲染** -- 代码高亮、表格、引用、一键复制（基于 marked + highlight.js）
-- **来源引用** -- 联网搜索结果以卡片形式展示
+- **中国古典学术风 UI** — 暖米色宣纸底、朱红强调色、手绘风卡片
+- **流式响应** — 实时显示 AI 思考过程，支持中途停止生成
+- **Markdown 富文本渲染** — 代码高亮、表格、引用、一键复制（基于 marked + highlight.js）
+- **来源引用** — 联网搜索结果以带 favicon 的卡片形式展示
+- **消息操作** — 复制 AI 回复、重新生成最后一条回复
+- **深/浅色模式** — 侧边栏一键切换，localStorage 持久化
 
 ### 智能联网搜索
-- **可选联网** -- 搜索栏工具栏一键启用
-- **DuckDuckGo 集成** -- 实时获取网络信息
-- **自动内容抓取** -- 智能提取关键内容，8秒超时保护
-- **双重入口** -- 侧边栏 + 搜索栏工具栏均可切换
+- **可选联网** — 搜索栏工具栏一键启用
+- **三层容错搜索** — SearXNG JSON API（4 个实例）→ DuckDuckGo HTML → DuckDuckGo Lite
+- **搜索进度反馈** — 联网时显示"正在联网搜索..."进度提示
+- **自动内容注入** — 搜索结果作为 system context 传递给 AI，附引用卡片展示
+
+### 对话增强
+- **输入框自动伸缩** — 1 行起步，随输入内容增高至最多 6 行
+- **停止生成按钮** — AI 回复过程中可随时中断（红色 Stop 图标）
+- **回到底部按钮** — 向上滚动时出现悬浮按钮，一键跳到最新消息
+- **分类问题过滤** — 点击话题标签过滤展示对应问题，再次点击复位
 
 ### 文档集合系统
-- **本地文件上传** -- 支持 TXT、MD、HTML、JSON、CSV、XML、YAML
-- **网址内容抓取** -- 一键获取网页文本
-- **智能上下文管理** -- 文档内容自动作为对话背景
-- **多集合支持** -- 分类管理不同主题的文档
+- **本地文件上传** — 支持 TXT、MD、HTML、JSON、CSV、XML、YAML
+- **网址内容抓取** — 一键获取网页文本
+- **智能上下文管理** — 文档内容自动作为对话背景
+- **多集合支持** — 分类管理不同主题的文档
 
 ### 修炼打卡系统
-独特的个人成长游戏化系统，深色宇宙星空主题：
-- **10 个修炼境界** -- 从凡人到真仙的进阶之路
-- **4 种心境状态** -- 通透、宁静、波动、纷乱
-- **5 星无为指数** -- 量化你的无为境界
-- **道场感应** -- 天地灵气互动
-- **AI 仙师指导** -- 基于修行状态的个性化点拨（Markdown 渲染）
-- **磨砂玻璃卡片** -- 深色背景下的精致 UI
-- **新手教程** -- 5 步互动引导 + 50 悟道点礼包
+个人成长游戏化系统，暖色学术主题风格：
+- **10 个修炼境界** — 从凡人到真仙的进阶之路
+- **4 种心境状态** — 通透、宁静、波动、纷乱
+- **5 星无为指数** — 量化你的无为境界
+- **AI 仙师指导** — 基于修行状态的个性化点拨（Markdown 渲染）
+- **新手教程** — 5 步互动引导 + 50 悟道点礼包
+- **连续打卡奖励** — 连续天数越多奖励越高
 
 ### 国际化
-- **中英文双语** -- 完整界面翻译
-- **道研主题提示词** -- 原文解读、版本对比、思想阐发、生活应用
-- **自动检测** -- 根据浏览器语言自动切换
-
-### 双主题设计系统
-
-| 维度 | 学术风（首页/聊天） | 修炼风（打卡/教程） |
-|------|---------------------|---------------------|
-| 背景 | 暖米色宣纸 hsl(36 33% 95%) | 深蓝宇宙渐变 #060a14 |
-| 主色 | 朱红 hsl(4 78% 52%) | 境界色（动态） |
-| 卡片 | dao-card 手绘粗边框 + 胶带装饰 | cult-card-glow 磨砂玻璃 |
-| 标签 | dao-tag 暖黄药丸 | cult-mood-card 发光选择 |
-| 动画 | 浮动方块 dao-float | 星空闪烁 twinkle、灵球脉冲 |
+- **中英文双语** — 完整界面翻译
+- **语言感知 AI 回复** — 自动将 locale 传递给 AI，回复语言跟随界面语言
+- **道研主题提示词** — 原文解读、版本对比、思想阐发、生活应用（每类 2 题）
+- **自动检测** — 根据浏览器语言自动切换
 
 ---
 
@@ -105,13 +103,14 @@ pnpm dev
 | 层级 | 技术 | 说明 |
 |------|------|------|
 | 前端框架 | React 19.1 + TypeScript 5.9 | Vite 7 构建 |
-| UI | Tailwind CSS + shadcn/ui + Lucide | 双主题设计系统 |
+| UI | Tailwind CSS + shadcn/ui + Lucide | 统一暖色学术主题 |
 | Markdown | marked + highlight.js + DOMPurify | 富文本渲染 + XSS 防护 |
-| 路由 | React Router v7 | 声明式路由 |
-| 国际化 | i18next + react-i18next | 中英双语 |
-| 后端 | Supabase Edge Functions (Deno) | AI 聊天、搜索、抓取 |
-| AI | Claude Sonnet 4.5 via SSE | 流式响应 + Tool Calling |
-| 存储 | localStorage | 修炼数据持久化 |
+| 路由 | React Router v7 | 声明式路由（模块级定义） |
+| 国际化 | i18next + react-i18next | 中英双语 + locale 传 AI |
+| 后端 | Supabase Edge Functions (Deno) | AI 聊天、搜索、内容抓取 |
+| AI | Claude Sonnet 4.5 via SSE | 流式响应 + 可中断 |
+| 搜索 | SearXNG + DuckDuckGo（三层容错） | 结果注入 system context |
+| 存储 | localStorage | 修炼数据 + 深色模式持久化 |
 
 ### 目录结构
 
@@ -119,29 +118,44 @@ pnpm dev
 dao-research-assistant/
 ├── src/
 │   ├── components/
-│   │   ├── ChatMessage.tsx          # 聊天消息（Markdown 渲染）
-│   │   ├── MarkdownRenderer.tsx     # marked 渲染器（高亮、复制、XSS）
+│   │   ├── ChatMessage.tsx          # 消息组件（复制/重生成/来源卡片）
+│   │   ├── MarkdownRenderer.tsx     # marked 渲染器（高亮/复制/XSS）
+│   │   ├── SearchBar.tsx            # 搜索栏（自动伸缩/停止按钮/工具栏）
+│   │   ├── SuggestedPrompts.tsx     # 分类标签过滤 + 8 个道研问题
+│   │   ├── ThemeToggle.tsx          # 深/浅色模式切换（侧边栏）
+│   │   ├── NavigationSidebar.tsx    # 左侧导航栏
 │   │   ├── DocumentPanel.tsx        # 文档管理面板
 │   │   ├── LanguageSwitcher.tsx     # 语言切换器
-│   │   ├── NavigationSidebar.tsx    # 左侧导航栏
-│   │   ├── SearchBar.tsx            # 搜索栏（联网/文档工具栏）
-│   │   ├── SuggestedPrompts.tsx     # 道研主题提示标签
 │   │   └── ui/                      # shadcn/ui 基础组件
 │   ├── hooks/
-│   │   ├── useAIChat.ts             # AI 聊天（SSE + 搜索）
+│   │   ├── useAIChat.ts             # AI 聊天（SSE + 停止 + 搜索）
 │   │   ├── useCultivation.ts        # 修炼系统（境界/打卡/积分）
 │   │   └── useDocumentCollections.ts
+│   ├── lib/
+│   │   └── theme.ts                 # 主题工具（getStoredTheme/applyTheme/initTheme）
 │   ├── i18n/locales/                # zh-CN.json / en-US.json
 │   ├── pages/
-│   │   ├── Index.tsx                # 主页（英雄卡 + 聊天）
+│   │   ├── Index.tsx                # 主页（英雄卡/聊天/滚动到底）
 │   │   └── CultivationPage.tsx      # 修炼（打卡/教程/记录）
-│   └── index.css                    # 双主题设计令牌 + 自定义 CSS
+│   └── index.css                    # 统一暖色设计令牌 + 自定义 CSS 系统
 ├── supabase/functions/
-│   ├── ai-chat-*/                   # AI 聊天 + 联网搜索
+│   ├── ai-chat-*/                   # AI 聊天 + 三层联网搜索 + locale
 │   ├── fetch-url-content/           # URL 内容抓取（8s 超时）
-│   └── web-search/                  # DuckDuckGo 搜索
+│   └── web-search/                  # 搜索（已并入 ai-chat）
 └── .enter/                          # 复盘报告 + 平台配置
 ```
+
+### CSS 类系统（index.css）
+
+| 类名 | 用途 |
+|------|------|
+| `dao-card` / `dao-tape` | 手绘粗边框卡片 + 胶带装饰 |
+| `dao-tag` | 暖黄药丸标签（点击选中变朱红） |
+| `dao-question` | 圆角问题卡片（2 列网格） |
+| `dao-float-square` | 浮动装饰方块（4 个位置） |
+| `dao-markdown` | 全套 Prose 样式（标题/列表/代码/表格/引用） |
+| `cult-*` | 修炼系统组件（进度条/心境卡/按钮发光/统计） |
+| `hljs-*` | 代码高亮颜色覆盖（浅色 + 深色） |
 
 ---
 
@@ -167,10 +181,10 @@ dao-research-assistant/
 ```
 总积分 = 基础 10 点
        + 心境奖励 (3-15)
-       + 无为指数 x 4 (0-20)
+       + 无为指数 × 4 (0-20)
        + 道场感应 10 点
        + 心言奖励 (0-8)
-       + 连续天数 x 2 (最高 20)
+       + 连续天数 × 2 (最高 20)
 ```
 
 ---
@@ -180,7 +194,7 @@ dao-research-assistant/
 ```bash
 pnpm install    # 安装依赖
 pnpm dev        # 开发服务器
-pnpm lint       # 代码检查
+pnpm lint       # 代码检查（ESLint 0 错误）
 pnpm build      # 生产构建
 ```
 
@@ -188,7 +202,7 @@ pnpm build      # 生产构建
 
 ## 开源协议
 
-MIT License - 详见 [LICENSE](LICENSE)
+MIT License — 详见 [LICENSE](LICENSE)
 
 ---
 
@@ -197,8 +211,8 @@ MIT License - 详见 [LICENSE](LICENSE)
 - [React](https://react.dev/) / [TypeScript](https://www.typescriptlang.org/) / [Vite](https://vitejs.dev/)
 - [Tailwind CSS](https://tailwindcss.com/) / [shadcn/ui](https://ui.shadcn.com/) / [Lucide](https://lucide.dev/)
 - [marked](https://marked.js.org/) / [highlight.js](https://highlightjs.org/) / [DOMPurify](https://github.com/cure53/DOMPurify)
-- [Supabase](https://supabase.com/) / [Anthropic Claude](https://www.anthropic.com/)
-- [i18next](https://www.i18next.com/)
+- [SearXNG](https://searxng.org/) / [DuckDuckGo](https://duckduckgo.com/)
+- [i18next](https://www.i18next.com/) / [Anthropic Claude](https://www.anthropic.com/)
 
 ---
 
@@ -207,3 +221,74 @@ MIT License - 详见 [LICENSE](LICENSE)
 **愿你在修炼之路上，证得本心，逍遥自在**
 
 </div>
+
+---
+
+<a id="english"></a>
+
+# Dao Research Assistant
+
+**AI Scholar for the Mawangdui Silk Text Dao De Jing — Bridging ancient wisdom and modern AI**
+
+## Overview
+
+An innovative AI research chat application rooted in the Mawangdui Silk Text edition of the Dao De Jing, uniquely combining:
+
+- **Daoist philosophy** (Wu Wei — action through non-action)
+- **Buddhist mindfulness** wisdom
+- **Quantum field theory** cosmology
+- **Modern AI** (Claude Sonnet 4.5) driven dialogue
+
+> "The Way that can be told is not the eternal Way." — Mawangdui Silk Text
+
+## Key Features
+
+**AI Research**
+- Chinese scholarly aesthetic UI (warm cream paper, cinnabar red, sketch-border cards)
+- Streaming responses with real-time thinking display; stop anytime
+- Markdown rendering with syntax highlight, copy buttons, tables (marked + highlight.js)
+- Source citation cards with favicons from web search results
+- Copy & regenerate buttons on AI messages
+
+**Web Search**
+- One-click web toggle in toolbar
+- 3-layer fallback: SearXNG JSON API → DuckDuckGo HTML → DuckDuckGo Lite
+- Search progress indicator while fetching
+- Results injected as system context with source citation cards
+
+**Chat UX**
+- Auto-growing textarea (1–6 rows)
+- Stop generation button during streaming
+- Scroll-to-bottom button when scrolled up
+- Category tag filtering for suggested prompts
+
+**Document Collections**
+- File upload (TXT, MD, HTML, JSON, CSV, XML, YAML)
+- URL content fetching
+- Multi-collection management with context activation
+
+**Cultivation System**
+- 10 cultivation realms (Mortal → True Immortal)
+- Daily check-in with mood tracking & Wu Wei score
+- AI master guidance per session (Markdown rendered)
+- Interactive 5-step tutorial + welcome gift
+
+**Internationalization**
+- Full Chinese/English UI with locale-aware AI responses
+- Browser language auto-detection
+
+## Tech Stack
+
+React 19.1 + TypeScript 5.9 + Vite 7 · Tailwind CSS + shadcn/ui · marked + highlight.js · React Router v7 · i18next · Supabase Edge Functions (Deno) · Claude Sonnet 4.5 SSE
+
+## Quick Start
+
+```bash
+git clone https://github.com/xinetzone/dao-research-assistant.git
+cd dao-research-assistant
+pnpm install && pnpm dev
+```
+
+## License
+
+MIT
