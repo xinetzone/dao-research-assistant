@@ -124,22 +124,22 @@ export default function CultivationPage() {
         <div className="stars-large"></div>
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 py-6">
+      <div className="relative z-10 max-w-4xl mx-auto px-4 py-4 sm:py-6">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-6 sm:mb-8">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => view === "home" ? navigate("/") : setView("home")}
-            className="text-white/70 hover:text-white hover:bg-white/10"
+            className="text-white/70 hover:text-white hover:bg-white/10 transition-all gap-1.5 px-2.5 sm:px-3"
           >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            {view === "home" ? (isZh ? "返回" : "Back") : (isZh ? "主界面" : "Home")}
+            <ArrowLeft className="h-4 w-4" />
+            <span className="hidden sm:inline">{view === "home" ? (isZh ? "返回" : "Back") : (isZh ? "主界面" : "Home")}</span>
           </Button>
-          <h1 className="text-xl font-bold tracking-wider">
+          <h1 className="text-base sm:text-xl font-bold tracking-wider text-center flex-1 mx-2">
             {isZh ? "今天你用心了嘛？" : "Did You Cultivate Today?"}
           </h1>
-          <div className="w-20"></div>
+          <div className="w-[72px] sm:w-20"></div>
         </div>
 
         {/* Home View */}

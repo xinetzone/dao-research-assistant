@@ -54,22 +54,24 @@ export default function Index() {
     <div className="flex flex-col h-full w-full bg-background">
       {!hasStartedChat ? (
         <div className="flex flex-col items-center justify-center min-h-full px-6 py-12">
-          <div className="absolute top-6 right-6 flex items-center gap-2">
+          <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex items-center gap-1.5 sm:gap-2">
             <button
               onClick={() => navigate("/cultivate")}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors border border-border/50"
+              className="flex items-center gap-1.5 px-2.5 py-2 sm:px-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-all border border-border/40 hover:border-border shadow-sm hover:shadow"
+              title={isZh ? "今天你用心了嘛？" : "Cultivation Practice"}
             >
               <Flame className="h-4 w-4" />
-              <span className="hidden sm:inline">{isZh ? "今天你用心了嘛？" : "Cultivate"}</span>
+              <span className="hidden md:inline">{isZh ? "修行" : "Cultivate"}</span>
             </button>
             <button
               onClick={() => setDocPanelOpen(true)}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors border border-border/50"
+              className="relative flex items-center gap-1.5 px-2.5 py-2 sm:px-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-all border border-border/40 hover:border-border shadow-sm hover:shadow"
+              title={t("chat.docs")}
             >
               <FolderOpen className="h-4 w-4" />
-              <span className="hidden sm:inline">{t("chat.docs")}</span>
+              <span className="hidden md:inline">{t("chat.docs")}</span>
               {activeCollectionId && (
-                <span className="flex h-2 w-2 rounded-full bg-primary" />
+                <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5 rounded-full bg-primary ring-2 ring-background" />
               )}
             </button>
             <LanguageSwitcher />
@@ -125,31 +127,36 @@ export default function Index() {
                   </div>
                 )}
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
                 <button
                   onClick={() => navigate("/cultivate")}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-all"
+                  title={isZh ? "修行打卡" : "Cultivation"}
                 >
                   <Flame className="h-4 w-4" />
-                  <span className="hidden sm:inline">{isZh ? "修仙" : "Cultivate"}</span>
+                  <span className="hidden lg:inline">{isZh ? "修行" : "Cultivate"}</span>
                 </button>
                 <button
                   onClick={() => setDocPanelOpen(true)}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  className="relative flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-all"
+                  title={t("chat.docs")}
                 >
                   <FolderOpen className="h-4 w-4" />
-                  <span className="hidden sm:inline">{t("chat.docs")}</span>
+                  <span className="hidden lg:inline">{t("chat.docs")}</span>
                   {activeCollectionId && (
-                    <span className="flex h-2 w-2 rounded-full bg-primary" />
+                    <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2 rounded-full bg-primary ring-2 ring-background" />
                   )}
                 </button>
-                <LanguageSwitcher />
+                <div className="hidden sm:block">
+                  <LanguageSwitcher />
+                </div>
                 <button
                   onClick={handleReset}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/80 transition-all"
+                  title={t('chat.newChat')}
                 >
                   <RotateCcw className="h-4 w-4" />
-                  <span className="hidden sm:inline">{t('chat.newChat')}</span>
+                  <span className="hidden lg:inline">{t('chat.newChat')}</span>
                 </button>
               </div>
             </div>
