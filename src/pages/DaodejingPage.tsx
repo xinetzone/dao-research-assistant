@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, ArrowRight, BookOpen, ChevronDown, ChevronRight, Menu } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, ChevronDown, ChevronRight, Menu, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -167,12 +168,46 @@ function TOCPanel({
   const selectedInDe = selected ? selected.section === "德经" : true;
   const [deOpen, setDeOpen] = useState(true);
   const [daoOpen, setDaoOpen] = useState(!selectedInDe);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Auto-expand the section containing the selected chapter
   useEffect(() => {
     if (selected?.section === "德经") setDeOpen(true);
     if (selected?.section === "道经") setDaoOpen(true);
   }, [selected]);
+
+  // When searching, expand both sections
+  useEffect(() => {
+    if (searchQuery.trim()) {
+      setDeOpen(true);
+      setDaoOpen(true);
+    }
+  }, [searchQuery]);
+
+  // Filter chapters by search query
+  const filteredDeChapters = useMemo(() => {
+    if (!searchQuery.trim()) return DE_CHAPTERS;
+    const query = searchQuery.toLowerCase();
+    return DE_CHAPTERS.filter(ch =>
+      String(ch.num).includes(query) ||
+      ch.cn.includes(query) ||
+      ch.title.toLowerCase().includes(query) ||
+      ch.todayChapter.includes(query)
+    );
+  }, [searchQuery]);
+
+  const filteredDaoChapters = useMemo(() => {
+    if (!searchQuery.trim()) return DAO_CHAPTERS;
+    const query = searchQuery.toLowerCase();
+    return DAO_CHAPTERS.filter(ch =>
+      String(ch.num).includes(query) ||
+      ch.cn.includes(query) ||
+      ch.title.toLowerCase().includes(query) ||
+      ch.todayChapter.includes(query)
+    );
+  }, [searchQuery]);
+
+  const hasResults = filteredDeChapters.length > 0 || filteredDaoChapters.length > 0;
 
   return (
     <div className="h-full flex flex-col">
@@ -183,46 +218,81 @@ function TOCPanel({
         </div>
         <p className="text-xs text-muted-foreground mt-0.5">{t("daodejing.author")}</p>
       </div>
-      <ScrollArea className="flex-1">
-        <div className="p-2 space-y-1">
-          {/* 德经 */}
-          <Collapsible open={deOpen} onOpenChange={setDeOpen}>
-            <CollapsibleTrigger asChild>
-              <button className="w-full flex items-center justify-between px-2 py-2 rounded-lg hover:bg-muted/50 transition-colors text-left group">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold text-primary">{t("daodejing.dejing")}</span>
-                </div>
-                {deOpen
-                  ? <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
-                  : <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />}
-              </button>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <div className="ml-1 mt-0.5 pb-1">
-                <ChapterList chapters={DE_CHAPTERS} selected={selected} onSelect={onSelect} />
-              </div>
-            </CollapsibleContent>
-          </Collapsible>
 
-          {/* 道经 */}
-          <Collapsible open={daoOpen} onOpenChange={setDaoOpen}>
-            <CollapsibleTrigger asChild>
-              <button className="w-full flex items-center justify-between px-2 py-2 rounded-lg hover:bg-muted/50 transition-colors text-left group">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold text-accent-foreground">{t("daodejing.daojing")}</span>
-                </div>
-                {daoOpen
-                  ? <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
-                  : <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />}
-              </button>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <div className="ml-1 mt-0.5 pb-1">
-                <ChapterList chapters={DAO_CHAPTERS} selected={selected} onSelect={onSelect} />
-              </div>
-            </CollapsibleContent>
-          </Collapsible>
+      {/* Search box */}
+      <div className="px-3 py-2 border-b border-border">
+        <div className="relative">
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+          <Input
+            type="text"
+            placeholder={t("daodejing.searchPlaceholder")}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="h-8 pl-8 pr-8 text-xs"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          )}
         </div>
+      </div>
+
+      <ScrollArea className="flex-1">
+        {!hasResults && searchQuery ? (
+          <div className="p-4 text-center text-sm text-muted-foreground">
+            {t("daodejing.noResults")}
+          </div>
+        ) : (
+          <div className="p-2 space-y-1">
+            {/* 德经 */}
+            {filteredDeChapters.length > 0 && (
+              <Collapsible open={deOpen} onOpenChange={setDeOpen}>
+                <CollapsibleTrigger asChild>
+                  <button className="w-full flex items-center justify-between px-2 py-2 rounded-lg hover:bg-muted/50 transition-colors text-left group">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-semibold text-primary">{t("daodejing.dejing")}</span>
+                      {searchQuery && <Badge variant="secondary" className="text-[10px] h-4 px-1.5">{filteredDeChapters.length}</Badge>}
+                    </div>
+                    {deOpen
+                      ? <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
+                      : <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />}
+                  </button>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <div className="ml-1 mt-0.5 pb-1">
+                    <ChapterList chapters={filteredDeChapters} selected={selected} onSelect={onSelect} />
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
+            )}
+
+            {/* 道经 */}
+            {filteredDaoChapters.length > 0 && (
+              <Collapsible open={daoOpen} onOpenChange={setDaoOpen}>
+                <CollapsibleTrigger asChild>
+                  <button className="w-full flex items-center justify-between px-2 py-2 rounded-lg hover:bg-muted/50 transition-colors text-left group">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-semibold text-accent-foreground">{t("daodejing.daojing")}</span>
+                      {searchQuery && <Badge variant="secondary" className="text-[10px] h-4 px-1.5">{filteredDaoChapters.length}</Badge>}
+                    </div>
+                    {daoOpen
+                      ? <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
+                      : <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />}
+                  </button>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <div className="ml-1 mt-0.5 pb-1">
+                    <ChapterList chapters={filteredDaoChapters} selected={selected} onSelect={onSelect} />
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
+            )}
+          </div>
+        )}
       </ScrollArea>
     </div>
   );

@@ -100,7 +100,10 @@
     "toc": "Contents",
     "chapter": "Ch. {{num}} ({{cn}})",
     "back": "Back",
-    "author": "By Qin Bo · 81 Chapters"
+    "author": "By Qin Bo · 81 Chapters",
+    "search": "Search Chapters",
+    "searchPlaceholder": "Chapter # or title",
+    "noResults": "No matching chapters"
   },
   "cultivation": {
     "guide": "Cultivation Guide",

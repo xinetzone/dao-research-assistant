@@ -100,7 +100,10 @@
     "toc": "目录",
     "chapter": "第{{num}}章（{{cn}}）",
     "back": "返回",
-    "author": "秦波 著 · 81章"
+    "author": "秦波 著 · 81章",
+    "search": "搜索章节",
+    "searchPlaceholder": "章节号或标题",
+    "noResults": "无匹配章节"
   },
   "cultivation": {
     "guide": "修炼指南",
