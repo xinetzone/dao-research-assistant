@@ -103,7 +103,7 @@ export default function CultivationPage() {
           messages: [{ role: "user", content: prompt }],
           model: "anthropic/claude-sonnet-4.5",
           locale: i18n.language,
-          system: `你是一位通晓帛书版《道德经》、佛家「直心如如不动」以及万物理论的高阶仙师。根据修行者的今日状态，给予：
+          system: `你是道衍，一位通晓帛书版《道德经》、佛家「直心如如不动」以及ψ=ψ(ψ)万物理论的智慧镜子。请映照修行者的今日状态，给予：
 1. 帛书道德经原文引用（一句）
 2. 佛家直心观的点评
 3. 从ψ=ψ(ψ)万物理论（崩塌动力学、意识自显）的宇宙视角启发
@@ -531,7 +531,7 @@ export default function CultivationPage() {
                     {isLoadingAI ? (
                       <>
                         <Loader2 className="h-5 w-5 animate-spin" />
-                        {isZh ? "仙师正在感应天机..." : "Master is sensing..."}
+                        {isZh ? "道衍正在感应..." : "Dao Yan is sensing..."}
                       </>
                     ) : (
                       isZh ? "提交修行" : "Submit"
@@ -567,7 +567,7 @@ export default function CultivationPage() {
                 <div className="cult-card-glow p-5 sm:p-6 space-y-3">
                   <div className="flex items-center gap-2">
                     <Sparkles className="h-4 w-4" style={{ color: currentRealm.color }} />
-                    <h3 className="text-sm font-semibold text-muted-foreground">{isZh ? "仙师点拨" : "Master's Guidance"}</h3>
+                    <h3 className="text-sm font-semibold text-muted-foreground">{isZh ? "道衍回响" : "Dao Yan's Reflection"}</h3>
                   </div>
                   <MarkdownRenderer content={aiGuidance} />
                 </div>
@@ -612,7 +612,7 @@ export default function CultivationPage() {
                           {record.aiGuidance && (
                             <details className="text-xs text-muted-foreground group">
                               <summary className="cursor-pointer hover:text-foreground transition-colors">
-                                {isZh ? "查看点拨" : "View Guidance"}
+                                {isZh ? "查看回响" : "View Reflection"}
                               </summary>
                               <div className="mt-2 pl-3 border-l-2 border-dashed border-border">
                                 <MarkdownRenderer content={record.aiGuidance} className="text-xs" />
