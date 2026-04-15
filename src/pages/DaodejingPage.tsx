@@ -227,6 +227,8 @@ function TOCPanel({
   );
 }
 
+const STORAGE_KEY = "daodejing-last-chapter";
+
 export default function DaodejingPage() {
   const navigate = useNavigate();
   const [selected, setSelected] = useState<DaodejingChapter | null>(null);
@@ -242,6 +244,9 @@ export default function DaodejingPage() {
     setLoading(true);
     setContent("");
     try {
+      localStorage.setItem(STORAGE_KEY, String(ch.num));
+    } catch { /* private browsing */ }
+    try {
       const res = await fetch(`/docs/帛书老子注读/${ch.file}`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const text = await res.text();
@@ -253,6 +258,14 @@ export default function DaodejingPage() {
     }
     setTocOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  // Restore last-read chapter from localStorage
+  const lastReadChapter = useMemo(() => {
+    try {
+      const num = Number(localStorage.getItem(STORAGE_KEY));
+      return DAODEJING_CHAPTERS.find(c => c.num === num) ?? null;
+    } catch { return null; }
   }, []);
 
   const currentIndex = selected ? DAODEJING_CHAPTERS.findIndex(c => c.num === selected.num) : -1;
@@ -333,6 +346,15 @@ export default function DaodejingPage() {
                 <p className="text-xs text-muted-foreground">
                   从左侧目录选择章节开始阅读
                 </p>
+                {lastReadChapter && (
+                  <Button
+                    onClick={() => loadChapter(lastReadChapter)}
+                    className="mt-2 gap-2"
+                  >
+                    <ArrowRight className="h-4 w-4" />
+                    继续阅读 · 第{lastReadChapter.num}章（{lastReadChapter.cn}）
+                  </Button>
+                )}
                 <Button
                   className="lg:hidden mt-2"
                   onClick={() => setTocOpen(true)}
