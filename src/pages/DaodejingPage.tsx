@@ -6,24 +6,95 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 import { cn } from "@/lib/utils";
 import { DAODEJING_CHAPTERS, type DaodejingChapter } from "@/data/daodejing-index";
 
+// ── Footnote markers ────────────────────────────────────────────────────────
+const MARKER_CHARS = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮";
+const MARKER_RE = new RegExp(`([${MARKER_CHARS}])`, "g");
+
+type Footnotes = Record<string, string>;
+
+/** Extract ① → explanation mapping from the 版本差异 section */
+function parseFootnotes(versionDiff: string): Footnotes {
+  const notes: Footnotes = {};
+  const parts = versionDiff.split(new RegExp(`(?=^[${MARKER_CHARS}])`, "m"));
+  for (const part of parts) {
+    const m = part.match(new RegExp(`^([${MARKER_CHARS}])\\s*([\\s\\S]+)`));
+    if (m) notes[m[1]] = m[2].trim();
+  }
+  return notes;
+}
+
+/** Render plain text with footnote markers as hoverable tooltips */
+function AnnotatedText({ text, footnotes }: { text: string; footnotes: Footnotes }) {
+  const hasNotes = Object.keys(footnotes).length > 0;
+
+  // Normalize single newlines to spaces (Chinese paragraph flow)
+  const normalized = text.replace(/\n(?!\n)/g, "");
+  const paragraphs = normalized.split(/\n{2,}/);
+
+  return (
+    <TooltipProvider delayDuration={200}>
+      <div className="space-y-3 leading-[1.9] text-foreground/90">
+        {paragraphs.map((para, pi) => {
+          if (!hasNotes || !MARKER_RE.test(para)) {
+            return <p key={pi}>{para}</p>;
+          }
+          const segments = para.split(MARKER_RE);
+          return (
+            <p key={pi}>
+              {segments.map((seg, si) =>
+                footnotes[seg] ? (
+                  <Tooltip key={si}>
+                    <TooltipTrigger asChild>
+                      <sup
+                        className={cn(
+                          "inline-flex cursor-help select-none mx-px",
+                          "text-[0.65em] font-bold text-primary align-super",
+                          "rounded-full px-0.5",
+                          "hover:bg-primary/15 transition-colors"
+                        )}
+                      >
+                        {seg}
+                      </sup>
+                    </TooltipTrigger>
+                    <TooltipContent
+                      side="top"
+                      className="max-w-xs sm:max-w-sm p-3 leading-relaxed"
+                    >
+                      <p className="text-xs">{footnotes[seg]}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                ) : (
+                  <span key={si}>{seg}</span>
+                )
+              )}
+            </p>
+          );
+        })}
+      </div>
+    </TooltipProvider>
+  );
+}
+
 // ── Section parser ──────────────────────────────────────────────────────────
 interface ChapterSections {
-  intro: string;          // title + quote + hr
-  boshu: string;          // 帛书版原文
-  chuanshi: string;       // 传世版原文
-  rest: string;           // 版本差异 + 直译 + 解读
+  intro: string;
+  boshu: string;
+  chuanshi: string;
+  versionDiff: string;    // 版本差异 (raw, for footnote parsing)
+  rest: string;           // 版本差异 + 直译 + 解读 (for rendering)
 }
 
 function parseChapterSections(raw: string): ChapterSections {
-  // Split on ## headings
   const parts = raw.split(/^(?=## )/m);
   let intro = "";
   let boshu = "";
   let chuanshi = "";
+  let versionDiff = "";
   const restParts: string[] = [];
 
   for (const part of parts) {
@@ -34,11 +105,14 @@ function parseChapterSections(raw: string): ChapterSections {
     } else if (part.startsWith("## 传世版原文")) {
       chuanshi = part.replace(/^## 传世版原文\s*\n/, "").trimEnd();
     } else {
+      if (part.startsWith("## 版本差异")) {
+        versionDiff = part.replace(/^## 版本差异\s*\n/, "").trimEnd();
+      }
       restParts.push(part);
     }
   }
 
-  return { intro, boshu, chuanshi, rest: restParts.join("") };
+  return { intro, boshu, chuanshi, versionDiff, rest: restParts.join("") };
 }
 
 const DE_CHAPTERS = DAODEJING_CHAPTERS.filter(c => c.section === "德经");
@@ -161,6 +235,7 @@ export default function DaodejingPage() {
   const [tocOpen, setTocOpen] = useState(false);
 
   const sections = useMemo(() => parseChapterSections(content), [content]);
+  const footnotes = useMemo(() => parseFootnotes(sections.versionDiff), [sections.versionDiff]);
 
   const loadChapter = useCallback(async (ch: DaodejingChapter) => {
     setSelected(ch);
@@ -286,7 +361,7 @@ export default function DaodejingPage() {
                         帛书版原文
                       </span>
                     </div>
-                    <MarkdownRenderer content={sections.boshu} />
+                    <AnnotatedText text={sections.boshu} footnotes={footnotes} />
                   </div>
                   {/* 传世版 */}
                   <div className="p-4 md:p-5 bg-accent/30">
