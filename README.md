@@ -86,8 +86,8 @@
 ### 安装
 
 ```bash
-git clone https://github.com/xinetzone/dao-research-assistant.git
-cd dao-research-assistant
+git clone https://github.com/xinetzone/dao-yan.git
+cd dao-yan
 pnpm install
 pnpm dev
 ```
@@ -115,7 +115,7 @@ pnpm dev
 ### 目录结构
 
 ```
-dao-research-assistant/
+dao-yan/
 ├── src/
 │   ├── components/
 │   │   ├── ChatMessage.tsx          # 消息组件（复制/重生成/来源卡片）
@@ -284,8 +284,8 @@ React 19.1 + TypeScript 5.9 + Vite 7 · Tailwind CSS + shadcn/ui · marked + hig
 ## Quick Start
 
 ```bash
-git clone https://github.com/xinetzone/dao-research-assistant.git
-cd dao-research-assistant
+git clone https://github.com/xinetzone/dao-yan.git
+cd dao-yan
 pnpm install && pnpm dev
 ```
 
