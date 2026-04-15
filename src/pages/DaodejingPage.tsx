@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, ArrowRight, BookOpen, ChevronDown, ChevronRight, Menu, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, ChevronDown, ChevronRight, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +9,37 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 import { cn } from "@/lib/utils";
 import { DAODEJING_CHAPTERS, type DaodejingChapter } from "@/data/daodejing-index";
+
+// ── Section parser ──────────────────────────────────────────────────────────
+interface ChapterSections {
+  intro: string;          // title + quote + hr
+  boshu: string;          // 帛书版原文
+  chuanshi: string;       // 传世版原文
+  rest: string;           // 版本差异 + 直译 + 解读
+}
+
+function parseChapterSections(raw: string): ChapterSections {
+  // Split on ## headings
+  const parts = raw.split(/^(?=## )/m);
+  let intro = "";
+  let boshu = "";
+  let chuanshi = "";
+  const restParts: string[] = [];
+
+  for (const part of parts) {
+    if (!part.startsWith("## ")) {
+      intro = part;
+    } else if (part.startsWith("## 帛书版原文")) {
+      boshu = part.replace(/^## 帛书版原文\s*\n/, "").trimEnd();
+    } else if (part.startsWith("## 传世版原文")) {
+      chuanshi = part.replace(/^## 传世版原文\s*\n/, "").trimEnd();
+    } else {
+      restParts.push(part);
+    }
+  }
+
+  return { intro, boshu, chuanshi, rest: restParts.join("") };
+}
 
 const DE_CHAPTERS = DAODEJING_CHAPTERS.filter(c => c.section === "德经");
 const DAO_CHAPTERS = DAODEJING_CHAPTERS.filter(c => c.section === "道经");
@@ -129,6 +160,8 @@ export default function DaodejingPage() {
   const [loading, setLoading] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
 
+  const sections = useMemo(() => parseChapterSections(content), [content]);
+
   const loadChapter = useCallback(async (ch: DaodejingChapter) => {
     setSelected(ch);
     setLoading(true);
@@ -239,8 +272,36 @@ export default function DaodejingPage() {
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
             </div>
           ) : (
-            <div className="max-w-3xl mx-auto px-4 sm:px-8 py-6 sm:py-8">
-              <MarkdownRenderer content={content} />
+            <div className="max-w-4xl mx-auto px-4 sm:px-8 py-6 sm:py-8">
+              {/* Title + intro (# heading, quote, hr) */}
+              <MarkdownRenderer content={sections.intro} />
+
+              {/* Two-column comparison */}
+              {(sections.boshu || sections.chuanshi) && (
+                <div className="my-6 grid grid-cols-1 md:grid-cols-2 gap-0 rounded-xl border border-border overflow-hidden">
+                  {/* 帛书版 */}
+                  <div className="p-4 md:p-5 border-b md:border-b-0 md:border-r border-border bg-primary/5">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/20">
+                        帛书版原文
+                      </span>
+                    </div>
+                    <MarkdownRenderer content={sections.boshu} />
+                  </div>
+                  {/* 传世版 */}
+                  <div className="p-4 md:p-5 bg-accent/30">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-accent text-accent-foreground border border-border">
+                        传世版原文
+                      </span>
+                    </div>
+                    <MarkdownRenderer content={sections.chuanshi} />
+                  </div>
+                </div>
+              )}
+
+              {/* 版本差异 + 直译 + 解读 */}
+              {sections.rest && <MarkdownRenderer content={sections.rest} />}
 
               {/* Prev / Next navigation */}
               <div className="mt-10 pt-6 border-t border-border flex justify-between gap-4">
