@@ -5,7 +5,7 @@ import {
   Search,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { cn, copyToClipboard } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 import type { Message, SearchResult } from "@/hooks/useAIChat";
 
@@ -71,9 +71,21 @@ export function ChatMessage({ message, isLast, webSearchEnabled, onRegenerate }:
 
   const handleCopy = async () => {
     if (!message.content) return;
-    await copyToClipboard(message.content);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(message.content);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // fallback
+      const el = document.createElement("textarea");
+      el.value = message.content;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   return (
