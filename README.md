@@ -22,7 +22,7 @@
 
 - **帛书版《道德经》** 的无为而治哲学
 - **佛家禅修** 的直心如如不动智慧
-- **量子场论** 的宇宙观
+- **ψ=ψ(ψ) 万物理论** 的崩塌宇宙观（AllTheory）
 - **现代 AI** (Claude Sonnet 4.5) 驱动的智能对话
 
 ### 核心理念
@@ -236,7 +236,7 @@ Dao Yan is your wise companion on the path of Dao. Rooted in the Mawangdui Silk 
 
 - **Daoist philosophy** (Wu Wei — action through non-action)
 - **Buddhist mindfulness** wisdom
-- **Quantum field theory** cosmology
+- **ψ=ψ(ψ) Theory of Everything** collapse cosmology (AllTheory)
 - **Modern AI** (Claude Sonnet 4.5) driven dialogue
 
 > "The Way that can be told is not the eternal Way." — Mawangdui Silk Text
