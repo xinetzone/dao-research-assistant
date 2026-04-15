@@ -2,7 +2,7 @@
 
 <div align="center">
 
-**帛书版《道德经》AI 学者 — 融合道家智慧与现代 AI 技术的研究型对话助手**
+**陪你问道的智慧伙伴 — 让古老道法，衍化于今日生活**
 
 **[English](#english) | [中文](#chinese)**
 
@@ -18,7 +18,7 @@
 
 ## 项目简介
 
-道衍是一个创新的 AI 研究对话应用，以帛书版《道德经》为根基，独特融合：
+道衍，陪你问道的智慧伙伴。以帛书版《道德经》为根基，在你困惑时用道家智慧照见本质，在你焦虑时陪你回归内心清明。不是解读经典的学术工具，而是与你一起问道、在修行中体悟的智慧镜子。独特融合：
 
 - **帛书版《道德经》** 的无为而治哲学
 - **佛家禅修** 的直心如如不动智慧
@@ -228,11 +228,11 @@ MIT License — 详见 [LICENSE](LICENSE)
 
 # Dao Yan (道衍)
 
-**AI Scholar for the Mawangdui Silk Text Dao De Jing — Bridging ancient wisdom and modern AI**
+**Your Wise Companion on the Path of Dao — Ancient wisdom flowing into everyday life**
 
 ## Overview
 
-An innovative AI research chat application rooted in the Mawangdui Silk Text edition of the Dao De Jing, uniquely combining:
+Dao Yan is your wise companion on the path of Dao. Rooted in the Mawangdui Silk Text Dao De Jing, it uses Daoist wisdom to help you see through confusion and return to inner stillness. Not an academic tool for interpreting classics, but a reflective mirror that walks the path of Dao alongside you. Uniquely combining:
 
 - **Daoist philosophy** (Wu Wei — action through non-action)
 - **Buddhist mindfulness** wisdom
