@@ -80,6 +80,24 @@
   "common": {
     "language": "语言"
   },
+  "daodejing": {
+    "title": "帛书老子注读",
+    "dejing": "德经（1-44章）",
+    "daojing": "道经（45-81章）",
+    "boshu": "帛书版原文",
+    "chuanshi": "传世版原文",
+    "welcome": "选择一个章节开始阅读",
+    "welcomeSub": "左侧目录选择章节，或点击下方按钮",
+    "continueReading": "继续阅读",
+    "startFirst": "从第一章开始",
+    "loading": "加载中...",
+    "loadFailed": "章节加载失败",
+    "retry": "重试",
+    "prev": "上一章",
+    "next": "下一章",
+    "toc": "目录",
+    "chapter": "第{{num}}章（{{cn}}）"
+  },
   "cultivation": {
     "guide": "修炼指南",
     "tutorialNew": "新",

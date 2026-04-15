@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowLeft, ArrowRight, BookOpen, ChevronDown, ChevronRight, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -157,9 +158,11 @@ function ChapterList({
 function TOCPanel({
   selected,
   onSelect,
+  t,
 }: {
   selected: DaodejingChapter | null;
   onSelect: (c: DaodejingChapter) => void;
+  t: (key: string, opts?: Record<string, unknown>) => string;
 }) {
   const selectedInDe = selected ? selected.section === "德经" : true;
   const [deOpen, setDeOpen] = useState(true);
@@ -176,7 +179,7 @@ function TOCPanel({
       <div className="px-4 py-3 border-b border-border">
         <div className="flex items-center gap-2">
           <BookOpen className="h-4 w-4 text-primary" />
-          <span className="text-sm font-semibold">帛书老子注读</span>
+          <span className="text-sm font-semibold">{t("daodejing.title")}</span>
         </div>
         <p className="text-xs text-muted-foreground mt-0.5">秦波 著 · 81章</p>
       </div>
@@ -187,8 +190,7 @@ function TOCPanel({
             <CollapsibleTrigger asChild>
               <button className="w-full flex items-center justify-between px-2 py-2 rounded-lg hover:bg-muted/50 transition-colors text-left group">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold text-primary px-1.5 py-0.5 rounded bg-primary/10">德经</span>
-                  <span className="text-xs text-muted-foreground">第 1–44 章</span>
+                  <span className="text-xs font-semibold text-primary">{t("daodejing.dejing")}</span>
                 </div>
                 {deOpen
                   ? <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
@@ -207,8 +209,7 @@ function TOCPanel({
             <CollapsibleTrigger asChild>
               <button className="w-full flex items-center justify-between px-2 py-2 rounded-lg hover:bg-muted/50 transition-colors text-left group">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold text-accent-foreground px-1.5 py-0.5 rounded bg-accent">道经</span>
-                  <span className="text-xs text-muted-foreground">第 45–81 章</span>
+                  <span className="text-xs font-semibold text-accent-foreground">{t("daodejing.daojing")}</span>
                 </div>
                 {daoOpen
                   ? <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
@@ -231,6 +232,7 @@ const STORAGE_KEY = "daodejing-last-chapter";
 
 export default function DaodejingPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [selected, setSelected] = useState<DaodejingChapter | null>(null);
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
@@ -252,13 +254,13 @@ export default function DaodejingPage() {
       const text = await res.text();
       setContent(text);
     } catch {
-      setContent(`# 加载失败\n\n无法加载章节内容，请稍后重试。`);
+      setContent(`# ${t("daodejing.loadFailed")}\n\n...`);
     } finally {
       setLoading(false);
     }
     setTocOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  }, [t]);
 
   // Restore last-read chapter from localStorage
   const lastReadChapter = useMemo(() => {
@@ -278,16 +280,16 @@ export default function DaodejingPage() {
     <div className="flex h-screen overflow-hidden bg-background">
       {/* Desktop TOC sidebar */}
       <aside className="hidden lg:flex flex-col w-72 shrink-0 border-r border-border bg-sidebar-background">
-        <TOCPanel selected={selected} onSelect={loadChapter} />
+        <TOCPanel selected={selected} onSelect={loadChapter} t={t} />
       </aside>
 
       {/* Mobile TOC sheet */}
       <Sheet open={tocOpen} onOpenChange={setTocOpen}>
         <SheetContent side="left" className="w-80 p-0 flex flex-col gap-0" aria-describedby={undefined}>
           <SheetHeader className="sr-only">
-            <SheetTitle>章节目录</SheetTitle>
+            <SheetTitle>{t("daodejing.toc")}</SheetTitle>
           </SheetHeader>
-          <TOCPanel selected={selected} onSelect={loadChapter} />
+          <TOCPanel selected={selected} onSelect={loadChapter} t={t} />
         </SheetContent>
       </Sheet>
 
@@ -317,12 +319,12 @@ export default function DaodejingPage() {
               <BookOpen className="h-4 w-4 text-primary shrink-0" />
               <span className="text-sm font-semibold truncate">
                 {selected
-                  ? `第${selected.num}章（${selected.cn}）`
-                  : "帛书老子注读"}
+                  ? t("daodejing.chapter", { num: selected.num, cn: selected.cn })
+                  : t("daodejing.title")}
               </span>
               {selected?.todayChapter && (
                 <Badge variant="secondary" className="text-xs shrink-0">
-                  今本第{selected.todayChapter}章
+                  {`#${selected.todayChapter}`}
                 </Badge>
               )}
             </div>
@@ -338,13 +340,12 @@ export default function DaodejingPage() {
                 <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-accent border border-border">
                   <BookOpen className="h-8 w-8 text-accent-foreground" />
                 </div>
-                <h2 className="text-2xl font-bold">帛书老子注读</h2>
+                <h2 className="text-2xl font-bold">{t("daodejing.title")}</h2>
                 <p className="text-muted-foreground text-sm leading-relaxed">
-                  秦波 著。基于马王堆帛书甲乙本校订，与传世王弼本逐章对比注读。
-                  共 81 章，分德经（38–81章今本）与道经（1–37章今本）两部分。
+                  {t("daodejing.welcomeSub")}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  从左侧目录选择章节开始阅读
+                  {t("daodejing.welcome")}
                 </p>
                 {lastReadChapter && (
                   <Button
@@ -352,7 +353,7 @@ export default function DaodejingPage() {
                     className="mt-2 gap-2"
                   >
                     <ArrowRight className="h-4 w-4" />
-                    继续阅读 · 第{lastReadChapter.num}章（{lastReadChapter.cn}）
+                    {t("daodejing.continueReading")} · {t("daodejing.chapter", { num: lastReadChapter.num, cn: lastReadChapter.cn })}
                   </Button>
                 )}
                 <Button
@@ -360,7 +361,7 @@ export default function DaodejingPage() {
                   onClick={() => setTocOpen(true)}
                 >
                   <Menu className="h-4 w-4 mr-2" />
-                  打开章节目录
+                  {t("daodejing.toc")}
                 </Button>
               </div>
             </div>
@@ -380,7 +381,7 @@ export default function DaodejingPage() {
                   <div className="p-4 md:p-5 border-b md:border-b-0 md:border-r border-border bg-primary/5">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/20">
-                        帛书版原文
+                        {t("daodejing.boshu")}
                       </span>
                     </div>
                     <AnnotatedText text={sections.boshu} footnotes={footnotes} />
@@ -389,7 +390,7 @@ export default function DaodejingPage() {
                   <div className="p-4 md:p-5 bg-accent/30">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-accent text-accent-foreground border border-border">
-                        传世版原文
+                        {t("daodejing.chuanshi")}
                       </span>
                     </div>
                     <MarkdownRenderer content={sections.chuanshi} />
@@ -410,10 +411,10 @@ export default function DaodejingPage() {
                     >
                       <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                         <ArrowLeft className="h-3.5 w-3.5" />
-                        上一章
+                        {t("daodejing.prev")}
                       </div>
                       <p className="text-sm font-medium group-hover:text-primary transition-colors line-clamp-1">
-                        第{prevChapter.num}章 · {prevChapter.title}
+                        {t("daodejing.chapter", { num: prevChapter.num, cn: prevChapter.cn })} · {prevChapter.title}
                       </p>
                     </button>
                   )}
@@ -425,11 +426,11 @@ export default function DaodejingPage() {
                       className="group text-right space-y-1 p-3 rounded-xl border border-border hover:border-primary/30 hover:bg-muted/40 transition-all w-full"
                     >
                       <div className="flex items-center justify-end gap-1.5 text-xs text-muted-foreground">
-                        下一章
+                        {t("daodejing.next")}
                         <ArrowRight className="h-3.5 w-3.5" />
                       </div>
                       <p className="text-sm font-medium group-hover:text-primary transition-colors line-clamp-1">
-                        第{nextChapter.num}章 · {nextChapter.title}
+                        {t("daodejing.chapter", { num: nextChapter.num, cn: nextChapter.cn })} · {nextChapter.title}
                       </p>
                     </button>
                   )}

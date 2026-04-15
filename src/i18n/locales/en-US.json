@@ -80,6 +80,24 @@
   "common": {
     "language": "Language"
   },
+  "daodejing": {
+    "title": "Boshu Laozi Reader",
+    "dejing": "De Jing (Ch. 1-44)",
+    "daojing": "Dao Jing (Ch. 45-81)",
+    "boshu": "Silk Text (Boshu)",
+    "chuanshi": "Received Text",
+    "welcome": "Select a chapter to begin",
+    "welcomeSub": "Choose from the sidebar, or tap below",
+    "continueReading": "Continue Reading",
+    "startFirst": "Start from Chapter 1",
+    "loading": "Loading...",
+    "loadFailed": "Failed to load chapter",
+    "retry": "Retry",
+    "prev": "Previous",
+    "next": "Next",
+    "toc": "Contents",
+    "chapter": "Ch. {{num}} ({{cn}})"
+  },
   "cultivation": {
     "guide": "Cultivation Guide",
     "tutorialNew": "New",
