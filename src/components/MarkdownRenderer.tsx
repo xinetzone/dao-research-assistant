@@ -146,7 +146,7 @@ export const MarkdownRenderer = memo(function MarkdownRenderer({
     if (!btn) return;
 
     const code = decodeURIComponent(btn.dataset.code || "");
-    copyToClipboard(code).then(() => {
+    navigator.clipboard.writeText(code).then(() => {
       const label = btn.querySelector("span");
       if (label) {
         label.textContent = "Copied";
