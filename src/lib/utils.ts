@@ -12,12 +12,7 @@ export function cn(...inputs: ClassValue[]) {
  */
 export async function copyToClipboard(text: string): Promise<boolean> {
   if (navigator.clipboard?.writeText) {
-    try {
-      await navigator.clipboard.writeText(text);
-      return true;
-    } catch {
-      // fall through
-    }
+    try { await navigator.clipboard.writeText(text); return true; } catch { /* fall through */ }
   }
   try {
     const el = document.createElement("textarea");
