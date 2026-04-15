@@ -10,15 +10,65 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { fetchEventSource } from "@microsoft/fetch-event-source";
 import { AI_CHAT_ENDPOINT, SUPABASE_ANON_KEY } from "@/config";
 
-/** Fatal error to stop fetchEventSource auto-retry */
-class FatalError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "FatalError";
+/** Stream-read an SSE response and collect all text deltas */
+async function streamAIGuidance(
+  prompt: string,
+  system: string,
+  locale: string,
+  signal: AbortSignal
+): Promise<string> {
+  const response = await fetch(AI_CHAT_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+    },
+    body: JSON.stringify({
+      messages: [{ role: "user", content: prompt }],
+      model: "anthropic/claude-sonnet-4.5",
+      system,
+      locale,
+    }),
+    signal,
+  });
+
+  if (!response.ok || !response.body) {
+    throw new Error(`HTTP ${response.status}`);
   }
+
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let fullGuidance = "";
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+
+      const lines = buffer.split("\n");
+      buffer = lines.pop() ?? "";
+
+      for (const line of lines) {
+        if (!line.startsWith("data:")) continue;
+        const dataStr = line.slice(5).trim();
+        if (!dataStr || dataStr === "[DONE]") continue;
+        try {
+          const data = JSON.parse(dataStr);
+          if (data.type === "content_block_delta" && data.delta?.text) {
+            fullGuidance += data.delta.text;
+          }
+        } catch { /* skip malformed events */ }
+      }
+    }
+  } finally {
+    reader.releaseLock();
+  }
+
+  return fullGuidance;
 }
 
 type SubView = "home" | "checkin" | "result" | "records" | "tutorial";
@@ -91,44 +141,15 @@ export default function CultivationPage() {
     const abortController = new AbortController();
     const timeoutId = setTimeout(() => abortController.abort(), 30000);
 
-    try {
-      let fullGuidance = "";
-      await fetchEventSource(AI_CHAT_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-        },
-        body: JSON.stringify({
-          messages: [{ role: "user", content: prompt }],
-          model: "anthropic/claude-sonnet-4.5",
-          locale: i18n.language,
-          system: `你是道衍，一位通晓帛书版《道德经》、佛家「直心如如不动」以及ψ=ψ(ψ)万物理论的智慧镜子。请映照修行者的今日状态，给予：
+    const systemPrompt = `你是道衍，一位通晓帛书版《道德经》、佛家「直心如如不动」以及ψ=ψ(ψ)万物理论的智慧镜子。请映照修行者的今日状态，给予：
 1. 帛书道德经原文引用（一句）
 2. 佛家直心观的点评
 3. 从ψ=ψ(ψ)万物理论（崩塌动力学、意识自显）的宇宙视角启发
 
-回应需在200字内，语言古雅诗意，蕴含深刻启迪。${isZh ? "" : "Please respond in English with poetic wisdom."}`,
-        }),
-        signal: abortController.signal,
-        openWhenHidden: true,
-        async onopen(response) {
-          if (!response.ok) throw new FatalError(`Request failed: ${response.status}`);
-        },
-        onmessage(event) {
-          if (!event.data) return;
-          let data;
-          try { data = JSON.parse(event.data); } catch { return; }
-          if (data.type === "content_block_delta" && data.delta?.text) {
-            fullGuidance += data.delta.text;
-          }
-        },
-        onerror(err) {
-          if (err instanceof FatalError) throw err;
-          throw new FatalError(err?.message || "Connection lost");
-        },
-      });
+回应需在200字内，语言古雅诗意，蕴含深刻启迪。${isZh ? "" : "Please respond in English with poetic wisdom."}`;
 
+    try {
+      const fullGuidance = await streamAIGuidance(prompt, systemPrompt, i18n.language, abortController.signal);
       clearTimeout(timeoutId);
       const points = checkIn(selectedMood, wuWeiScore, daoFieldActive, insight, fullGuidance);
       setEarnedPoints(points);
