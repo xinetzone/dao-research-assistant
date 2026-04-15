@@ -362,6 +362,43 @@ export default function DaodejingPage() {
     }
   }, [chapterParam, selected, lastReadChapter, loadChapter]);
 
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't trigger if user is typing in an input/textarea
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+
+      switch (e.key) {
+        case "ArrowLeft":
+          if (prevChapter) {
+            e.preventDefault();
+            loadChapter(prevChapter);
+          }
+          break;
+        case "ArrowRight":
+          if (nextChapter) {
+            e.preventDefault();
+            loadChapter(nextChapter);
+          }
+          break;
+        case "Escape":
+          e.preventDefault();
+          // On desktop, navigate home; on mobile, open TOC
+          if (window.innerWidth >= 1024) {
+            navigate("/");
+          } else {
+            setTocOpen(true);
+          }
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [prevChapter, nextChapter, loadChapter, navigate, setTocOpen]);
+
   const currentIndex = selected ? DAODEJING_CHAPTERS.findIndex(c => c.num === selected.num) : -1;
   const prevChapter = currentIndex > 0 ? DAODEJING_CHAPTERS[currentIndex - 1] : null;
   const nextChapter = currentIndex >= 0 && currentIndex < DAODEJING_CHAPTERS.length - 1
@@ -542,6 +579,13 @@ export default function DaodejingPage() {
                     </button>
                   )}
                 </div>
+              </div>
+
+              {/* Keyboard hint */}
+              <div className="mt-4 text-center">
+                <p className="text-xs text-muted-foreground">
+                  {t("daodejing.keyboardHint")}
+                </p>
               </div>
             </div>
           )}

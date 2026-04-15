@@ -104,7 +104,8 @@
     "search": "搜索章节",
     "searchPlaceholder": "章节号或标题",
     "noResults": "无匹配章节",
-    "progress": "第 {{current}} 章 / 共 {{total}} 章"
+    "progress": "第 {{current}} 章 / 共 {{total}} 章",
+    "keyboardHint": "提示：使用 ← → 翻页，Esc 返回"
   },
   "cultivation": {
     "guide": "修炼指南",

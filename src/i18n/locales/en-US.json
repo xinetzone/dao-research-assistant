@@ -104,7 +104,8 @@
     "search": "Search Chapters",
     "searchPlaceholder": "Chapter # or title",
     "noResults": "No matching chapters",
-    "progress": "Ch. {{current}} of {{total}}"
+    "progress": "Ch. {{current}} of {{total}}",
+    "keyboardHint": "Tip: Use ← → to navigate, Esc to return"
   },
   "cultivation": {
     "guide": "Cultivation Guide",
