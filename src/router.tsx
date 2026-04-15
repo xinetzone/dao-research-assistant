@@ -1,5 +1,6 @@
 import Index from "./pages/Index";
 import CultivationPage from "./pages/CultivationPage";
+import DaodejingPage from "./pages/DaodejingPage";
 import NotFound from "./pages/NotFound";
 
 export const routers = [
@@ -12,6 +13,11 @@ export const routers = [
       path: "/cultivate",
       name: 'cultivate',
       element: <CultivationPage />,
+    },
+    {
+      path: "/daodejing",
+      name: 'daodejing',
+      element: <DaodejingPage />,
     },
     /* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */
     {

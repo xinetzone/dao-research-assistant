@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Flame, FolderOpen, Globe, RotateCcw, X, BookOpen } from "lucide-react";
+import { Flame, FolderOpen, Globe, RotateCcw, X, BookOpen, ScrollText } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { LanguageSwitcher } from "./LanguageSwitcher";
@@ -89,6 +89,18 @@ export function NavigationSidebar({
           >
             <Flame className="h-4 w-4 shrink-0" />
             <span>{isZh ? "修行打卡" : "Cultivation"}</span>
+          </Button>
+
+          <Button
+            variant="ghost"
+            className="w-full justify-start gap-3 h-11"
+            onClick={() => {
+              navigate("/daodejing");
+              onClose();
+            }}
+          >
+            <ScrollText className="h-4 w-4 shrink-0" />
+            <span>{isZh ? "帛书老子" : "Laozi"}</span>
           </Button>
 
           <Button
