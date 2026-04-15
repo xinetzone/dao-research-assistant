@@ -4,7 +4,7 @@
 
 **陪你问道的智慧伙伴 — 让古老道法，衍化于今日生活**
 
-**[English](#english) | [中文](#chinese)**
+**[English README](README-EN.md) | [中文](#chinese)**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)](https://www.typescriptlang.org/)
