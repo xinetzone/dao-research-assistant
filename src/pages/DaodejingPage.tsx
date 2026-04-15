@@ -181,7 +181,7 @@ function TOCPanel({
           <BookOpen className="h-4 w-4 text-primary" />
           <span className="text-sm font-semibold">{t("daodejing.title")}</span>
         </div>
-        <p className="text-xs text-muted-foreground mt-0.5">秦波 著 · 81章</p>
+        <p className="text-xs text-muted-foreground mt-0.5">{t("daodejing.author")}</p>
       </div>
       <ScrollArea className="flex-1">
         <div className="p-2 space-y-1">
@@ -300,7 +300,7 @@ export default function DaodejingPage() {
           <div className="flex items-center gap-2 sm:gap-3 px-4 py-3">
             <Button variant="ghost" size="sm" onClick={() => navigate("/")} className="gap-1.5 text-muted-foreground">
               <ArrowLeft className="h-4 w-4" />
-              <span className="hidden sm:inline text-sm">返回</span>
+              <span className="hidden sm:inline text-sm">{t("daodejing.back")}</span>
             </Button>
 
             <div className="h-4 w-px bg-border mx-1" />

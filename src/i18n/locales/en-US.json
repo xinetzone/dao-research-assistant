@@ -96,7 +96,9 @@
     "prev": "Previous",
     "next": "Next",
     "toc": "Contents",
-    "chapter": "Ch. {{num}} ({{cn}})"
+    "chapter": "Ch. {{num}} ({{cn}})",
+    "back": "Back",
+    "author": "By Qin Bo · 81 Chapters"
   },
   "cultivation": {
     "guide": "Cultivation Guide",
