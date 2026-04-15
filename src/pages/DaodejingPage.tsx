@@ -362,6 +362,12 @@ export default function DaodejingPage() {
     }
   }, [chapterParam, selected, lastReadChapter, loadChapter]);
 
+  const currentIndex = selected ? DAODEJING_CHAPTERS.findIndex(c => c.num === selected.num) : -1;
+  const prevChapter = currentIndex > 0 ? DAODEJING_CHAPTERS[currentIndex - 1] : null;
+  const nextChapter = currentIndex >= 0 && currentIndex < DAODEJING_CHAPTERS.length - 1
+    ? DAODEJING_CHAPTERS[currentIndex + 1]
+    : null;
+
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -398,12 +404,6 @@ export default function DaodejingPage() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [prevChapter, nextChapter, loadChapter, navigate, setTocOpen]);
-
-  const currentIndex = selected ? DAODEJING_CHAPTERS.findIndex(c => c.num === selected.num) : -1;
-  const prevChapter = currentIndex > 0 ? DAODEJING_CHAPTERS[currentIndex - 1] : null;
-  const nextChapter = currentIndex >= 0 && currentIndex < DAODEJING_CHAPTERS.length - 1
-    ? DAODEJING_CHAPTERS[currentIndex + 1]
-    : null;
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
