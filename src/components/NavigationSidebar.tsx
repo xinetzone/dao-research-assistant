@@ -1,11 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Flame, FolderOpen, RotateCcw, X, BookOpen, ScrollText } from "lucide-react";
+import { Flame, FolderOpen, RotateCcw, X, ScrollText } from "lucide-react";
 import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { ThemeToggle } from "./ThemeToggle";
-import { useCultivation } from "@/hooks/useCultivation";
 import { cn } from "@/lib/utils";
 
 interface NavigationSidebarProps {
@@ -26,8 +24,6 @@ export function NavigationSidebar({
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const isZh = i18n.language === "zh-CN";
-  const { getTutorialCompleted } = useCultivation();
-  const tutorialCompleted = getTutorialCompleted();
 
   return (
     <>
@@ -97,23 +93,6 @@ export function NavigationSidebar({
           >
             <ScrollText className="h-4 w-4 shrink-0" />
             <span>{isZh ? "帛书老子" : "Laozi"}</span>
-          </Button>
-
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-3 h-11 relative"
-            onClick={() => {
-              navigate("/cultivate?tutorial=true");
-              onClose();
-            }}
-          >
-            <BookOpen className="h-4 w-4 shrink-0" />
-            <span>{t("cultivation.guide")}</span>
-            {!tutorialCompleted && (
-              <Badge variant="secondary" className="ml-auto text-xs px-1.5 py-0.5">
-                {t("cultivation.tutorialNew")}
-              </Badge>
-            )}
           </Button>
 
           <Button
