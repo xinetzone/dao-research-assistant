@@ -2,7 +2,7 @@ import { useState, useRef, useCallback } from "react";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
 import i18n from "@/i18n/config";
 import { AI_CHAT_ENDPOINT, SUPABASE_ANON_KEY } from "@/config";
-import { DAOYAN_SYSTEM_PROMPT, DAOYAN_SYSTEM_WITH_DOCS } from "@/data/system-prompt";
+import { DAOYAN_SYSTEM_PROMPT, DAOYAN_SYSTEM_WITH_USER_DOCS } from "@/data/system-prompt";
 
 export interface SearchResult {
   title: string;
@@ -80,7 +80,7 @@ export function useAIChat() {
           })),
           model,
           ...(documentContext
-            ? { system: DAOYAN_SYSTEM_WITH_DOCS(documentContext) }
+            ? { system: DAOYAN_SYSTEM_WITH_USER_DOCS(documentContext) }
             : { system: DAOYAN_SYSTEM_PROMPT }),
           ...(enableWebSearch ? { enable_web_search: true } : {}),
           ...(locale ? { locale } : {}),

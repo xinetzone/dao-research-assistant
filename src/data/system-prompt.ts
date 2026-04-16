@@ -74,3 +74,12 @@ export const DAOYAN_SYSTEM_WITH_DOCS = (documentContext: string) =>
 用户正在阅读以下章节。此文本来自本项目文档，优先级高于上方语料，若有出入以此为准：
 
 ${documentContext}`;
+
+/** 用户通过"文档"功能上传的外部参考资料，优先基于此回答并可结合帛书智慧阐发 */
+export const DAOYAN_SYSTEM_WITH_USER_DOCS = (documentContext: string) =>
+  `${DAOYAN_SYSTEM_PROMPT}
+
+## 用户上传的参考文档（最高优先级）
+用户已上传以下外部资料作为本次对话的参考上下文。请优先基于这些文档内容回答问题，同时可结合帛书老子的智慧加以阐发：
+
+${documentContext}`;

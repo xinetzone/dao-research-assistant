@@ -29,7 +29,7 @@ const DEFAULT_MODEL = "anthropic/claude-sonnet-4.5";
 // Input limits
 const MAX_MESSAGES = 50;
 const MAX_MESSAGE_LENGTH = 10000;
-const MAX_SYSTEM_LENGTH = 20000;
+const MAX_SYSTEM_LENGTH = 200000;  // raised to support large user document contexts
 const MAX_SEARCH_QUERY_LENGTH = 500;
 
 interface SearchResult {
