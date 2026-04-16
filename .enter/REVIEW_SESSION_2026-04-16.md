@@ -205,3 +205,108 @@ GitHub（xinetzone/dao-yan）:
 ```
 latest: v0.8.2（本地 git + GitHub 均同步）
 ```
+
+---
+
+## 补充：晚场（v0.8.3 — 文档上下文 Bug 修复）
+
+### 本轮任务清单
+
+| # | 任务 | 结果 |
+|---|------|------|
+| 1 | 删除 GitHub 无效标签 v1.0.0 / v1.1.0 | ✅ |
+| 2 | 测试"文档"组件是否真正注入上下文 | ✅ 功能链路完整，但发现 2 个 Bug |
+| 3 | Bug 修复：MAX_SYSTEM_LENGTH 20k→200k | ✅ v0.8.3 |
+| 4 | Bug 修复：用户文档标签错误 | ✅ v0.8.3 |
+| 5 | github-tag 函数新增 delete 支持 | ✅ |
+
+---
+
+### 任务 1 — 删除 GitHub 无效标签
+
+**背景**：v1.0.0 / v1.1.0 是上轮批量重建标签时提前打上的，代码实际只到 v0.8.x，标签误导用户。
+
+**操作**：
+1. 发现 `github-tag` 函数不支持 delete，请求返回 500
+2. 新建 `github-delete-tags` 边缘函数，专门处理 DELETE `/git/refs/tags/{name}`
+3. 调用成功：`{'results': [{'tag':'v1.0.0','status':'deleted'},{'tag':'v1.1.0','status':'deleted'}]}`
+4. 同步删除本地 git 标签：`git tag -d v1.0.0 v1.1.0`
+
+**顺带改进**：同时更新 `github-tag` 函数支持 `action: delete`，但发现 Supabase 边缘函数有**部署缓存问题**——重新部署后旧代码仍在运行（缺少 `v: 2` 标识），最终用新函数名绕过。
+
+---
+
+### 任务 2 — 文档组件上下文注入测试
+
+**完整链路验证**：
+
+```
+DocumentPanel（上传/URL）
+  → useDocumentCollections.getCollectionContext()   ← 组装文档内容
+    → Index.tsx sendMessage(..., docContext)
+      → useAIChat.ts DAOYAN_SYSTEM_WITH_DOCS(docContext) → system 字段
+        → ai-chat 边缘函数  ← 注入到 Claude 系统提示
+```
+
+测试 `fetch-url-content` 函数：抓取 Wikipedia 页面返回 **50,035 字符** ✅
+
+**发现 Bug 1（高危）**：
+- `MAX_SYSTEM_LENGTH = 20000`
+- 基础系统提示（含帛书语料）已占 ~12,000 chars
+- 可用文档空间仅剩 ~8,000 chars
+- Wikipedia 50,035 chars → **必定 400 报错**
+
+**发现 Bug 2（中危）**：
+- `DAOYAN_SYSTEM_WITH_DOCS` 标签写的是 "当前阅读章节（最高优先级 — 直接来自帛书老子注读原文）"
+- 这个标签设计给 DaodejingPage 章节上下文用
+- 用户上传的外部文档使用同一函数，AI 会误以为内容是帛书章节
+
+---
+
+### 任务 3 & 4 — v0.8.3 双 Bug 修复
+
+**Fix 1** — `supabase/functions/ai-chat-167c2bc1450e/index.ts`：
+```typescript
+// 修改前
+const MAX_SYSTEM_LENGTH = 20000;
+// 修改后
+const MAX_SYSTEM_LENGTH = 200000;  // raised to support large user document contexts
+```
+
+**Fix 2** — `src/data/system-prompt.ts`，新增专用函数：
+```typescript
+/** 用户通过"文档"功能上传的外部参考资料 */
+export const DAOYAN_SYSTEM_WITH_USER_DOCS = (documentContext: string) =>
+  `${DAOYAN_SYSTEM_PROMPT}
+
+## 用户上传的参考文档（最高优先级）
+用户已上传以下外部资料作为本次对话的参考上下文。请优先基于这些文档内容回答问题，同时可结合帛书老子的智慧加以阐发：
+
+${documentContext}`;
+```
+
+**Fix 3** — `src/hooks/useAIChat.ts`：
+```typescript
+// 修改前：DAOYAN_SYSTEM_WITH_DOCS(documentContext)
+// 修改后：DAOYAN_SYSTEM_WITH_USER_DOCS(documentContext)
+```
+
+---
+
+### 新增经验与教训
+
+| 经验 | 说明 |
+|------|------|
+| Supabase 函数部署缓存 | 重新部署后可能仍运行旧版本，用新函数名绕过是可靠方法 |
+| 安全上限需考虑实际用途 | `MAX_SYSTEM_LENGTH=20000` 对"文档上下文"场景完全不够，设置时须结合最坏场景（大型网页） |
+| 标签语义隔离 | 同一函数不应混用于语义不同的场景（帛书章节 ≠ 用户外部文档），需分别命名 |
+| 功能测试要真实执行 | 代码链路看起来通，但不实际测试边界值（大文档）不会发现 400 bug |
+
+---
+
+### 当前版本
+
+```
+latest: v0.8.3（本地 git + GitHub 均同步）
+GitHub Tags: v0.6.2 ~ v0.8.3（共 16 个注释标签，v1.0.0/v1.1.0 已删除）
+```
