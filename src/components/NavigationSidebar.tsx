@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Flame, FolderOpen, RotateCcw, X, ScrollText } from "lucide-react";
+import { Flame, FolderOpen, RotateCcw, X, ScrollText, BookOpen } from "lucide-react";
 import { Button } from "./ui/button";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { ThemeToggle } from "./ThemeToggle";
