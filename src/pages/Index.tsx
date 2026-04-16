@@ -121,6 +121,7 @@ export default function Index() {
         onNewChat={handleReset}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        onOpen={() => setSidebarOpen(true)}
       />
 
       <DocumentPanel

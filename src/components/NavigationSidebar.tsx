@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Flame, FolderOpen, RotateCcw, X, ScrollText, BookOpen, LogIn, LogOut, User } from "lucide-react";
@@ -15,6 +15,7 @@ interface NavigationSidebarProps {
   onNewChat: () => void;
   isOpen: boolean;
   onClose: () => void;
+  onOpen?: () => void;
 }
 
 export function NavigationSidebar({
@@ -23,6 +24,7 @@ export function NavigationSidebar({
   onNewChat,
   isOpen,
   onClose,
+  onOpen,
 }: NavigationSidebarProps) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -30,20 +32,65 @@ export function NavigationSidebar({
   const { user, signOut } = useAuth();
   const [authOpen, setAuthOpen] = useState(false);
 
+  // ── Touch gesture: swipe-right-from-edge to open, swipe-left to close ──
+  const touchStartX = useRef<number>(0);
+  const touchStartY = useRef<number>(0);
+
+  useEffect(() => {
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX.current = e.touches[0].clientX;
+      touchStartY.current = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      const endX = e.changedTouches[0].clientX;
+      const endY = e.changedTouches[0].clientY;
+      const dx = endX - touchStartX.current;
+      const dy = Math.abs(endY - touchStartY.current);
+
+      // Ignore if swipe is more vertical than horizontal (user is scrolling)
+      if (dy > Math.abs(dx) * 0.9) return;
+
+      // Ignore if the touch target is an input/textarea
+      const target = e.target as Element;
+      if (target.closest("input, textarea, select, button")) return;
+
+      // Swipe right from left edge (≤50px) → open
+      if (!isOpen && dx > 55 && touchStartX.current <= 50) {
+        onOpen?.();
+      }
+
+      // Swipe left (while sidebar open) → close
+      if (isOpen && dx < -55) {
+        onClose();
+      }
+    };
+
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchend", handleTouchEnd, { passive: true });
+    return () => {
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [isOpen, onOpen, onClose]);
+
   return (
     <>
-      {/* Overlay for mobile */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-          onClick={onClose}
-        />
-      )}
+      {/* Overlay — always in DOM, fades in/out via opacity for smooth transition */}
+      <div
+        className={cn(
+          "fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity duration-300",
+          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        )}
+        onClick={onClose}
+        aria-hidden="true"
+      />
 
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed left-0 top-0 h-full w-64 bg-background border-r border-border z-50 transition-transform duration-300 flex flex-col",
+          "fixed left-0 top-0 h-full w-64 bg-background border-r border-border z-50",
+          "flex flex-col transition-transform duration-300 ease-in-out",
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
@@ -60,6 +107,7 @@ export function NavigationSidebar({
             size="sm"
             className="lg:hidden"
             onClick={onClose}
+            aria-label={isZh ? "关闭侧边栏" : "Close menu"}
           >
             <X className="h-4 w-4" />
           </Button>
@@ -70,7 +118,7 @@ export function NavigationSidebar({
           <Button
             variant="ghost"
             className="w-full justify-start gap-3 h-11"
-            onClick={onNewChat}
+            onClick={() => { onNewChat(); onClose(); }}
           >
             <RotateCcw className="h-4 w-4 shrink-0" />
             <span>{t("chat.newChat")}</span>
@@ -103,7 +151,7 @@ export function NavigationSidebar({
           <Button
             variant="ghost"
             className="w-full justify-start gap-3 h-11 relative"
-            onClick={onDocPanelOpen}
+            onClick={() => { onDocPanelOpen(); onClose(); }}
           >
             <FolderOpen className="h-4 w-4 shrink-0" />
             <span>{t("chat.docs")}</span>
