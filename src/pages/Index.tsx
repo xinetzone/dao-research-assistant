@@ -78,14 +78,14 @@ export default function Index() {
     sendMessage(query, "anthropic/claude-sonnet-4.5", docContext, webSearchEnabled, i18n.language);
   }, [user, hasStartedChat, activeCollectionId, getCollectionContext, sendMessage, webSearchEnabled, i18n.language]);
 
-  // After successful auth, replay the pending query
-  const handleAuthSuccess = useCallback(() => {
-    if (pendingQuery) {
+  // After user logs in/registers, React has applied setUser — handleSubmit now sees user!=null
+  useEffect(() => {
+    if (user && pendingQuery) {
       const q = pendingQuery;
       setPendingQuery(null);
-      setTimeout(() => handleSubmit(q), 100);
+      handleSubmit(q);
     }
-  }, [pendingQuery, handleSubmit]);
+  }, [user, pendingQuery, handleSubmit]);
 
   const handleReset = () => {
     clearMessages();
@@ -113,7 +113,7 @@ export default function Index() {
         keywords="道衍,AI对话,道德经,帛书,老子,智慧问答,修行指导,国学AI"
         url="https://dao-yan.enter.pro/"
       />
-      <AuthModal open={authOpen} onOpenChange={setAuthOpen} onSuccess={handleAuthSuccess} />
+      <AuthModal open={authOpen} onOpenChange={setAuthOpen} />
       <div className="flex h-[100dvh] overflow-hidden bg-background">
       <NavigationSidebar
         activeCollectionId={activeCollectionId}
