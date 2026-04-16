@@ -65,7 +65,6 @@ export function useAIChat() {
     setError(null);
 
     const blocks = new Map<number, { type: string; content: string }>();
-    let receivedAnyData = false;
     let receivedContentData = false; // true only when actual text/thinking content arrives
 
     try {
@@ -123,7 +122,6 @@ export function useAIChat() {
         
         onmessage(event) {
           if (!event.data) return;
-          receivedAnyData = true;
 
           let data;
           try {
