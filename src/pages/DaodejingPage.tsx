@@ -166,12 +166,11 @@ function ChapterList({
 function TOCPanel({
   selected,
   onSelect,
-  t,
 }: {
   selected: DaodejingChapter | null;
   onSelect: (c: DaodejingChapter) => void;
-  t: (key: string, opts?: Record<string, unknown>) => string;
 }) {
+  const { t } = useTranslation();
   const selectedInDe = selected ? selected.section === "德经" : true;
   const [deOpen, setDeOpen] = useState(true);
   const [daoOpen, setDaoOpen] = useState(!selectedInDe);
@@ -433,7 +432,7 @@ export default function DaodejingPage() {
       <div className="flex h-[100dvh] overflow-hidden bg-background">
       {/* Desktop TOC sidebar */}
       <aside className="hidden lg:flex flex-col w-72 shrink-0 border-r border-border bg-sidebar-background">
-        <TOCPanel selected={selected} onSelect={loadChapter} t={t} />
+        <TOCPanel selected={selected} onSelect={loadChapter} />
       </aside>
 
       {/* Mobile TOC sheet */}
@@ -442,7 +441,7 @@ export default function DaodejingPage() {
           <SheetHeader className="sr-only">
             <SheetTitle>{t("daodejing.toc")}</SheetTitle>
           </SheetHeader>
-          <TOCPanel selected={selected} onSelect={loadChapter} t={t} />
+          <TOCPanel selected={selected} onSelect={loadChapter} />
         </SheetContent>
       </Sheet>
 
