@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider} from "react-router-dom";
 import { routers } from "./router";
 import { useTranslation } from 'react-i18next';
 import { AuthProvider } from "@/contexts/AuthContext";
+import { PasswordResetModal } from "@/components/PasswordResetModal";
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter(routers);
@@ -28,6 +29,8 @@ const App = () => {
           <Toaster />
           <Sonner />
           <RouterProvider router={router} />
+          {/* Global password recovery modal — shown when user arrives via reset-password email link */}
+          <PasswordResetModal />
         </TooltipProvider>
       </AuthProvider>
     </QueryClientProvider>
