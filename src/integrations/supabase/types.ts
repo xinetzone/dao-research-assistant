@@ -3109,24 +3109,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      cultivation_records: {
+        Row: {
+          ai_guidance: string
+          created_at: string | null
+          dao_field_active: boolean
+          date: string
+          id: string
+          insight: string
+          mood: string
+          points_earned: number
+          user_id: string
+          wu_wei_score: number
+        }
+        Insert: {
+          ai_guidance?: string
+          created_at?: string | null
+          dao_field_active?: boolean
+          date: string
+          id?: string
+          insight?: string
+          mood: string
+          points_earned?: number
+          user_id: string
+          wu_wei_score: number
+        }
+        Update: {
+          ai_guidance?: string
+          created_at?: string | null
+          dao_field_active?: boolean
+          date?: string
+          id?: string
+          insight?: string
+          mood?: string
+          points_earned?: number
+          user_id?: string
+          wu_wei_score?: number
+        }
+        Relationships: []
+      }
       document_collections: {
         Row: {
           created_at: string | null
           description: string | null
           id: string
           name: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string | null
           description?: string | null
           id?: string
           name: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string | null
           description?: string | null
           id?: string
           name?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -3172,6 +3214,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      profiles: {
+        Row: {
+          check_in_streak: number
+          created_at: string | null
+          enlightenment_points: number
+          id: string
+          last_check_in_date: string | null
+          total_check_ins: number
+          tutorial_completed: boolean
+        }
+        Insert: {
+          check_in_streak?: number
+          created_at?: string | null
+          enlightenment_points?: number
+          id: string
+          last_check_in_date?: string | null
+          total_check_ins?: number
+          tutorial_completed?: boolean
+        }
+        Update: {
+          check_in_streak?: number
+          created_at?: string | null
+          enlightenment_points?: number
+          id?: string
+          last_check_in_date?: string | null
+          total_check_ins?: number
+          tutorial_completed?: boolean
+        }
+        Relationships: []
       }
     }
     Views: {
