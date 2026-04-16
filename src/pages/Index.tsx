@@ -97,9 +97,7 @@ export default function Index() {
       <div className="flex h-[100dvh] overflow-hidden bg-background">
       <NavigationSidebar
         activeCollectionId={activeCollectionId}
-        webSearchEnabled={webSearchEnabled}
         onDocPanelOpen={() => setDocPanelOpen(true)}
-        onWebSearchToggle={() => setWebSearchEnabled(!webSearchEnabled)}
         onNewChat={handleReset}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}

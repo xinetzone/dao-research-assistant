@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Flame, FolderOpen, Globe, RotateCcw, X, BookOpen, ScrollText } from "lucide-react";
+import { Flame, FolderOpen, RotateCcw, X, BookOpen, ScrollText } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { LanguageSwitcher } from "./LanguageSwitcher";
@@ -10,9 +10,7 @@ import { cn } from "@/lib/utils";
 
 interface NavigationSidebarProps {
   activeCollectionId: string | null;
-  webSearchEnabled: boolean;
   onDocPanelOpen: () => void;
-  onWebSearchToggle: () => void;
   onNewChat: () => void;
   isOpen: boolean;
   onClose: () => void;
@@ -20,9 +18,7 @@ interface NavigationSidebarProps {
 
 export function NavigationSidebar({
   activeCollectionId,
-  webSearchEnabled,
   onDocPanelOpen,
-  onWebSearchToggle,
   onNewChat,
   isOpen,
   onClose,
@@ -129,23 +125,6 @@ export function NavigationSidebar({
             <span>{t("chat.docs")}</span>
             {activeCollectionId && (
               <span className="absolute right-3 flex h-2 w-2 rounded-full bg-primary" />
-            )}
-          </Button>
-
-          <Button
-            variant="ghost"
-            className={cn(
-              "w-full justify-start gap-3 h-11",
-              webSearchEnabled && "bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary"
-            )}
-            onClick={onWebSearchToggle}
-          >
-            <Globe className="h-4 w-4 shrink-0" />
-            <span>{t("webSearch.title")}</span>
-            {webSearchEnabled && (
-              <span className="ml-auto text-xs px-1.5 py-0.5 rounded-full bg-primary/20 text-primary font-medium">
-                {isZh ? "已启用" : "ON"}
-              </span>
             )}
           </Button>
         </nav>
