@@ -168,3 +168,40 @@ GitHub（xinetzone/dao-yan）:
 | SearXNG 公共实例 | 不可靠（经常被封），应直接用 DuckDuckGo HTML 解析 |
 | 本地 git ≠ GitHub | 通过 `github-push` 边缘函数推送文件不更新 git 历史，两者是独立树 |
 | ESLint no-control-regex | 正则中不能用 `\x01` 等控制字符，改用 Unicode 私用区 `\uE001` |
+| 删功能必查引用 | 删除组件的同时必须 `grep` 搜索该 import 是否还被其他地方使用 |
+
+---
+
+## 补充：下午场（v0.8.2）
+
+### 新增 Commits
+
+| Commit | 内容 |
+|--------|------|
+| `206cdc8` | v0.8.2：移除侧边栏"修炼指南"按钮（已整合至修行打卡） |
+| `8f5e445` | hotfix：补回 `BookOpen` 导入（侧边栏帛书老子按钮仍在使用） |
+
+### 问题详情
+
+**移除修炼指南按钮（v0.8.2）**
+
+- `NavigationSidebar.tsx`：删除修炼指南 `<Button>` 块 + `Badge` import + `useCultivation` hook 调用
+- **失误**：同时误删了 `BookOpen` import，而 `BookOpen` 还被第 49 行的"帛书老子"导航按钮使用
+- **错误表现**：`ReferenceError: BookOpen is not defined` → React Router ErrorBoundary 整页崩溃
+- **修复**：`hotfix` 补回 `BookOpen` 至 lucide-react import
+
+### 测试结果
+
+| 测试项 | 结果 |
+|--------|------|
+| `BookOpen is not defined` 崩溃 | ✅ 已修复，lint 无错 |
+| `/daodejing/49` `<p>` 嵌套警告 | ✅ 为 v0.7.3 之前的旧错误，当前代码已使用 `<div>` |
+| 联网搜索（DDG）| ✅ 正常返回真实 URL 结果 |
+| CJK 粗体渲染 | ✅ `preprocessMarkdown` 正确转换 `<strong>` |
+| 侧边栏 | ✅ 仅保留：帛书老子 / 修行打卡，无重复入口 |
+
+### 当前版本
+
+```
+latest: v0.8.2（本地 git + GitHub 均同步）
+```
