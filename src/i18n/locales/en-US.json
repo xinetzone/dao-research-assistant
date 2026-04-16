@@ -43,12 +43,12 @@
   "prompts": {
     "creative": {
       "title": "Original Text",
-      "text": "How to interpret the Silk Text opening: 'The Way that can be told is not the eternal Way'?",
+      "text": "How to interpret Boshu Ch.45 (Traditional Ch.1): 'The path that can be stated is not the perpetual path'?",
       "text2": "What state is described by 'For learning, gain daily; for the Dao, lose daily'?"
     },
     "market": {
       "title": "Versions",
-      "text": "How does the Mawangdui Silk Text differ from the received version?",
+      "text": "How can Laozi's wisdom help me learn mathematics?",
       "text2": "What are the core differences between the Guodian bamboo slips and Mawangdui silk text?"
     },
     "research": {

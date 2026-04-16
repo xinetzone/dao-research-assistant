@@ -17,7 +17,8 @@ import { DAODEJING_CHAPTERS, type DaodejingChapter } from "@/data/daodejing-inde
 
 // ── Footnote markers ────────────────────────────────────────────────────────
 const MARKER_CHARS = "①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮";
-const MARKER_RE = new RegExp(`([${MARKER_CHARS}])`, "g");
+// NOTE: No `g` flag here — module-level global regex with `g` mutates lastIndex between renders
+const MARKER_RE = new RegExp(`([${MARKER_CHARS}])`);
 
 type Footnotes = Record<string, string>;
 
@@ -47,9 +48,13 @@ function AnnotatedText({ text, footnotes }: { text: string; footnotes: Footnotes
           if (!hasNotes || !MARKER_RE.test(para)) {
             return <p key={pi}>{para}</p>;
           }
-          const segments = para.split(MARKER_RE);
+          // Use a global regex only inside the closure to avoid shared lastIndex state
+          const splitRe = new RegExp(`([${MARKER_CHARS}])`, "g");
+          const segments = para.split(splitRe);
+          // Must use <div> here — <p> cannot contain block-level descendants
+          // (TooltipContent renders as a <div> in React's virtual tree)
           return (
-            <p key={pi}>
+            <div key={pi} className="leading-[1.9]">
               {segments.map((seg, si) =>
                 footnotes[seg] ? (
                   <Tooltip key={si}>
@@ -69,14 +74,14 @@ function AnnotatedText({ text, footnotes }: { text: string; footnotes: Footnotes
                       side="top"
                       className="max-w-xs sm:max-w-sm p-3 leading-relaxed"
                     >
-                      <p className="text-xs">{footnotes[seg]}</p>
+                      <span className="text-xs">{footnotes[seg]}</span>
                     </TooltipContent>
                   </Tooltip>
                 ) : (
                   <span key={si}>{seg}</span>
                 )
               )}
-            </p>
+            </div>
           );
         })}
       </div>
@@ -425,7 +430,7 @@ export default function DaodejingPage() {
         url={seoUrl}
         keywords="道德经,帛书,老子,马王堆,道家,哲学,注读,秦波"
       />
-      <div className="flex h-screen overflow-hidden bg-background">
+      <div className="flex h-[100dvh] overflow-hidden bg-background">
       {/* Desktop TOC sidebar */}
       <aside className="hidden lg:flex flex-col w-72 shrink-0 border-r border-border bg-sidebar-background">
         <TOCPanel selected={selected} onSelect={loadChapter} t={t} />

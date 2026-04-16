@@ -13,6 +13,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { initTheme } from "@/lib/theme";
 
+
 // Apply saved theme on first load
 initTheme();
 
@@ -93,12 +94,10 @@ export default function Index() {
         keywords="道衍,AI对话,道德经,帛书,老子,智慧问答,修行指导,国学AI"
         url="https://dao-yan.enter.pro/"
       />
-      <div className="flex h-screen overflow-hidden bg-background">
+      <div className="flex h-[100dvh] overflow-hidden bg-background">
       <NavigationSidebar
         activeCollectionId={activeCollectionId}
-        webSearchEnabled={webSearchEnabled}
         onDocPanelOpen={() => setDocPanelOpen(true)}
-        onWebSearchToggle={() => setWebSearchEnabled(!webSearchEnabled)}
         onNewChat={handleReset}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
@@ -111,7 +110,7 @@ export default function Index() {
         onSelectCollection={handleSelectCollection}
       />
 
-      <div className="flex-1 flex flex-col lg:ml-64">
+      <div className="flex-1 flex flex-col lg:ml-64 min-h-0">
         {!hasStartedChat ? (
           <div className="flex-1 flex items-center justify-center p-4 sm:p-6 md:p-8 overflow-y-auto relative">
             {/* Floating decoration squares */}
@@ -183,7 +182,7 @@ export default function Index() {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col h-full">
+          <div className="flex flex-col h-full min-h-0">
             {/* Chat Header */}
             <header className="sticky top-0 z-10 border-b-2 border-dashed border-foreground/15 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
               <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
@@ -217,7 +216,7 @@ export default function Index() {
             </header>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto relative" ref={messagesContainerRef}>
+            <div className="flex-1 overflow-y-auto relative min-h-0" ref={messagesContainerRef}>
               <div className="max-w-4xl mx-auto px-4 sm:px-0">
                 {error && (
                   <div className="px-2 sm:px-6 py-4">
@@ -256,7 +255,7 @@ export default function Index() {
 
             {/* Chat Input */}
             <div className="sticky bottom-0 border-t-2 border-dashed border-foreground/15 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-              <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 sm:py-4 pb-safe">
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-3 sm:pt-4 pb-safe">
                 <SearchBar
                   onSubmit={handleSubmit}
                   onCancel={cancel}
