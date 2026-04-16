@@ -75,6 +75,7 @@ export function SearchBar({
     )}>
       <textarea
         ref={textareaRef}
+        id="dao-search-input"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}

@@ -10,7 +10,7 @@ import { SEO } from "@/components/SEO";
 import { useAIChat } from "@/hooks/useAIChat";
 import { useDocumentCollections } from "@/hooks/useDocumentCollections";
 import { useAuth } from "@/contexts/AuthContext";
-import { BookOpen, AlertCircle, CheckCircle2, Globe, Menu, ChevronDown } from "lucide-react";
+import { BookOpen, AlertCircle, CheckCircle2, Globe, Menu, ChevronDown, Flame, ScrollText, Search, FolderOpen } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { initTheme } from "@/lib/theme";
@@ -149,41 +149,110 @@ export default function Index() {
             </Button>
 
             <div className="w-full max-w-2xl space-y-5 sm:space-y-6 animate-in fade-in duration-700">
-              {/* Hero Card */}
-              <div className="dao-card dao-tape px-6 sm:px-10 py-8 sm:py-10 text-center space-y-4">
-                {/* Avatar */}
-                <div className="inline-flex items-center justify-center w-18 h-18 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-accent to-secondary border-2 border-foreground/20">
-                  <BookOpen className="h-9 w-9 sm:h-10 sm:w-10 text-foreground/70" />
-                </div>
 
-                {/* Title */}
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground tracking-wider">
-                  {t("landing.title")}
-                </h1>
-
-                {/* Subtitle */}
-                <p className="text-sm sm:text-base text-muted-foreground">
-                  {t("landing.subtitle")}
-                </p>
-
-                {/* Status badges */}
-                {(activeCollectionId || webSearchEnabled) && (
-                  <div className="flex flex-wrap justify-center gap-2">
-                    {activeCollectionId && activeCollectionName && (
-                      <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-primary/10 border border-primary/20 text-xs text-primary">
-                        <CheckCircle2 className="h-3.5 w-3.5" />
-                        <span className="truncate max-w-[200px]">{t("docs.contextActive", { name: activeCollectionName })}</span>
-                      </div>
-                    )}
-                    {webSearchEnabled && (
-                      <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-primary/10 border border-primary/20 text-xs text-primary">
-                        <Globe className="h-3.5 w-3.5" />
-                        <span>{t("webSearch.enableAutoSearch")}</span>
-                      </div>
-                    )}
+              {/* ── LOGGED-IN: compact hero ── */}
+              {user ? (
+                <div className="dao-card dao-tape px-6 sm:px-10 py-8 sm:py-10 text-center space-y-4">
+                  <div className="inline-flex items-center justify-center w-18 h-18 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-accent to-secondary border-2 border-foreground/20">
+                    <BookOpen className="h-9 w-9 sm:h-10 sm:w-10 text-foreground/70" />
                   </div>
-                )}
-              </div>
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground tracking-wider">
+                    {t("landing.title")}
+                  </h1>
+                  <p className="text-sm sm:text-base text-muted-foreground">{t("landing.subtitle")}</p>
+                  {(activeCollectionId || webSearchEnabled) && (
+                    <div className="flex flex-wrap justify-center gap-2">
+                      {activeCollectionId && activeCollectionName && (
+                        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-primary/10 border border-primary/20 text-xs text-primary">
+                          <CheckCircle2 className="h-3.5 w-3.5" />
+                          <span className="truncate max-w-[200px]">{t("docs.contextActive", { name: activeCollectionName })}</span>
+                        </div>
+                      )}
+                      {webSearchEnabled && (
+                        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-primary/10 border border-primary/20 text-xs text-primary">
+                          <Globe className="h-3.5 w-3.5" />
+                          <span>{t("webSearch.enableAutoSearch")}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* ── GUEST: showcase landing ── */
+                <div className="space-y-5">
+                  {/* Hero card */}
+                  <div className="dao-card dao-tape px-6 sm:px-10 py-8 sm:py-10 text-center space-y-5">
+                    <div className="inline-flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-accent to-secondary border-2 border-foreground/20 shadow-lg">
+                      <BookOpen className="h-10 w-10 sm:h-12 sm:w-12 text-foreground/70" />
+                    </div>
+                    <div className="space-y-2">
+                      <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-wider" style={{ background: "linear-gradient(135deg, hsl(var(--foreground)), hsl(var(--primary)))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+                        {t("landing.title")}
+                      </h1>
+                      <p className="text-base sm:text-lg text-muted-foreground font-medium">
+                        {t("landing.subtitle")}
+                      </p>
+                    </div>
+
+                    {/* Stats */}
+                    <div className="flex items-center justify-center gap-4 sm:gap-6 text-xs text-muted-foreground pt-1">
+                      <span className="flex flex-col items-center gap-0.5">
+                        <span className="text-lg font-bold text-foreground">81</span>
+                        <span>{isZh ? "帛书原章" : "Boshu Chapters"}</span>
+                      </span>
+                      <span className="w-px h-8 bg-border" />
+                      <span className="flex flex-col items-center gap-0.5">
+                        <span className="text-lg font-bold text-foreground">10</span>
+                        <span>{isZh ? "修炼境界" : "Cultivation Realms"}</span>
+                      </span>
+                      <span className="w-px h-8 bg-border" />
+                      <span className="flex flex-col items-center gap-0.5">
+                        <span className="text-lg font-bold text-foreground">ψ=ψ(ψ)</span>
+                        <span>{isZh ? "万物理论" : "Theory of All"}</span>
+                      </span>
+                    </div>
+
+                    {/* CTA */}
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+                      <Button
+                        size="lg"
+                        className="gap-2 px-8"
+                        onClick={() => setAuthOpen(true)}
+                      >
+                        {isZh ? "立即开始修行" : "Start Your Path"}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="lg"
+                        className="gap-2 px-8"
+                        onClick={() => document.getElementById("dao-search-input")?.focus()}
+                      >
+                        {isZh ? "先探索一下" : "Explore First"}
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Feature cards */}
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      { icon: ScrollText, title: isZh ? "帛书老子" : "Boshu Laozi", desc: isZh ? "马王堆甲乙本，最接近原著的文本" : "Ma Wang Dui manuscripts, closest to original" },
+                      { icon: Flame, title: isZh ? "修炼打卡" : "Cultivation Log", desc: isZh ? "10境界升级，游戏化修行成长" : "10 realms, gamified cultivation journey" },
+                      { icon: Search, title: isZh ? "联网搜索" : "Web Search", desc: isZh ? "结合实时信息，道法贯通古今" : "Real-time knowledge meets ancient wisdom" },
+                      { icon: FolderOpen, title: isZh ? "文档知识库" : "Doc Library", desc: isZh ? "上传文档，以道衍视角解读" : "Upload docs, interpret through Dao lens" },
+                    ].map(({ icon: Icon, title, desc }) => (
+                      <div key={title} className="dao-card p-4 space-y-2 hover:border-primary/40 transition-colors">
+                        <div className="flex items-center gap-2">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-primary/10 border border-primary/20">
+                            <Icon className="h-3.5 w-3.5 text-primary" />
+                          </div>
+                          <span className="text-sm font-semibold">{title}</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground leading-relaxed">{desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Feature Tags & Questions */}
               <SuggestedPrompts onSelect={handleSubmit} />
