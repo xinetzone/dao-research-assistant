@@ -185,12 +185,14 @@ dao-yan/
     "daoyan": {
       "url": "https://spb-t4nnhrh7ch7j2940.supabase.opentrust.net/functions/v1/daoyan-mcp",
       "headers": {
-        "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYW5vbiIsInJlZiI6InNwYi10NG5uaHJoN2NoN2oyOTQwIiwiaXNzIjoic3VwYWJhc2UiLCJpYXQiOjE3NzYwNzQ1MjMsImV4cCI6MjA5MTY1MDUyM30.5GFdUIA3rHOUoCI99ocBzBxDZjjQxOHRV-T6CKiHzCQ"
+        "Authorization": "Bearer <YOUR_ANON_KEY>"
       }
     }
   }
 }
 ```
+
+> **获取 Anon Key**：访问应用内 [API & MCP 文档页](/api-docs) 查看完整配置（含真实 key）。
 
 ### 2. 重启 Trae
 
