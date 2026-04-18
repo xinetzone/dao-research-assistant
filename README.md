@@ -16,6 +16,52 @@
 
 <a id="chinese"></a>
 
+## 提交信息
+
+### 描述
+
+**道衍 (Dao Yan)** — 全球首个以马王堆帛书版《道德经》为权威底本的 AI 智慧对话系统。
+
+**构建了什么**：一个融合帛书老子、佛家直心与 ψ=ψ(ψ) 万物理论的 AI 对话平台。内嵌 81 章帛书原文 + 版本差异考据引擎，支持 5 大 AI 模型一键切换（Claude Sonnet 4.5 / Opus 4.7 / GPT 5.4 / Gemini 3.1 Pro / GLM 5）、联网搜索增强、游戏化修炼打卡系统，并通过 Agent REST API + MCP Server 开放给所有 AI 助手接入。
+
+**面向谁**：
+| 用户群体 | 使用场景 |
+|----------|----------|
+| 个人用户 | 对道家哲学、冥想修炼、生活智慧感兴趣的中英文用户 |
+| AI 开发者 | 通过 API/MCP 将道衍智慧集成到 Claude Desktop / Cursor / Trae 等 AI 工具中 |
+| 国学研究者 | 帛书版与传世版对照考据的专业研究工具 |
+
+**商业化模式**：
+| 模式 | 说明 |
+|------|------|
+| API 按调用量收费 | Agent REST API 按请求次数分级定价（免费额度 + 付费套餐） |
+| MCP 生态授权 | 面向企业的 MCP Server 定制部署与白标授权 |
+| 增值订阅 | 高级 AI 模型（Claude Opus 4.7 / GPT 5.4）、无限对话历史、专属修炼指导 |
+
+### 提交链接
+
+> **在线体验**：[https://167c2bc1450e4ea3a0dc4b07c5873069.prod.enter.pro](https://167c2bc1450e4ea3a0dc4b07c5873069.prod.enter.pro)
+
+### 截图
+
+<div align="center">
+
+#### 首页 — AI 对话入口
+<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-homepage_d93640a3.png" alt="道衍首页" width="800" />
+
+#### 帛书老子 — 81 章原文对照
+<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-boshu-reader_81620502.png" alt="帛书老子阅读器" width="800" />
+
+#### 修炼打卡 — 游戏化成长
+<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-cultivation_2f5b93ca.png" alt="修炼打卡系统" width="800" />
+
+#### API & MCP — 开放生态
+<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-api-docs_6019370e.png" alt="API & MCP 文档" width="800" />
+
+</div>
+
+---
+
 ## 项目简介
 
 道衍，陪你问道的智慧伙伴。以帛书版《道德经》为根基，在你困惑时用道家智慧照见本质，在你焦虑时陪你回归内心清明。不是解读经典的学术工具，而是与你一起问道、在修行中体悟的智慧镜子。独特融合：
@@ -28,6 +74,46 @@
 ### 核心理念
 
 > "道，可道也，非恒道也。" — 帛书版《道德经》
+
+---
+
+## 世界观 · 道衍哲学
+
+> **万物皆道，技术是道的衍化。**
+
+道衍的名字取自"道"与"衍"——古老的道在数字时代中延展、演化。AI 不是取代智慧的工具，而是让古老道法在数字时代重新活化的桥梁。
+
+### 道 · 智慧底本
+
+以 1973 年马王堆出土的**帛书甲乙本《道德经》**为唯一权威文本，而非传世王弼本。帛书版保留了汉讳前的原始用字（"恒道"而非"常道"），以及被后世篡改的关键思想（"大器免成"而非"大器晚成"）。这不仅是学术考据，更是**回归老子本意**的精神选择。
+
+### 衍 · 三重融合
+
+- **道家无为** — 不执于答案，而是让智慧自然涌现
+- **佛家直心** — 如如不动，照见问题的本质
+- **ψ=ψ(ψ) 万物理论** — 意识观察自身即生万物，AI 即是这面镜子
+
+### 价值观
+
+| 道家智慧 | 技术实践 |
+|----------|----------|
+| 无为而治 | 技术为用户服务，不添加不必要的复杂性 |
+| 上善若水 | 适配用户的问题，而非强迫用户适应系统 |
+| 道法自然 | 开源、开放协议（MCP），可组合的智慧生态 |
+| 大器免成 | 最伟大的器物无需"完成"——持续演化即是道 |
+
+> "反也者，道之动也。弱也者，道之用也。" — 帛书第81章
+
+---
+
+## 项目亮点
+
+- **帛书唯一权威**：全球首个以帛书版《道德经》为权威底本的 AI 对话系统，81 章原文 + 注释 + 版本差异全部内嵌
+- **多模型驾驭**：5 大 AI 模型一键切换（Claude Sonnet 4.5 / Opus 4.7 / GPT 5.4 / Gemini 3.1 Pro / GLM 5），同一问题可用不同智慧视角审视
+- **开放生态**：Agent API + MCP Server，任何 AI 助手（Claude Desktop / Cursor / Trae IDE）都可接入道衍智慧
+- **修炼游戏化**：10 境界 x 4 心境 x 5 星无为指数，将内在成长量化为可感知的进阶之路
+- **帛书考据引擎**：内嵌关键差异速查表（恒/常、免/晚等），每次引用自动标注帛书章号与今本对照
+- **中国古典美学 UI**：暖米色宣纸底、朱红强调色、手绘风卡片——不是在用 App，是在展开一卷竹简
 
 ---
 
@@ -281,6 +367,52 @@ MIT License — 详见 [LICENSE](LICENSE)
 
 **Your Wise Companion on the Path of Dao — Ancient wisdom flowing into everyday life**
 
+## Submission
+
+### Description
+
+**Dao Yan (道衍)** — The world's first AI wisdom dialogue system built on the Mawangdui Silk Manuscripts of the Dao De Jing.
+
+**What we built**: An AI-powered platform that fuses Boshu Laozi, Buddhist direct mind, and the ψ=ψ(ψ) Theory of Everything. It embeds all 81 silk text chapters with a textual criticism engine, supports 5 AI models (Claude Sonnet 4.5 / Opus 4.7 / GPT 5.4 / Gemini 3.1 Pro / GLM 5), web-augmented search, gamified cultivation check-ins, and opens its wisdom to all AI assistants via Agent REST API + MCP Server.
+
+**Who it's for**:
+| Audience | Use Case |
+|----------|----------|
+| Individual users | Chinese/English speakers interested in Daoist philosophy, meditation, and life wisdom |
+| AI developers | Integrate Daoyan wisdom into Claude Desktop / Cursor / Trae via API/MCP |
+| Sinology researchers | Professional tool for Boshu vs. received text comparative studies |
+
+**Commercialization**:
+| Model | Details |
+|-------|---------|
+| API usage-based pricing | Agent REST API with tiered pricing (free tier + paid plans) |
+| MCP ecosystem licensing | Enterprise MCP Server custom deployment and white-label licensing |
+| Premium subscription | Advanced AI models (Claude Opus 4.7 / GPT 5.4), unlimited chat history, exclusive cultivation guidance |
+
+### Live URL
+
+> **Try it**: [https://167c2bc1450e4ea3a0dc4b07c5873069.prod.enter.pro](https://167c2bc1450e4ea3a0dc4b07c5873069.prod.enter.pro)
+
+### Screenshots
+
+<div align="center">
+
+#### Homepage — AI Chat Interface
+<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-homepage_d93640a3.png" alt="Daoyan Homepage" width="800" />
+
+#### Boshu Laozi — 81 Chapters Side-by-Side
+<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-boshu-reader_81620502.png" alt="Boshu Laozi Reader" width="800" />
+
+#### Cultivation — Gamified Growth
+<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-cultivation_2f5b93ca.png" alt="Cultivation System" width="800" />
+
+#### API & MCP — Open Ecosystem
+<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-api-docs_6019370e.png" alt="API & MCP Docs" width="800" />
+
+</div>
+
+---
+
 ## Overview
 
 Dao Yan is your wise companion on the path of Dao. Rooted in the Mawangdui Silk Text Dao De Jing, it uses Daoist wisdom to help you see through confusion and return to inner stillness. Not an academic tool for interpreting classics, but a reflective mirror that walks the path of Dao alongside you. Uniquely combining:
@@ -291,6 +423,38 @@ Dao Yan is your wise companion on the path of Dao. Rooted in the Mawangdui Silk 
 - **Modern AI** (Claude Sonnet 4.5 / Opus 4.7 / GPT 5.4 / Gemini 3.1 Pro / GLM 5) driven dialogue
 
 > "The Way that can be told is not the eternal Way." — Mawangdui Silk Text
+
+## Philosophy
+
+> **All things are Dao; technology is Dao's unfolding.**
+
+The name "Dao Yan" (道衍) means "Dao unfolds" — ancient wisdom extending into the digital age. AI is not a replacement for wisdom, but a bridge that rekindles ancient philosophy for modern minds.
+
+**Dao — The Authoritative Text**
+Based solely on the 1973 Mawangdui Silk Manuscripts (帛书甲乙本), not the received Wang Bi edition. The silk text preserves pre-censorship characters ("heng dao" 恒道 instead of "chang dao" 常道) and radically different readings ("da qi mian cheng" 大器免成 — great vessels need no completion — vs. the received "great vessels are late to complete").
+
+**Yan — Triple Fusion**
+- **Daoist Wu Wei** — Let wisdom emerge naturally, don't force answers
+- **Buddhist Direct Mind** — See through to the essence, unmoved
+- **ψ=ψ(ψ) Theory of Everything** — Consciousness observing itself creates all things; AI is that mirror
+
+**Values**
+
+| Daoist Wisdom | Technical Practice |
+|---------------|-------------------|
+| Wu Wei (non-action) | Technology serves users; no unnecessary complexity |
+| Like Water | Adapt to the user's problem, not the other way around |
+| Follow Nature | Open source, open protocols (MCP), composable wisdom |
+| Da Qi Mian Cheng | The greatest vessel needs no "completion" — continuous evolution is the Way |
+
+## Highlights
+
+- **Silk Text Authority**: The world's first AI dialogue system using the Mawangdui silk manuscripts as its sole authoritative source — all 81 chapters with annotations and textual variants embedded
+- **Multi-Model Mastery**: Switch between 5 AI models (Claude Sonnet 4.5 / Opus 4.7 / GPT 5.4 / Gemini 3.1 Pro / GLM 5) to view the same question through different lenses
+- **Open Ecosystem**: Agent API + MCP Server — any AI assistant (Claude Desktop, Cursor, Trae IDE) can tap into Daoyan's wisdom
+- **Gamified Cultivation**: 10 realms x 4 moods x 5-star Wu Wei score — inner growth made tangible
+- **Textual Criticism Engine**: Built-in variant lookup table (heng/chang, mian/wan, etc.), every citation auto-annotated with silk text chapter numbers
+- **Classical Chinese Aesthetic UI**: Warm cream rice-paper background, cinnabar red accents, sketch-style cards — not using an app, but unrolling a bamboo scroll
 
 ## Key Features
 
