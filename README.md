@@ -36,29 +36,7 @@
 | MCP 生态授权 | 面向企业的 MCP Server 定制部署与白标授权 |
 | 增值订阅 | 高级 AI 模型（Claude Opus 4.7 / GPT 5.4）、无限对话历史、专属修炼指导 |
 
-### 提交链接
-
 > **在线体验**：[https://167c2bc1450e4ea3a0dc4b07c5873069.prod.enter.pro](https://167c2bc1450e4ea3a0dc4b07c5873069.prod.enter.pro)
-
-### 截图
-
-<div align="center">
-
-#### 首页 — AI 对话入口
-<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-homepage_d93640a3.png" alt="道衍首页" width="800" />
-
-#### 帛书老子 — 81 章原文对照
-<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-boshu-reader_81620502.png" alt="帛书老子阅读器" width="800" />
-
-#### 修炼打卡 — 游戏化成长
-<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-cultivation_2f5b93ca.png" alt="修炼打卡系统" width="800" />
-
-#### API & MCP — 开放生态
-<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-api-docs_6019370e.png" alt="API & MCP 文档" width="800" />
-
-</div>
-
----
 
 ## 项目简介
 
