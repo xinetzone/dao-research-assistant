@@ -1,20 +1,21 @@
-
 /**
  * Daoyan Agent API — A public REST endpoint for third-party agents/websites
- * to query the Daoyan AI (帛书老子智慧问答).
- *
- * Internally proxies to the existing ai-chat Edge Function so all logic
- * (system prompt, web search, retry, streaming) is reused.
+ * to query the Daoyan AI.
  */
+
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-api-key",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-// Internal URL of the existing ai-chat Edge Function
 const AI_CHAT_FN = "https://spb-t4nnhrh7ch7j2940.supabase.opentrust.net/functions/v1/ai-chat-167c2bc1450e";
+const DEFAULT_MODEL = "z-ai/glm-5";
+
+const SUPABASE_URL = "https://spb-t4nnhrh7ch7j2940.supabase.opentrust.net";
+const SUPABASE_SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
 
 function jsonResponse(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
@@ -50,12 +51,14 @@ Deno.serve(async (req) => {
       enable_web_search = false,
       locale = "zh-CN",
       stream = false,
+      model,
     } = body as {
       question?: string;
       conversation_history?: Array<{ role: string; content: string }>;
       enable_web_search?: boolean;
       locale?: string;
       stream?: boolean;
+      model?: string;
     };
 
     if (!question || typeof question !== "string" || question.trim().length === 0) {
@@ -66,7 +69,44 @@ Deno.serve(async (req) => {
       return errorResponse("'question' exceeds max length of 10000 characters");
     }
 
-    // Build messages array
+    // --- API usage check via JWT or anon key ---
+    const authHeader = req.headers.get("Authorization") || "";
+    let userId: string | null = null;
+
+    // Try to extract user from JWT
+    if (authHeader && SUPABASE_SERVICE_KEY) {
+      try {
+        const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+        const token = authHeader.replace(/^Bearer\s+/i, "");
+        const { data: { user } } = await supabaseAdmin.auth.getUser(token);
+        if (user) userId = user.id;
+      } catch {
+        // Anonymous request — no user
+      }
+    }
+
+    // Check API usage if user identified
+    if (userId && SUPABASE_SERVICE_KEY) {
+      try {
+        const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+        const { data: usageResult } = await supabaseAdmin.rpc("check_and_increment_api", { p_user_id: userId });
+        if (usageResult && !usageResult.allowed) {
+          console.log(`[agent-api] rate limited user=${userId} reason=${usageResult.reason}`);
+          return jsonResponse({
+            error: {
+              message: `API monthly limit exceeded (${usageResult.used}/${usageResult.limit}). Upgrade your plan for more.`,
+              type: "rate_limit",
+              tier: usageResult.tier,
+              limit: usageResult.limit,
+              used: usageResult.used,
+            },
+          }, 429);
+        }
+      } catch (err) {
+        console.warn("[agent-api] usage check failed, allowing request:", err);
+      }
+    }
+
     const messages = [
       ...((Array.isArray(conversation_history) ? conversation_history : []).map(m => ({
         role: m.role,
@@ -75,10 +115,10 @@ Deno.serve(async (req) => {
       { role: "user", content: question.trim() },
     ];
 
-    // Forward auth header
-    const authHeader = req.headers.get("Authorization") || "";
+    const selectedModel = (typeof model === "string" && model.length > 0) ? model : DEFAULT_MODEL;
 
-    // Call the internal ai-chat function
+    console.log(`[agent-api] question="${question.slice(0, 60)}" model=${selectedModel} web_search=${enable_web_search} stream=${stream} user=${userId || "anon"}`);
+
     const chatResponse = await fetch(AI_CHAT_FN, {
       method: "POST",
       headers: {
@@ -87,9 +127,9 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         messages,
+        model: selectedModel,
         enable_web_search,
         locale,
-        // system prompt is injected by ai-chat when no custom system is provided
       }),
     });
 
@@ -99,7 +139,6 @@ Deno.serve(async (req) => {
       return errorResponse("AI service error", chatResponse.status);
     }
 
-    // Stream mode: forward the SSE stream directly
     if (stream) {
       return new Response(chatResponse.body, {
         headers: {
@@ -110,43 +149,83 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Non-stream mode: collect the full response
-    const text = await chatResponse.text();
-    const lines = text.split("\n");
-
-    let answer = "";
-    let sources: Array<{ title: string; url: string; snippet: string }> = [];
-
-    for (const line of lines) {
-      if (!line.startsWith("data: ")) continue;
-      const dataStr = line.slice(6).trim();
-      if (!dataStr) continue;
-
-      let data;
-      try {
-        data = JSON.parse(dataStr);
-      } catch {
-        continue;
-      }
-
-      if (data.type === "search_results" && Array.isArray(data.results)) {
-        sources = data.results;
-      }
-
-      if (data.type === "content_block_delta") {
-        if (data.delta?.text) {
-          answer += data.delta.text;
-        }
-      }
-
-      if (data.type === "error") {
-        return jsonResponse({
-          error: { message: data.error?.message || "AI service error" },
-        }, 500);
-      }
+    if (!chatResponse.body) {
+      return errorResponse("No response body from AI service", 502);
     }
 
+    let answer = "";
+    let thinking = "";
+    let sources: Array<{ title: string; url: string; snippet: string }> = [];
+    let stopped = false;
+
+    const reader = chatResponse.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    try {
+      while (!stopped) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const normalized = buffer.replace(/\r\n/g, "\n");
+        const lines = normalized.split("\n");
+        buffer = lines.pop() || "";
+
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed.startsWith("data:")) continue;
+
+          let payload = trimmed.slice(5);
+          if (payload.startsWith(" ")) payload = payload.slice(1);
+          payload = payload.trim();
+          if (!payload) continue;
+
+          let data: Record<string, unknown>;
+          try {
+            data = JSON.parse(payload);
+          } catch {
+            continue;
+          }
+
+          if (data.type === "search_results" && Array.isArray(data.results)) {
+            sources = data.results as typeof sources;
+          }
+
+          if (data.type === "content_block_delta") {
+            const delta = data.delta as Record<string, string> | undefined;
+            if (delta?.text) {
+              answer += delta.text;
+            }
+            if (delta?.thinking) {
+              thinking += delta.thinking;
+            }
+          }
+
+          if (data.type === "error") {
+            const err = data.error as Record<string, string> | undefined;
+            return jsonResponse({
+              error: { message: err?.message || "AI service error" },
+            }, 500);
+          }
+
+          if (data.type === "message_stop") {
+            stopped = true;
+            break;
+          }
+        }
+      }
+    } finally {
+      reader.cancel();
+      reader.releaseLock();
+    }
+
+    console.log(`[agent-api] completed: answer_len=${answer.length} thinking_len=${thinking.length} sources=${sources.length}`);
+
     const result: Record<string, unknown> = { answer };
+    if (thinking) {
+      result.thinking = thinking;
+    }
     if (sources.length > 0) {
       result.sources = sources;
     }

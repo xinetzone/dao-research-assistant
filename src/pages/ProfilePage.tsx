@@ -8,8 +8,9 @@ import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  ArrowLeft, Flame, Star, Calendar, CloudOff, Loader2, ChevronRight,
+  ArrowLeft, Flame, Star, Calendar, CloudOff, Loader2, ChevronRight, KeyRound,
 } from "lucide-react";
+import { ChangePasswordModal } from "@/components/ChangePasswordModal";
 
 const MOOD_COLORS: Record<string, string> = {
   transparent: "#10b981",
@@ -30,6 +31,7 @@ export default function ProfilePage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [authOpen, setAuthOpen] = useState(false);
+  const [changePwOpen, setChangePwOpen] = useState(false);
   const isZh = i18n.language === "zh-CN";
 
   const { state, getCurrentRealm, getNextRealm, isSyncing } = useCultivation(user?.id);
@@ -144,6 +146,18 @@ export default function ProfilePage() {
                 </div>
               </div>
             </div>
+
+            {/* ── Change Password ── */}
+            {user && (
+              <Button
+                variant="outline"
+                className="w-full justify-start gap-3 h-11"
+                onClick={() => setChangePwOpen(true)}
+              >
+                <KeyRound className="h-4 w-4 shrink-0" />
+                <span>{isZh ? "修改密码" : "Change Password"}</span>
+              </Button>
+            )}
 
             {/* ── Stats Row ── */}
             <div className="grid grid-cols-3 gap-3">
@@ -330,6 +344,7 @@ export default function ProfilePage() {
       </div>
 
       <AuthModal open={authOpen} onOpenChange={setAuthOpen} />
+      <ChangePasswordModal open={changePwOpen} onOpenChange={setChangePwOpen} />
     </>
   );
 }

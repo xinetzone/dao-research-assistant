@@ -33,8 +33,6 @@ const MAX_MESSAGE_LENGTH = 10000;
 const MAX_SYSTEM_LENGTH = 200000;
 const MAX_SEARCH_QUERY_LENGTH = 500;
 
-// Context window management: keep only the most recent messages to avoid
-// overflowing the model's context and producing degraded / hallucinated output.
 const MAX_CONTEXT_MESSAGES = 20;
 
 interface SearchResult {
@@ -45,6 +43,7 @@ interface SearchResult {
 
 async function webSearch(query: string): Promise<SearchResult[]> {
   const safeQuery = query.substring(0, MAX_SEARCH_QUERY_LENGTH).trim();
+  // Strategy 1: DuckDuckGo HTML
   try {
     const results = await duckduckgoSearch(safeQuery);
     if (results.length > 0) {
@@ -54,6 +53,7 @@ async function webSearch(query: string): Promise<SearchResult[]> {
   } catch (err) {
     console.warn("[web-search] ddg failed:", (err as Error).message);
   }
+  // Strategy 2: DuckDuckGo Lite
   try {
     const results = await duckduckgoLiteSearch(safeQuery);
     if (results.length > 0) {
@@ -62,6 +62,26 @@ async function webSearch(query: string): Promise<SearchResult[]> {
     }
   } catch (err) {
     console.warn("[web-search] ddg-lite failed:", (err as Error).message);
+  }
+  // Strategy 3: Brave Search HTML scraping
+  try {
+    const results = await braveSearch(safeQuery);
+    if (results.length > 0) {
+      console.log(`[web-search] brave query="${safeQuery}" results=${results.length}`);
+      return results;
+    }
+  } catch (err) {
+    console.warn("[web-search] brave failed:", (err as Error).message);
+  }
+  // Strategy 4: Google search HTML fallback
+  try {
+    const results = await googleSearch(safeQuery);
+    if (results.length > 0) {
+      console.log(`[web-search] google query="${safeQuery}" results=${results.length}`);
+      return results;
+    }
+  } catch (err) {
+    console.warn("[web-search] google failed:", (err as Error).message);
   }
   console.error(`[web-search] ALL strategies failed for query="${safeQuery}"`);
   return [];
@@ -74,9 +94,9 @@ async function duckduckgoSearch(query: string): Promise<SearchResult[]> {
     `https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}`,
     {
       headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Language": "en-US,en;q=0.9,zh-CN;q=0.8",
       },
       signal: controller.signal,
     }
@@ -124,7 +144,7 @@ async function duckduckgoLiteSearch(query: string): Promise<SearchResult[]> {
     `https://lite.duckduckgo.com/lite/?q=${encodeURIComponent(query)}`,
     {
       headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
         "Accept": "text/html",
       },
       signal: controller.signal,
@@ -151,6 +171,74 @@ async function duckduckgoLiteSearch(query: string): Promise<SearchResult[]> {
         url: links[i].url,
         snippet: snippets[i] || "",
       });
+    }
+  }
+  return results;
+}
+
+async function braveSearch(query: string): Promise<SearchResult[]> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
+  const resp = await fetch(
+    `https://search.brave.com/search?q=${encodeURIComponent(query)}&source=web`,
+    {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
+      },
+      signal: controller.signal,
+    }
+  );
+  clearTimeout(timeout);
+  const html = await resp.text();
+  const results: SearchResult[] = [];
+  const snippetPattern = /<div[^>]*class="snippet[^"]*"[^>]*>([\s\S]*?)<\/div>\s*<\/div>/gi;
+  const matches = html.matchAll(snippetPattern);
+  for (const match of matches) {
+    if (results.length >= 5) break;
+    const block = match[1];
+    const linkMatch = block.match(/<a[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/i);
+    if (!linkMatch) continue;
+    const url = linkMatch[1];
+    const title = linkMatch[2].replace(/<[^>]+>/g, "").trim();
+    const descMatch = block.match(/<p[^>]*class="snippet-description"[^>]*>([\s\S]*?)<\/p>/i)
+      || block.match(/<div[^>]*class="snippet-description"[^>]*>([\s\S]*?)<\/div>/i);
+    const snippet = descMatch
+      ? (descMatch[1] || descMatch[2] || "").replace(/<[^>]+>/g, "").trim().substring(0, 300)
+      : "";
+    if (url && title && !url.startsWith("javascript:")) {
+      results.push({ title: decodeHTMLEntities(title), url, snippet: decodeHTMLEntities(snippet) });
+    }
+  }
+  return results;
+}
+
+async function googleSearch(query: string): Promise<SearchResult[]> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
+  const resp = await fetch(
+    `https://www.google.com/search?q=${encodeURIComponent(query)}&hl=en&num=5`,
+    {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml",
+        "Accept-Language": "en-US,en;q=0.9",
+      },
+      signal: controller.signal,
+    }
+  );
+  clearTimeout(timeout);
+  const html = await resp.text();
+  const results: SearchResult[] = [];
+  const resultPattern = /<div class="[^"]*"[^>]*><a href="\/url\?q=([^&"]+)[^"]*"[^>]*>([\s\S]*?)<\/a>/gi;
+  const matches = html.matchAll(resultPattern);
+  for (const match of matches) {
+    if (results.length >= 5) break;
+    const url = decodeURIComponent(match[1]);
+    const title = match[2].replace(/<[^>]+>/g, "").trim();
+    if (url && title && url.startsWith("http")) {
+      results.push({ title: decodeHTMLEntities(title), url, snippet: "" });
     }
   }
   return results;
@@ -287,7 +375,6 @@ Deno.serve(async (req) => {
       ? model
       : DEFAULT_MODEL;
 
-    // Trim conversation history to prevent context overflow
     let trimmedMessages = messages;
     if (messages.length > MAX_CONTEXT_MESSAGES) {
       trimmedMessages = messages.slice(-MAX_CONTEXT_MESSAGES);
@@ -318,9 +405,9 @@ Deno.serve(async (req) => {
         const searchCtx = buildSearchContext(searchResults);
         if (searchCtx) {
           parts.push(searchCtx);
-          parts.push("IMPORTANT: You have access to the web search results above. Use them to provide accurate, up-to-date information. Always cite your sources by mentioning the source URL. Do NOT say you cannot access the internet or search the web \u2014 you already have the search results.");
+          parts.push("IMPORTANT: You have access to the web search results above. Use them to provide accurate, up-to-date information. Always cite your sources by mentioning the source URL. Do NOT say you cannot access the internet or search the web — you already have the search results.");
         } else {
-          parts.push("Note: A web search was attempted for the user's query but returned no results. Please answer based on your knowledge and let the user know the search returned no results.");
+          console.warn("[ai-chat] web search returned no results, falling back to model knowledge");
         }
       }
     }
@@ -424,7 +511,7 @@ Deno.serve(async (req) => {
 
       if (!peekResult) {
         console.error("[ai-chat] retry also returned empty stream");
-        return errorResponse("AI \u670d\u52a1\u6682\u65f6\u65e0\u6cd5\u5904\u7406\u6b64\u8bf7\u6c42\uff0c\u8bf7\u7a0d\u540e\u91cd\u8bd5", 503);
+        return errorResponse("AI 服务暂时无法处理此请求，请稍后重试", 503);
       }
 
       console.log("[ai-chat] retry succeeded, streaming response");

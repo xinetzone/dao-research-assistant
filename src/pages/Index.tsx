@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+// Daoyan v2.0.2
 import { useTranslation } from "react-i18next";
 import { SearchBar } from "@/components/SearchBar";
 import { SuggestedPrompts } from "@/components/SuggestedPrompts";
@@ -6,16 +7,19 @@ import { ChatMessage } from "@/components/ChatMessage";
 import { NavigationSidebar } from "@/components/NavigationSidebar";
 import { DocumentPanel } from "@/components/DocumentPanel";
 import { AuthModal } from "@/components/AuthModal";
+import { UpgradeModal } from "@/components/UpgradeModal";
 import { SEO } from "@/components/SEO";
 import { useAIChat } from "@/hooks/useAIChat";
 import { useDocumentCollections } from "@/hooks/useDocumentCollections";
 import { useChatHistory } from "@/hooks/useChatHistory";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUsageLimit } from "@/hooks/useUsageLimit";
+import { MODEL_OPTIONS, DEFAULT_MODEL_ID } from "@/data/models";
 import { BookOpen, AlertCircle, CheckCircle2, Globe, Menu, ChevronDown, Flame, ScrollText, Search, FolderOpen } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { initTheme } from "@/lib/theme";
-import { DEFAULT_MODEL_ID } from "@/data/models";
+import { useToast } from "@/hooks/use-toast";
 import type { Message } from "@/hooks/useAIChat";
 
 
@@ -26,9 +30,11 @@ export default function Index() {
   const { t, i18n } = useTranslation();
   const isZh = i18n.language === "zh-CN";
   const { user } = useAuth();
+  const { toast } = useToast();
   const { messages, isLoading, error, sendMessage, cancel, clearMessages, loadMessages } = useAIChat();
   const { collections, getCollectionContext } = useDocumentCollections();
   const { sessions, createSession, appendMessage, loadSessionMessages, deleteSession, renameSession } = useChatHistory(user?.id);
+  const { usage, canChat, canUseModel, getRemainingChats, recordChatUsage, refresh: refreshUsage } = useUsageLimit(user?.id);
   const [hasStartedChat, setHasStartedChat] = useState(false);
   const [docPanelOpen, setDocPanelOpen] = useState(false);
   const [activeCollectionId, setActiveCollectionId] = useState<string | null>(null);
@@ -37,7 +43,10 @@ export default function Index() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showScrollBtn, setShowScrollBtn] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [upgradeReason, setUpgradeReason] = useState<"daily_limit" | "model_locked" | "general">("general");
   const [pendingQuery, setPendingQuery] = useState<string | null>(null);
+  const [guestMode, setGuestMode] = useState(false);
   // Current session tracking
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const currentSessionIdRef = useRef<string | null>(null);
@@ -51,6 +60,22 @@ export default function Index() {
   const scrollToBottom = useCallback((behavior: ScrollBehavior = "smooth") => {
     messagesEndRef.current?.scrollIntoView({ behavior });
   }, []);
+
+  // Detect Stripe payment success from URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const upgraded = params.get("upgraded");
+    if (upgraded && (upgraded === "daoyou" || upgraded === "wudao")) {
+      toast({
+        title: isZh ? "升级成功！" : "Upgrade Successful!",
+        description: isZh
+          ? `已升级为${upgraded === "daoyou" ? "道友" : "悟道"}会员，请享受更多功能`
+          : `Upgraded to ${upgraded === "daoyou" ? "Dao Friend" : "Enlightened"} tier. Enjoy!`,
+      });
+      window.history.replaceState({}, "", window.location.pathname);
+      refreshUsage();
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Auto-scroll on new messages if near bottom
   useEffect(() => {
@@ -77,9 +102,22 @@ export default function Index() {
   const activeCollectionName = collections.find(c => c.id === activeCollectionId)?.name;
 
   const handleSubmit = useCallback(async (query: string) => {
-    if (!user) {
+    if (!user && !guestMode) {
       setPendingQuery(query);
       setAuthOpen(true);
+      return;
+    }
+    // Check usage limits
+    if (!canChat(guestMode)) {
+      setUpgradeReason("daily_limit");
+      setUpgradeOpen(true);
+      return;
+    }
+    // Check model permissions
+    const selectedModel = MODEL_OPTIONS.find(m => m.id === selectedModelId);
+    if (selectedModel && !canUseModel(selectedModel.requiredTier)) {
+      setUpgradeReason("model_locked");
+      setUpgradeOpen(true);
       return;
     }
     if (!hasStartedChat) setHasStartedChat(true);
@@ -87,8 +125,10 @@ export default function Index() {
     if (activeCollectionId) {
       docContext = await getCollectionContext(activeCollectionId);
     }
-    // Save to DB after each exchange completes
-    const onComplete = async (userMsg: Message, assistantMsg: Message) => {
+    // Record usage (optimistic)
+    recordChatUsage(guestMode);
+    // Save to DB after each exchange completes (skip in guest mode)
+    const onComplete = user ? async (userMsg: Message, assistantMsg: Message) => {
       let sessionId = currentSessionIdRef.current;
       if (!sessionId) {
         sessionId = await createSession(query);
@@ -98,9 +138,11 @@ export default function Index() {
         await appendMessage(sessionId, userMsg);
         await appendMessage(sessionId, assistantMsg);
       }
-    };
+      // Refresh usage from server after completion
+      refreshUsage();
+    } : undefined;
     sendMessage(query, selectedModelId, docContext, webSearchEnabled, i18n.language, onComplete);
-  }, [user, hasStartedChat, activeCollectionId, getCollectionContext, sendMessage, webSearchEnabled, selectedModelId, i18n.language, createSession, appendMessage, setCurrentSession]);
+  }, [user, guestMode, hasStartedChat, activeCollectionId, getCollectionContext, sendMessage, webSearchEnabled, selectedModelId, i18n.language, createSession, appendMessage, setCurrentSession, canChat, canUseModel, recordChatUsage, refreshUsage]);
 
   // After user logs in/registers, React has applied setUser — handleSubmit now sees user!=null
   useEffect(() => {
@@ -109,7 +151,10 @@ export default function Index() {
       setPendingQuery(null);
       handleSubmit(q);
     }
-  }, [user, pendingQuery, handleSubmit]);
+    if (user && guestMode) {
+      setGuestMode(false);
+    }
+  }, [user, pendingQuery, handleSubmit, guestMode]);
 
   const handleReset = () => {
     clearMessages();
@@ -160,6 +205,12 @@ export default function Index() {
         url="https://dao-yan.enter.pro/"
       />
       <AuthModal open={authOpen} onOpenChange={setAuthOpen} />
+      <UpgradeModal
+        open={upgradeOpen}
+        onOpenChange={setUpgradeOpen}
+        currentTier={usage.tier}
+        reason={upgradeReason}
+      />
       <div className="flex h-[100dvh] overflow-hidden bg-background">
       <NavigationSidebar
         activeCollectionId={activeCollectionId}
@@ -277,7 +328,10 @@ export default function Index() {
                         variant="outline"
                         size="lg"
                         className="gap-2 px-8"
-                        onClick={() => document.getElementById("dao-search-input")?.focus()}
+                        onClick={() => {
+                          setGuestMode(true);
+                          setTimeout(() => document.getElementById("dao-search-input")?.focus(), 100);
+                        }}
                       >
                         {isZh ? "先探索一下" : "Explore First"}
                       </Button>
@@ -321,6 +375,10 @@ export default function Index() {
                 activeCollectionId={activeCollectionId}
                 selectedModelId={selectedModelId}
                 onModelChange={setSelectedModelId}
+                userTier={usage.tier}
+                chatUsed={guestMode ? (3 - getRemainingChats(true)) : usage.chatUsed}
+                chatLimit={guestMode ? 3 : usage.chatLimit}
+                onUpgradeClick={() => { setUpgradeReason("general"); setUpgradeOpen(true); }}
               />
             </div>
           </div>
@@ -371,12 +429,17 @@ export default function Index() {
                 )}
                 {messages.map((message, index) => {
                   const isLastMsg = index === messages.length - 1;
+                  // Find the preceding user question for assistant messages
+                  const userQuestion = message.role === "assistant" && index > 0
+                    ? messages[index - 1]?.role === "user" ? messages[index - 1].content : undefined
+                    : undefined;
                   return (
                     <ChatMessage
                       key={index}
                       message={message}
                       isLast={isLastMsg}
                       webSearchEnabled={webSearchEnabled}
+                      userQuestion={userQuestion}
                       onRegenerate={isLastMsg ? handleRegenerate : undefined}
                     />
                   );
@@ -411,6 +474,10 @@ export default function Index() {
                   activeCollectionId={activeCollectionId}
                   selectedModelId={selectedModelId}
                   onModelChange={setSelectedModelId}
+                  userTier={usage.tier}
+                  chatUsed={guestMode ? (3 - getRemainingChats(true)) : usage.chatUsed}
+                  chatLimit={guestMode ? 3 : usage.chatLimit}
+                  onUpgradeClick={() => { setUpgradeReason("general"); setUpgradeOpen(true); }}
                 />
               </div>
             </div>

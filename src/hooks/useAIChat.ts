@@ -77,6 +77,8 @@ export function useAIChat() {
     const blocks = new Map<number, { type: string; content: string }>();
     let receivedContentData = false; // true only when actual text/thinking content arrives
     let errorHandled = false;        // true when catch block already sets error/cleans up
+    let streamCompleted = false;     // true when message_stop received
+    let searchResultsData: SearchResult[] | undefined;
 
     try {
       await fetchEventSource(AI_CHAT_ENDPOINT, {
@@ -178,29 +180,13 @@ export function useAIChat() {
               break;
             }
             case "search_results": {
+              searchResultsData = data.results;
               setMessages(prev => updateLastAssistant(prev, { sources: data.results }));
               break;
             }
             case "message_stop": {
-              // Capture completion args outside the updater to keep updater pure
-              // React 18 concurrent mode may call updaters multiple times; side effects must be outside
-              let completionArgs: [Message, Message] | null = null;
-              setMessages(prev => {
-                const updated = updateLastAssistant(prev, { isStreaming: false });
-                if (onComplete) {
-                  const lastUser      = updated[updated.length - 2];
-                  const lastAssistant = updated[updated.length - 1];
-                  if (lastUser?.role === "user" && lastAssistant?.role === "assistant") {
-                    completionArgs = [lastUser, lastAssistant];
-                  }
-                }
-                return updated;
-              });
-              // Side effect outside the pure updater — called exactly once
-              if (completionArgs && onComplete) {
-                const [u, a] = completionArgs as [Message, Message];
-                setTimeout(() => onComplete(u, a), 0);
-              }
+              streamCompleted = true;
+              setMessages(prev => updateLastAssistant(prev, { isStreaming: false }));
               break;
             }
           }
@@ -263,6 +249,25 @@ export function useAIChat() {
         });
       }
       setIsLoading(false);
+      // Reliably call onComplete from local variables (not React state)
+      // to avoid React 18 batching timing issues
+      if (streamCompleted && receivedContentData && onComplete) {
+        let finalContent = "";
+        let finalThinking = "";
+        for (const [, block] of blocks) {
+          if (block.type === "text") finalContent += block.content;
+          else if (block.type === "thinking") finalThinking += block.content;
+        }
+        onComplete(
+          { role: "user", content },
+          {
+            role: "assistant",
+            content: finalContent,
+            thinking: finalThinking || undefined,
+            sources: searchResultsData,
+          }
+        );
+      }
     }
   }, []);  // empty deps — uses messagesRef.current for latest messages
 

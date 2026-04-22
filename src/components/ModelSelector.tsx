@@ -1,16 +1,18 @@
 import { useState, useRef, useEffect } from "react";
-import { ChevronDown, Sparkles } from "lucide-react";
+import { ChevronDown, Sparkles, Lock } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
-import { MODEL_OPTIONS, type ModelOption } from "@/data/models";
+import { MODEL_OPTIONS, TIER_NAMES, canAccessModel, type ModelOption, type SubscriptionTier } from "@/data/models";
 
 interface ModelSelectorProps {
   selectedModelId: string;
   onModelChange: (modelId: string) => void;
   disabled?: boolean;
+  userTier?: SubscriptionTier;
+  onUpgradeClick?: () => void;
 }
 
-export function ModelSelector({ selectedModelId, onModelChange, disabled }: ModelSelectorProps) {
+export function ModelSelector({ selectedModelId, onModelChange, disabled, userTier = "free", onUpgradeClick }: ModelSelectorProps) {
   const { i18n } = useTranslation();
   const isZh = i18n.language === "zh-CN";
   const [open, setOpen] = useState(false);
@@ -58,30 +60,56 @@ export function ModelSelector({ selectedModelId, onModelChange, disabled }: Mode
       </button>
 
       {open && (
-        <div className="absolute bottom-full left-0 mb-1.5 w-56 rounded-md border-2 border-foreground/15 bg-card shadow-lg z-50 animate-in fade-in slide-in-from-bottom-2 duration-150">
+        <div className="absolute bottom-full left-0 mb-1.5 w-64 rounded-md border-2 border-foreground/15 bg-card shadow-lg z-50 animate-in fade-in slide-in-from-bottom-2 duration-150">
           <div className="p-1.5">
-            {MODEL_OPTIONS.map((model: ModelOption) => (
-              <button
-                key={model.id}
-                onClick={() => {
-                  onModelChange(model.id);
-                  setOpen(false);
-                }}
-                className={cn(
-                  "w-full flex flex-col gap-0.5 px-3 py-2 rounded text-left transition-colors",
-                  model.id === selectedModelId
-                    ? "bg-primary/10 text-foreground"
-                    : "text-foreground/80 hover:bg-muted"
-                )}
-              >
-                <span className="text-xs font-semibold">
-                  {isZh ? model.nameZh : model.name}
-                </span>
-                <span className="text-[10px] text-muted-foreground">
-                  {isZh ? model.descriptionZh : model.description}
-                </span>
-              </button>
-            ))}
+            {MODEL_OPTIONS.map((model: ModelOption) => {
+              const locked = !canAccessModel(userTier, model.requiredTier);
+              const tierLabel = TIER_NAMES[model.requiredTier];
+
+              return (
+                <button
+                  key={model.id}
+                  onClick={() => {
+                    if (locked) {
+                      onUpgradeClick?.();
+                      setOpen(false);
+                    } else {
+                      onModelChange(model.id);
+                      setOpen(false);
+                    }
+                  }}
+                  className={cn(
+                    "w-full flex items-center gap-2 px-3 py-2 rounded text-left transition-colors",
+                    locked
+                      ? "opacity-60 hover:bg-muted/50"
+                      : model.id === selectedModelId
+                      ? "bg-primary/10 text-foreground"
+                      : "text-foreground/80 hover:bg-muted"
+                  )}
+                >
+                  <div className="flex-1 flex flex-col gap-0.5">
+                    <span className="text-xs font-semibold flex items-center gap-1.5">
+                      {isZh ? model.nameZh : model.name}
+                      {locked && <Lock className="h-3 w-3 text-muted-foreground" />}
+                    </span>
+                    <span className="text-[10px] text-muted-foreground">
+                      {isZh ? model.descriptionZh : model.description}
+                    </span>
+                  </div>
+                  {model.requiredTier !== "free" && (
+                    <span
+                      className="text-[9px] px-1.5 py-0.5 rounded-sm font-medium shrink-0"
+                      style={{
+                        backgroundColor: model.requiredTier === "wudao" ? "#a855f720" : "#f59e0b20",
+                        color: model.requiredTier === "wudao" ? "#a855f7" : "#f59e0b",
+                      }}
+                    >
+                      {isZh ? tierLabel.zh : tierLabel.en}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
       )}

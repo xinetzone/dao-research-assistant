@@ -7,12 +7,14 @@ import {
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
+import { ShareMenu } from "@/components/ShareMenu";
 import type { Message, SearchResult } from "@/hooks/useAIChat";
 
 interface ChatMessageProps {
   message: Message;
   isLast?: boolean;
   webSearchEnabled?: boolean;
+  userQuestion?: string;
   onRegenerate?: () => void;
 }
 
@@ -54,7 +56,7 @@ function SourceCard({ source }: { source: SearchResult }) {
   );
 }
 
-export function ChatMessage({ message, isLast, webSearchEnabled, onRegenerate }: ChatMessageProps) {
+export function ChatMessage({ message, isLast, webSearchEnabled, userQuestion, onRegenerate }: ChatMessageProps) {
   const { t, i18n } = useTranslation();
   const isZh = i18n.language === "zh-CN";
   const [showThinking, setShowThinking] = useState(true);
@@ -199,6 +201,14 @@ export function ChatMessage({ message, isLast, webSearchEnabled, onRegenerate }:
               }
               <span>{copied ? (isZh ? "已复制" : "Copied") : (isZh ? "复制" : "Copy")}</span>
             </button>
+
+            {userQuestion && (
+              <ShareMenu
+                userQuestion={userQuestion}
+                assistantAnswer={message.content}
+                isZh={isZh}
+              />
+            )}
 
             {isLast && onRegenerate && (
               <button

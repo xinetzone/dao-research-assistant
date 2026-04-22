@@ -1,0 +1,91 @@
+
+-- Add is_admin flag to profiles
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS is_admin boolean NOT NULL DEFAULT false;
+
+-- Admin function to list users (security definer to bypass RLS)
+CREATE OR REPLACE FUNCTION admin_list_users(p_admin_id uuid, p_search text DEFAULT '', p_limit integer DEFAULT 50)
+RETURNS jsonb
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  v_is_admin boolean;
+  v_result jsonb;
+BEGIN
+  SELECT is_admin INTO v_is_admin FROM profiles WHERE id = p_admin_id;
+  IF NOT FOUND OR NOT v_is_admin THEN
+    RETURN jsonb_build_object('error', 'not_admin');
+  END IF;
+
+  SELECT jsonb_agg(row_to_json(u))
+  INTO v_result
+  FROM (
+    SELECT 
+      p.id,
+      au.email,
+      p.subscription_tier,
+      p.subscription_expires_at,
+      p.daily_chat_count,
+      p.monthly_api_count,
+      p.enlightenment_points,
+      p.total_check_ins,
+      p.is_admin,
+      p.created_at
+    FROM profiles p
+    JOIN auth.users au ON au.id = p.id
+    WHERE p_search = '' OR au.email ILIKE '%' || p_search || '%'
+    ORDER BY p.created_at DESC
+    LIMIT p_limit
+  ) u;
+
+  RETURN COALESCE(v_result, '[]'::jsonb);
+END;
+$$;
+
+-- Admin function to update user tier
+CREATE OR REPLACE FUNCTION admin_update_user_tier(
+  p_admin_id uuid,
+  p_target_user_id uuid,
+  p_tier text,
+  p_duration_days integer DEFAULT 30
+)
+RETURNS jsonb
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  v_is_admin boolean;
+  v_expires_at timestamptz;
+BEGIN
+  SELECT is_admin INTO v_is_admin FROM profiles WHERE id = p_admin_id;
+  IF NOT FOUND OR NOT v_is_admin THEN
+    RETURN jsonb_build_object('error', 'not_admin');
+  END IF;
+
+  IF p_tier NOT IN ('free', 'daoyou', 'wudao') THEN
+    RETURN jsonb_build_object('error', 'invalid_tier');
+  END IF;
+
+  IF p_tier = 'free' THEN
+    v_expires_at := NULL;
+  ELSE
+    v_expires_at := now() + (p_duration_days || ' days')::interval;
+  END IF;
+
+  UPDATE profiles
+  SET subscription_tier = p_tier,
+      subscription_expires_at = v_expires_at
+  WHERE id = p_target_user_id;
+
+  IF NOT FOUND THEN
+    RETURN jsonb_build_object('error', 'user_not_found');
+  END IF;
+
+  RETURN jsonb_build_object(
+    'success', true,
+    'user_id', p_target_user_id,
+    'tier', p_tier,
+    'expires_at', v_expires_at
+  );
+END;
+$$;

@@ -45,16 +45,10 @@
 <div align="center">
 
 #### Homepage — AI Chat Interface
-<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-homepage_d93640a3.png" alt="Daoyan Homepage" width="800" />
+<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/66c1.png" alt="Daoyan Homepage" width="800" />
 
-#### Boshu Laozi — 81 Chapters Side-by-Side
-<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-boshu-reader_81620502.png" alt="Boshu Laozi Reader" width="800" />
-
-#### Cultivation — Gamified Growth
-<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-cultivation_2f5b93ca.png" alt="Cultivation System" width="800" />
-
-#### API & MCP — Open Ecosystem
-<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-api-docs_6019370e.png" alt="API & MCP Docs" width="800" />
+#### Cultivation — 10-Realm Gamified Practice
+<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/19e0.png" alt="Cultivation System" width="800" />
 
 </div>
 
@@ -98,6 +92,12 @@ Based solely on the 1973 Mawangdui Silk Manuscripts (帛书甲乙本), not the r
 | Follow Nature | Open source, open protocols (MCP), composable wisdom |
 | Da Qi Mian Cheng | The greatest vessel needs no "completion" — continuous evolution is the Way |
 
+### Vision & Mission
+
+> **Vision**: Help 1.5 billion people live with the wisdom of the Dao De Jing, bringing ancient wisdom to life in the digital age.
+>
+> **Mission**: Transform the profound wisdom of the Dao De Jing into practical daily guidance, helping people find inner balance and direction in our fast-paced modern world.
+
 > "Reversion is the action of the Dao. Weakness is the function of the Dao." — Chapter 81, Silk Text
 
 ---
@@ -124,12 +124,20 @@ Based solely on the 1973 Mawangdui Silk Manuscripts (帛书甲乙本), not the r
 - **Rich Markdown rendering** — syntax highlighting, tables, blockquotes, one-click copy (marked + highlight.js)
 - **Source citation cards** — web search results shown as cards with favicons
 - **Message actions** — copy AI reply, regenerate last response
+- **Wisdom sharing** — copy text/link, generate classical ink-wash image card, PDF export, social media sharing
 - **Dark / Light mode** — toggle in sidebar, persisted via localStorage
+
+### User System
+
+- **Email signup / login** — powered by Supabase Auth
+- **Change password** — available from sidebar and profile page, with auto session refresh
+- **Chat history persistence** — full multi-turn conversations saved to database, cross-device sync
+- **Guest mode** — try AI chat without creating an account
 
 ### Intelligent Web Search
 
 - **Optional web toggle** — one-click enable in the toolbar
-- **2-layer fallback** — DuckDuckGo HTML → DuckDuckGo Lite
+- **2-layer fallback** — DuckDuckGo HTML → DuckDuckGo Lite → Brave Search → Google (4-layer)
 - **Search progress indicator** — shows "Searching the web..." while fetching
 - **Auto context injection** — results passed as system context to AI, with citation card display
 
@@ -139,6 +147,7 @@ Based solely on the 1973 Mawangdui Silk Manuscripts (帛书甲乙本), not the r
 - **Stop generation button** — interrupt AI mid-response (red Stop icon)
 - **Scroll-to-bottom button** — floating button appears when scrolled up
 - **Category tag filtering** — click topic tags to filter suggested prompts; click again to reset
+- **Guest trial mode** — unauthenticated users can click "Explore First" to try AI chat without signup (history not saved)
 
 ### Document Collections
 
@@ -206,8 +215,9 @@ Visit `http://localhost:5173`
 | i18n | i18next + react-i18next | Chinese/English + locale forwarded to AI |
 | Backend | Supabase Edge Functions (Deno) | AI chat, search, Agent API, MCP |
 | AI | Multi-model (Claude / GPT / Gemini / GLM) | Streaming + interruptible + model switching |
-| Search | DuckDuckGo (2-layer fallback) | Results injected as system context |
-| Storage | localStorage | Cultivation data + theme persistence |
+| Search | DuckDuckGo / Brave / Google (4-layer fallback) | Results injected as system context |
+| Database | Supabase PostgreSQL | Chat history + user data persistence |
+| Storage | localStorage + Supabase | Cultivation data + theme persistence |
 
 ### Project Structure
 
@@ -215,7 +225,10 @@ Visit `http://localhost:5173`
 dao-yan/
 ├── src/
 │   ├── components/
-│   │   ├── ChatMessage.tsx          # Message (copy / regenerate / source cards)
+│   │   ├── ChatMessage.tsx          # Message (copy / share / source cards)
+│   │   ├── ShareMenu.tsx            # Share menu (text / link / image card / PDF / social)
+│   │   ├── ShareCardRenderer.tsx    # Classical ink-wash image card generator
+│   │   ├── ChangePasswordModal.tsx  # Change password modal
 │   │   ├── MarkdownRenderer.tsx     # marked renderer (highlight / copy / XSS)
 │   │   ├── SearchBar.tsx            # Input (auto-resize / stop button / toolbar)
 │   │   ├── SuggestedPrompts.tsx     # Category tag filter + 8 Daoyan prompts
@@ -226,6 +239,7 @@ dao-yan/
 │   │   └── ui/                      # shadcn/ui base components
 │   ├── hooks/
 │   │   ├── useAIChat.ts             # AI chat (SSE + stop + search)
+│   │   ├── useChatHistory.ts        # Chat history persistence (Supabase)
 │   │   ├── useCultivation.ts        # Cultivation system (realm / check-in / points)
 │   │   └── useDocumentCollections.ts
 │   ├── lib/

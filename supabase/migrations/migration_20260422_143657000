@@ -1,0 +1,218 @@
+
+-- Step 1: Add subscription fields to profiles
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS subscription_tier text NOT NULL DEFAULT 'free'
+  CHECK (subscription_tier IN ('free', 'daoyou', 'wudao'));
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS subscription_expires_at timestamptz;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS daily_chat_count integer NOT NULL DEFAULT 0;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS daily_chat_date text;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS monthly_api_count integer NOT NULL DEFAULT 0;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS monthly_api_reset text;
+
+-- Step 2: Create usage_logs table
+CREATE TABLE IF NOT EXISTS usage_logs (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid REFERENCES auth.users(id),
+  type text NOT NULL CHECK (type IN ('chat', 'api')),
+  model text,
+  created_at timestamptz DEFAULT now()
+);
+ALTER TABLE usage_logs ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "usage_own" ON usage_logs FOR ALL USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+CREATE INDEX IF NOT EXISTS idx_usage_logs_user_date ON usage_logs(user_id, created_at);
+
+-- Step 3: Create a security definer function to check and increment usage
+-- This avoids RLS issues when edge functions need to update profiles
+CREATE OR REPLACE FUNCTION check_and_increment_chat(p_user_id uuid)
+RETURNS jsonb
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  v_tier text;
+  v_expires_at timestamptz;
+  v_daily_count integer;
+  v_daily_date text;
+  v_today text;
+  v_limit integer;
+BEGIN
+  v_today := to_char(now(), 'YYYY-MM-DD');
+  
+  SELECT subscription_tier, subscription_expires_at, daily_chat_count, daily_chat_date
+  INTO v_tier, v_expires_at, v_daily_count, v_daily_date
+  FROM profiles WHERE id = p_user_id;
+  
+  IF NOT FOUND THEN
+    RETURN jsonb_build_object('allowed', false, 'reason', 'user_not_found');
+  END IF;
+  
+  -- Check if subscription expired
+  IF v_tier != 'free' AND v_expires_at IS NOT NULL AND v_expires_at < now() THEN
+    UPDATE profiles SET subscription_tier = 'free' WHERE id = p_user_id;
+    v_tier := 'free';
+  END IF;
+  
+  -- Determine limit
+  v_limit := CASE v_tier
+    WHEN 'wudao' THEN 999999
+    WHEN 'daoyou' THEN 50
+    ELSE 10
+  END;
+  
+  -- Reset daily count if new day
+  IF v_daily_date IS NULL OR v_daily_date != v_today THEN
+    v_daily_count := 0;
+  END IF;
+  
+  -- Check limit
+  IF v_daily_count >= v_limit THEN
+    RETURN jsonb_build_object(
+      'allowed', false, 
+      'reason', 'daily_limit_exceeded',
+      'tier', v_tier,
+      'limit', v_limit,
+      'used', v_daily_count
+    );
+  END IF;
+  
+  -- Increment
+  UPDATE profiles 
+  SET daily_chat_count = v_daily_count + 1, daily_chat_date = v_today
+  WHERE id = p_user_id;
+  
+  -- Log usage
+  INSERT INTO usage_logs (user_id, type) VALUES (p_user_id, 'chat');
+  
+  RETURN jsonb_build_object(
+    'allowed', true,
+    'tier', v_tier,
+    'limit', v_limit,
+    'used', v_daily_count + 1
+  );
+END;
+$$;
+
+-- API usage check function
+CREATE OR REPLACE FUNCTION check_and_increment_api(p_user_id uuid)
+RETURNS jsonb
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  v_tier text;
+  v_expires_at timestamptz;
+  v_api_count integer;
+  v_api_reset text;
+  v_month text;
+  v_limit integer;
+BEGIN
+  v_month := to_char(now(), 'YYYY-MM');
+  
+  SELECT subscription_tier, subscription_expires_at, monthly_api_count, monthly_api_reset
+  INTO v_tier, v_expires_at, v_api_count, v_api_reset
+  FROM profiles WHERE id = p_user_id;
+  
+  IF NOT FOUND THEN
+    RETURN jsonb_build_object('allowed', false, 'reason', 'user_not_found');
+  END IF;
+  
+  -- Check if subscription expired
+  IF v_tier != 'free' AND v_expires_at IS NOT NULL AND v_expires_at < now() THEN
+    UPDATE profiles SET subscription_tier = 'free' WHERE id = p_user_id;
+    v_tier := 'free';
+  END IF;
+  
+  -- Determine limit
+  v_limit := CASE v_tier
+    WHEN 'wudao' THEN 10000
+    WHEN 'daoyou' THEN 1000
+    ELSE 100
+  END;
+  
+  -- Reset monthly count if new month
+  IF v_api_reset IS NULL OR v_api_reset != v_month THEN
+    v_api_count := 0;
+  END IF;
+  
+  -- Check limit
+  IF v_api_count >= v_limit THEN
+    RETURN jsonb_build_object(
+      'allowed', false,
+      'reason', 'monthly_api_limit_exceeded',
+      'tier', v_tier,
+      'limit', v_limit,
+      'used', v_api_count
+    );
+  END IF;
+  
+  -- Increment
+  UPDATE profiles 
+  SET monthly_api_count = v_api_count + 1, monthly_api_reset = v_month
+  WHERE id = p_user_id;
+  
+  -- Log usage
+  INSERT INTO usage_logs (user_id, type) VALUES (p_user_id, 'api');
+  
+  RETURN jsonb_build_object(
+    'allowed', true,
+    'tier', v_tier,
+    'limit', v_limit,
+    'used', v_api_count + 1
+  );
+END;
+$$;
+
+-- Function to get user usage info (for frontend)
+CREATE OR REPLACE FUNCTION get_user_usage(p_user_id uuid)
+RETURNS jsonb
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  v_tier text;
+  v_expires_at timestamptz;
+  v_daily_count integer;
+  v_daily_date text;
+  v_api_count integer;
+  v_api_reset text;
+  v_today text;
+  v_month text;
+  v_chat_limit integer;
+  v_api_limit integer;
+BEGIN
+  v_today := to_char(now(), 'YYYY-MM-DD');
+  v_month := to_char(now(), 'YYYY-MM');
+  
+  SELECT subscription_tier, subscription_expires_at, daily_chat_count, daily_chat_date, monthly_api_count, monthly_api_reset
+  INTO v_tier, v_expires_at, v_daily_count, v_daily_date, v_api_count, v_api_reset
+  FROM profiles WHERE id = p_user_id;
+  
+  IF NOT FOUND THEN
+    RETURN jsonb_build_object('tier', 'free', 'chat_used', 0, 'chat_limit', 10, 'api_used', 0, 'api_limit', 100);
+  END IF;
+  
+  -- Check expiration
+  IF v_tier != 'free' AND v_expires_at IS NOT NULL AND v_expires_at < now() THEN
+    v_tier := 'free';
+  END IF;
+  
+  -- Reset if new day/month
+  IF v_daily_date IS NULL OR v_daily_date != v_today THEN
+    v_daily_count := 0;
+  END IF;
+  IF v_api_reset IS NULL OR v_api_reset != v_month THEN
+    v_api_count := 0;
+  END IF;
+  
+  v_chat_limit := CASE v_tier WHEN 'wudao' THEN 999999 WHEN 'daoyou' THEN 50 ELSE 10 END;
+  v_api_limit := CASE v_tier WHEN 'wudao' THEN 10000 WHEN 'daoyou' THEN 1000 ELSE 100 END;
+  
+  RETURN jsonb_build_object(
+    'tier', v_tier,
+    'expires_at', v_expires_at,
+    'chat_used', v_daily_count,
+    'chat_limit', v_chat_limit,
+    'api_used', v_api_count,
+    'api_limit', v_api_limit
+  );
+END;
+$$;

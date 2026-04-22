@@ -79,6 +79,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const updatePassword = async (newPassword: string) => {
+    // Ensure a valid session exists before updating
+    const { data: { session: currentSession } } = await supabase.auth.getSession();
+    if (!currentSession) {
+      // Try refreshing the session first
+      const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession();
+      if (refreshError || !refreshData.session) {
+        return { error: new Error("Auth session missing! Please sign out and sign in again.") };
+      }
+    }
     const { error } = await supabase.auth.updateUser({ password: newPassword });
     if (!error) setIsPasswordRecovery(false);
     return { error };

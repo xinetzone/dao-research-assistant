@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { MAX_MESSAGE_LENGTH } from "@/config";
 import { ModelSelector } from "@/components/ModelSelector";
+import { UsageBadge } from "@/components/UsageBadge";
+import type { SubscriptionTier } from "@/data/models";
 
 interface SearchBarProps {
   onSubmit: (query: string) => void;
@@ -17,6 +19,10 @@ interface SearchBarProps {
   activeCollectionId?: string | null;
   selectedModelId: string;
   onModelChange: (modelId: string) => void;
+  userTier?: SubscriptionTier;
+  chatUsed?: number;
+  chatLimit?: number;
+  onUpgradeClick?: () => void;
 }
 
 export function SearchBar({
@@ -31,6 +37,10 @@ export function SearchBar({
   activeCollectionId,
   selectedModelId,
   onModelChange,
+  userTier = "free",
+  chatUsed = 0,
+  chatLimit = 10,
+  onUpgradeClick,
 }: SearchBarProps) {
   const { t, i18n } = useTranslation();
   const isZh = i18n.language === "zh-CN";
@@ -142,6 +152,14 @@ export function SearchBar({
             selectedModelId={selectedModelId}
             onModelChange={onModelChange}
             disabled={isLoading}
+            userTier={userTier}
+            onUpgradeClick={onUpgradeClick}
+          />
+
+          <UsageBadge
+            used={chatUsed}
+            limit={chatLimit}
+            onClick={onUpgradeClick}
           />
         </div>
 

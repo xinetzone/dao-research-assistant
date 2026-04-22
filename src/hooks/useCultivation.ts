@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import type { SubscriptionTier } from "@/data/models";
 
 export interface CultivationRealm {
   id: number;
@@ -9,6 +10,7 @@ export interface CultivationRealm {
   color: string;
   description: string;
   descriptionEn: string;
+  requiredTier: SubscriptionTier;
 }
 
 export interface CheckInRecord {
@@ -31,16 +33,16 @@ export interface CultivationState {
 }
 
 const REALMS: CultivationRealm[] = [
-  { id: 0, name: "凡人", nameEn: "Mortal", minEP: 0, color: "#9ca3af", description: "尚未修行，沉沦世俗", descriptionEn: "Mundane realm, worldly attachments" },
-  { id: 1, name: "炼气", nameEn: "Qi Refining", minEP: 50, color: "#10b981", description: "初凝灵气，窥见天机", descriptionEn: "Gathering spiritual energy" },
-  { id: 2, name: "筑基", nameEn: "Foundation", minEP: 200, color: "#3b82f6", description: "根基渐稳，心神清明", descriptionEn: "Establishing foundation" },
-  { id: 3, name: "金丹", nameEn: "Golden Core", minEP: 600, color: "#f59e0b", description: "凝结金丹，内观自在", descriptionEn: "Forming the golden core" },
-  { id: 4, name: "元婴", nameEn: "Nascent Soul", minEP: 1500, color: "#f97316", description: "元婴初成，神识出窍", descriptionEn: "Nascent soul emerges" },
-  { id: 5, name: "化神", nameEn: "Spirit Transformation", minEP: 4000, color: "#a855f7", description: "神魂归一，道法自然", descriptionEn: "Spirit transforms, unity with Dao" },
-  { id: 6, name: "合体", nameEn: "Integration", minEP: 12000, color: "#ec4899", description: "天人合一，万法归宗", descriptionEn: "Heaven and human unite" },
-  { id: 7, name: "大乘", nameEn: "Mahayana", minEP: 40000, color: "#dc2626", description: "大道现前，众生皆度", descriptionEn: "Great vehicle, enlighten all beings" },
-  { id: 8, name: "渡劫", nameEn: "Tribulation", minEP: 120000, color: "#6366f1", description: "历尽天劫，涅槃重生", descriptionEn: "Transcending tribulation" },
-  { id: 9, name: "真仙", nameEn: "True Immortal", minEP: 360000, color: "#fbbf24", description: "超脱轮回，永恒不灭", descriptionEn: "Eternal, beyond reincarnation" },
+  { id: 0, name: "凡人", nameEn: "Mortal", minEP: 0, color: "#9ca3af", description: "尚未修行，沉沦世俗", descriptionEn: "Mundane realm, worldly attachments", requiredTier: "free" },
+  { id: 1, name: "炼气", nameEn: "Qi Refining", minEP: 50, color: "#10b981", description: "初凝灵气，窥见天机", descriptionEn: "Gathering spiritual energy", requiredTier: "free" },
+  { id: 2, name: "筑基", nameEn: "Foundation", minEP: 200, color: "#3b82f6", description: "根基渐稳，心神清明", descriptionEn: "Establishing foundation", requiredTier: "daoyou" },
+  { id: 3, name: "金丹", nameEn: "Golden Core", minEP: 600, color: "#f59e0b", description: "凝结金丹，内观自在", descriptionEn: "Forming the golden core", requiredTier: "daoyou" },
+  { id: 4, name: "元婴", nameEn: "Nascent Soul", minEP: 1500, color: "#f97316", description: "元婴初成，神识出窍", descriptionEn: "Nascent soul emerges", requiredTier: "daoyou" },
+  { id: 5, name: "化神", nameEn: "Spirit Transformation", minEP: 4000, color: "#a855f7", description: "神魂归一，道法自然", descriptionEn: "Spirit transforms, unity with Dao", requiredTier: "daoyou" },
+  { id: 6, name: "合体", nameEn: "Integration", minEP: 12000, color: "#ec4899", description: "天人合一，万法归宗", descriptionEn: "Heaven and human unite", requiredTier: "daoyou" },
+  { id: 7, name: "大乘", nameEn: "Mahayana", minEP: 40000, color: "#dc2626", description: "大道现前，众生皆度", descriptionEn: "Great vehicle, enlighten all beings", requiredTier: "daoyou" },
+  { id: 8, name: "渡劫", nameEn: "Tribulation", minEP: 120000, color: "#6366f1", description: "历尽天劫，涅槃重生", descriptionEn: "Transcending tribulation", requiredTier: "daoyou" },
+  { id: 9, name: "真仙", nameEn: "True Immortal", minEP: 360000, color: "#fbbf24", description: "超脱轮回，永恒不灭", descriptionEn: "Eternal, beyond reincarnation", requiredTier: "daoyou" },
 ];
 
 const MOODS = [
@@ -326,5 +328,19 @@ export function useCultivation(userId?: string) {
     calculatePoints,
     completeTutorial,
     getTutorialCompleted,
+    getMaxRealmForTier,
   };
+}
+
+/** Get the highest realm a tier can reach */
+function getMaxRealmForTier(tier: SubscriptionTier): CultivationRealm {
+  const TIER_LEVEL: Record<SubscriptionTier, number> = { free: 0, daoyou: 1, wudao: 2 };
+  const userLevel = TIER_LEVEL[tier];
+  let maxRealm = REALMS[0];
+  for (const realm of REALMS) {
+    if (TIER_LEVEL[realm.requiredTier] <= userLevel) {
+      maxRealm = realm;
+    }
+  }
+  return maxRealm;
 }

@@ -1,0 +1,49 @@
+-- Payment orders table for xunhupay (WeChat + Alipay)
+CREATE TABLE payment_orders (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  trade_order_id text NOT NULL UNIQUE,
+  tier text NOT NULL CHECK (tier IN ('daoyou', 'wudao')),
+  amount decimal(10,2) NOT NULL,
+  channel text NOT NULL CHECK (channel IN ('wechat', 'alipay')),
+  status text NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'paid', 'failed', 'expired')),
+  transaction_id text,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  paid_at timestamptz
+);
+
+-- RLS: users can only read their own orders
+ALTER TABLE payment_orders ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can read own orders"
+  ON payment_orders FOR SELECT
+  USING (auth.uid() = user_id);
+
+-- Index for callback lookup
+CREATE INDEX idx_payment_orders_trade_order_id ON payment_orders(trade_order_id);
+CREATE INDEX idx_payment_orders_user_status ON payment_orders(user_id, status);
+
+-- Security definer function to check order status (for frontend polling)
+CREATE OR REPLACE FUNCTION check_order_status(p_order_id uuid)
+RETURNS jsonb
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+DECLARE
+  v_order record;
+BEGIN
+  SELECT status, tier, paid_at INTO v_order
+  FROM payment_orders
+  WHERE id = p_order_id AND user_id = auth.uid();
+
+  IF NOT FOUND THEN
+    RETURN jsonb_build_object('error', 'Order not found');
+  END IF;
+
+  RETURN jsonb_build_object(
+    'status', v_order.status,
+    'tier', v_order.tier,
+    'paid_at', v_order.paid_at
+  );
+END;
+$$;

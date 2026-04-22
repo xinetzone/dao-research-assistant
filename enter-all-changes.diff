@@ -1,176 +1,2451 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-
-<head>
-  <meta charset="UTF-8" />
-  <link href="/favicon.ico" rel="icon shortcut">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  
-  <!-- Primary Meta Tags -->
-  <title>道衍 - 帛书老子智慧修行平台</title>
-  <meta name="title" content="道衍 - 帛书老子智慧修行平台" />
-  <meta name="description" content="探索马王堆帛书版《道德经》的智慧，融合帛书原文、传世版对照、现代解读与 AI 智慧引导。提供 81 章注读、修行打卡、智慧对话等功能，帮助你深入理解老子哲学。" />
-  <meta name="keywords" content="道德经,帛书,老子,马王堆,道家哲学,修行打卡,AI对话,国学,中国哲学,道衍" />
-  <meta name="author" content="秦波" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://dao-yan.enter.pro/" />
-
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://dao-yan.enter.pro/" />
-  <meta property="og:title" content="道衍 - 帛书老子智慧修行平台" />
-  <meta property="og:description" content="探索马王堆帛书版《道德经》的智慧，融合帛书原文、传世版对照、现代解读与 AI 智慧引导。" />
-  <meta property="og:image" content="https://dao-yan.enter.pro/og-image.jpg" />
-  <meta property="og:locale" content="zh_CN" />
-  <meta property="og:locale:alternate" content="en_US" />
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://dao-yan.enter.pro/" />
-  <meta name="twitter:title" content="道衍 - 帛书老子智慧修行平台" />
-  <meta name="twitter:description" content="探索马王堆帛书版《道德经》的智慧，融合帛书原文、传世版对照、现代解读与 AI 智慧引导。" />
-  <meta name="twitter:image" content="https://dao-yan.enter.pro/og-image.jpg" />
-
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "道衍",
-    "alternateName": "DaoYan",
-    "description": "帛书老子智慧修行平台，提供帛书道德经81章注读、修行打卡、AI智慧对话等功能",
-    "url": "https://dao-yan.enter.pro/",
-    "applicationCategory": "EducationalApplication",
-    "operatingSystem": "Web",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "CNY"
-    },
-    "author": {
-      "@type": "Person",
-      "name": "秦波"
-    },
-    "inLanguage": ["zh-CN", "en-US"],
-    "keywords": "道德经, 帛书, 老子, 马王堆, 道家哲学, 修行, AI"
-  }
-  </script>
-  <script type="module" crossorigin src="/assets/index-5R1xbQ9R.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-CqkHbQRf.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900;950&family=Poppins:wght@100;200;300;400;500;600;700;800;900;950&family=Roboto:wght@100;200;300;400;500;600;700;800;900;950&display=swap" rel="stylesheet">
-
-  <script>
-    (function() {
-      window.__earlyErrors__ = [];
-      window.__earlyConsoleLogs__ = [];
-      
-      const earlyErrorHandler = function(event) {
-        window.__earlyErrors__.push({
-          type: 'error',
-          message: event.message,
-          filename: event.filename,
-          lineno: event.lineno,
-          colno: event.colno,
-          error: event.error ? {
-            name: event.error.name,
-            message: event.error.message,
-            stack: event.error.stack
-          } : null,
-          timestamp: Date.now()
-        });
-      };
-      window.addEventListener('error', earlyErrorHandler, true);
-      
-      const earlyRejectionHandler = function(event) {
-        const reason = event.reason;
-        window.__earlyErrors__.push({
-          type: 'unhandledrejection',
-          reason: reason instanceof Error ? {
-            name: reason.name,
-            message: reason.message,
-            stack: reason.stack
-          } : String(reason),
-          timestamp: Date.now()
-        });
-      };
-      window.addEventListener('unhandledrejection', earlyRejectionHandler, true);
-      
-      const originalConsoleError = console.error;
-      const originalConsoleWarn = console.warn;
-      
-      console.error = function(...args) {
-        originalConsoleError.apply(console, args);
-        
-        window.__earlyConsoleLogs__.push({
-          type: 'error',
-          args: args.map(arg => {
-            if (arg instanceof Error) {
-              return {
-                name: arg.name,
-                message: arg.message,
-                stack: arg.stack
-              };
-            }
-            try {
-              return String(arg);
-            } catch {
-              return '[Unstringifiable]';
-            }
-          }),
-          timestamp: Date.now()
-        });
-      };
-      
-      console.warn = function(...args) {
-        originalConsoleWarn.apply(console, args);
-        
-        window.__earlyConsoleLogs__.push({
-          type: 'warn',
-          args: args.map(arg => {
-            try {
-              return String(arg);
-            } catch {
-              return '[Unstringifiable]';
-            }
-          }),
-          timestamp: Date.now()
-        });
-      };
-      
-      window.__cleanupEarlyErrorHandlers__ = function() {
-        window.removeEventListener('error', earlyErrorHandler, true);
-        window.removeEventListener('unhandledrejection', earlyRejectionHandler, true);
-        
-        console.error = originalConsoleError;
-        console.warn = originalConsoleWarn;
-        
-        delete window.__cleanupEarlyErrorHandlers__;
-      };
-    })();
-    
-    window.addEventListener('message', (event) => {
-      if (event.data.type === 'inject-script') {
-        try {
-          console.log('Executing injector script in sandbox...');
-
-          const script = document.createElement('script');
-          script.textContent = event.data.script;
-          document.head.appendChild(script);
-          console.log('Injector script executed successfully');
-        } catch (error) {
-          console.error('Failed to execute injector script:', error);
-        }
-      }
-    });
-
-  </script>
-</head>
-
-<body>
-  <div id="root"></div>
-  <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-</body>
-
-</html>
+diff --git a/.enter/plans/continue-optimization.md b/.enter/plans/continue-optimization.md
+index d967aad..27ff184 100644
+--- a/.enter/plans/continue-optimization.md
++++ b/.enter/plans/continue-optimization.md
+@@ -1 +1,21 @@
+-The original code content of this argument has been omitted to save context. This is not actual code. Use read_file to check the current content of /workspace/thread/.enter/plans/continue-optimization.md if needed.
+\ No newline at end of file
++# Optimize MCP Config Docs
++
++## Context
++Cursor and Trae use the same HTTP-type MCP config format (just different config file paths). The current docs show them as separate sections with identical content. Need to merge into one unified section and add a link to the official Trae MCP docs.
++
++## Changes — `src/pages/ApiDocsPage.tsx`
++
++1. **Merge** `mcpCursorConfig` and `mcpTraeConfig` into a single `mcpIdeConfig` variable:
++   - Show the JSON without the file path comment
++   - Below the code block, add a note listing the config file paths:
++     - Cursor: `.cursor/mcp.json`
++     - Trae: `.trae/mcp.json`
++     - Windsurf: `.windsurf/mcp.json`
++   - Add a link to Trae docs: https://docs.trae.cn/ide/add-mcp-servers
++
++2. **Merge** the two UI sections (Cursor config + Trae config) into one section titled "IDE 配置 (Cursor / Trae / Windsurf)" with the unified code block and notes.
++
++3. Keep Claude Desktop config as-is (it uses stdio/npx, different format).
++
++## Verification
++- Preview the `/api-docs` page and confirm the MCP section shows a single merged IDE config with file path notes and Trae docs link.
+diff --git a/.trae/skills/daoyan-wisdom/SKILL.md b/.trae/skills/daoyan-wisdom/SKILL.md
+new file mode 100644
+index 0000000..4a341a6
+--- /dev/null
++++ b/.trae/skills/daoyan-wisdom/SKILL.md
+@@ -0,0 +1,171 @@
++---
++name: daoyan-wisdom
++description: >
++  道衍智慧问答技能 — 基于帛书版《道德经》的 AI 智慧向导。当用户提出关于老子哲学、道德经解读、帛书版差异、人生困惑、处世智慧等问题时自动触发。
++  支持通过 MCP Server 或 REST API 调用道衍后端服务，获取基于帛书老子原文的深度解答。
++  触发场景：用户说"问道衍"、"用老子的观点分析"、"帛书版怎么说"、"道德经第X章"、"从道家角度看"、
++  "请教道衍"、"道可道也"、"无为而治"，或任何涉及老子思想、道家哲学、帛书版道德经的问题。
++---
++
++# 道衍智慧问答技能
++
++## 描述
++
++道衍（Daoyan）是一位以帛书版《道德经》为智慧底本的 AI 全能向导。它的核心能力是：用老子的眼光回应一切问题 —— 无论是人生困惑、职场难题、情感关系，还是科技趋势，都能从帛书老子的视角给出有深度的启发与建议。
++
++**关键特性：**
++- 以马王堆帛书版《道德经》（秦波著《帛书老子注读》）为唯一权威文本
++- 帛书版章序与传世本相反：德经（第1-44章）在前，道经（第45-81章）在后
++- 能准确指出帛书版与传世版的文字差异（如"非恒道"vs"非常道"、"大器免成"vs"大器晚成"）
++- 支持中英双语问答
++- 可联网搜索获取时事信息，结合老子智慧分析
++
++## 使用场景
++
++以下场景应触发本技能：
++
++1. **老子哲学问答** — 用户询问道德经原文、章节解读、哲学概念
++2. **帛书版考据** — 用户关心帛书版与传世版的差异、章序问题
++3. **智慧咨询** — 用户希望从道家角度分析人生、工作、关系等问题
++4. **跨领域启发** — 用户想要用老子思想解读科技、管理、教育等现代议题
++5. **MCP 工具调用** — 在 IDE 中通过 MCP 协议调用道衍的 `ask_daoyan`、`search_chapters`、`get_chapter` 工具
++
++## 指令
++
++### 一、调用方式
++
++道衍提供两种调用方式，根据场景选择：
++
++#### 方式 1：MCP 工具调用（推荐用于 IDE 集成）
++
++如果项目已配置道衍 MCP Server，直接调用 MCP 工具：
++
++**可用工具：**
++
++| 工具名 | 功能 | 参数 |
++|--------|------|------|
++| `ask_daoyan` | 向道衍提问 | `question` (必填), `model` (可选), `enable_web_search` (可选) |
++| `search_chapters` | 按关键词搜索帛书81章 | `keyword` (必填) |
++| `get_chapter` | 获取指定章节信息 | `chapter_number` (1-81) |
++
++**MCP 配置（`.trae/mcp.json` 或 `.cursor/mcp.json`）：**
++
++```json
++{
++  "mcpServers": {
++    "daoyan": {
++      "url": "https://spb-t4nnhrh7ch7j2940.supabase.opentrust.net/functions/v1/daoyan-mcp",
++      "headers": {
++        "Authorization": "Bearer YOUR_ANON_KEY"
++      }
++    }
++  }
++}
++```
++
++**注意：** MCP 协议返回完整结果（非流式）。如需流式输出，使用 REST API 的 `stream: true` 模式。
++
++#### 方式 2：REST API 直接调用
++
++```bash
++curl -X POST "https://spb-t4nnhrh7ch7j2940.supabase.opentrust.net/functions/v1/daoyan-agent-api" \
++  -H "Content-Type: application/json" \
++  -H "Authorization: Bearer YOUR_ANON_KEY" \
++  -d '{
++    "question": "如何理解无为？",
++    "model": "z-ai/glm-5",
++    "stream": false
++  }'
++```
++
++**请求参数：**
++
++| 参数 | 类型 | 必填 | 默认值 | 说明 |
++|------|------|------|--------|------|
++| `question` | string | 是 | - | 问题内容（中英文均可） |
++| `model` | string | 否 | `z-ai/glm-5` | AI 模型 |
++| `conversation_history` | array | 否 | `[]` | 多轮对话历史 |
++| `enable_web_search` | boolean | 否 | `false` | 是否联网搜索 |
++| `stream` | boolean | 否 | `false` | 是否流式输出 |
++| `locale` | string | 否 | `zh-CN` | 语言 |
++
++**可选模型：**
++
++| 模型 ID | 名称 | 特点 |
++|---------|------|------|
++| `z-ai/glm-5` | GLM 5 | 默认推荐，支持深度思考 |
++| `anthropic/claude-sonnet-4.5` | Claude Sonnet 4.5 | 复杂推理能力强 |
++| `google/gemini-2.5-pro` | Gemini 2.5 Pro | 快速，多语言能力强 |
++| `openai/gpt-4.1` | GPT-4.1 | 通用能力均衡 |
++| `deepseek/deepseek-r1` | DeepSeek R1 | 开源，推理能力优秀 |
++
++**响应格式（非流式）：**
++
++```json
++{
++  "answer": "道衍的回答...",
++  "thinking": "（可选）模型思考过程",
++  "sources": [{"title": "...", "url": "...", "snippet": "..."}]
++}
++```
++
++### 二、帛书版核心知识
++
++在使用道衍或代替道衍回答时，必须遵守以下知识：
++
++**章序规则：**
++- 帛书版全书81章：德经（第1-44章）在前，道经（第45-81章）在后
++- 帛书第1章 = 今本第38章（"上德不德"）—— 这才是帛书版真正的首章
++- 帛书第45章 = 今本第1章（"道可道也"）—— 这是道经的首章，不是全书首章
++- 帛书第75章为独有章节，传世本无直接对应
++
++**关键文字差异（最常见混淆）：**
++
++| 帛书版（正确） | 传世版（常见但有误） | 差异原因 |
++|----------------|---------------------|----------|
++| 道可道也，非恒道也 | 道可道，非常道 | 汉讳（避刘恒名讳）改"恒"为"常" |
++| 大器免成 | 大器晚成 | "免"=无需完成；"晚"=晚才完成，义理截然不同 |
++| 多闻数穷 | 多言数穷 | "闻"vs"言"，关键字不同 |
++| 圣人恒无心 | 圣人无常心 | 汉讳改字 |
++
++### 三、回答规范
++
++当基于道衍能力回答问题时，遵循以下规范：
++
++1. **引文准确** — 引用帛书原文时逐字准确，不得混入传世版文字
++2. **版本标注** — 引用时标注"帛书第X章（今本第X章）"
++3. **差异说明** — 用户引用传世版文字时，主动指出帛书版的不同并解释原因
++4. **精炼有力** — 引用1-3段最相关原文即可，避免罗列过多章节
++5. **语言一致** — 与用户使用相同语言回答
++6. **不拒绝回答** — 对任何话题都能从老子智慧角度给出启发
++
++### 四、道衍 Web 应用
++
++道衍还提供完整的 Web 应用界面，用户可访问：
++
++- **主页**：https://167c2bc1450e4ea3a0dc4b07c5873069.prod.enter.pro
++- **API 文档**：https://167c2bc1450e4ea3a0dc4b07c5873069.prod.enter.pro/api-docs
++
++Web 应用支持：流式对话、多模型切换、联网搜索、帛书原文阅读、对话历史管理、智慧分享（图卡/PDF/社交）等功能。
++
++## 示例
++
++**示例 1：哲学问答**
++- 用户："无为是什么意思？"
++- 调用：`ask_daoyan(question="无为是什么意思？")`
++- 期望：道衍引用帛书相关章节（如帛书第26章"为无为"），解读"无为"的真正含义
++
++**示例 2：帛书版考据**
++- 用户："大器晚成这句话原文是什么？"
++- 调用：`ask_daoyan(question="大器晚成的帛书原文是什么？")`
++- 期望：道衍指出帛书版为"大器免成"（帛书第3章/今本第41章），并解释"免"与"晚"的义理差异
++
++**示例 3：跨领域应用**
++- 用户："用老子的观点分析远程办公的利弊"
++- 调用：`ask_daoyan(question="用老子的观点分析远程办公的利弊", enable_web_search=true)`
++- 期望：道衍结合帛书原文和联网搜索结果，从道家视角分析远程办公
++
++**示例 4：章节搜索**
++- 用户："帛书中哪些章节提到了水？"
++- 调用：`search_chapters(keyword="水")`
++- 期望：返回包含"水"的章节列表（如帛书第52章"上善若水"等）
+diff --git a/README-EN.md b/README-EN.md
+index 0c55d96..a20f7bd 100644
+--- a/README-EN.md
++++ b/README-EN.md
+@@ -45,16 +45,10 @@
+ <div align="center">
+ 
+ #### Homepage — AI Chat Interface
+-<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-homepage_d93640a3.png" alt="Daoyan Homepage" width="800" />
++<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/66c1.png" alt="Daoyan Homepage" width="800" />
+ 
+-#### Boshu Laozi — 81 Chapters Side-by-Side
+-<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-boshu-reader_81620502.png" alt="Boshu Laozi Reader" width="800" />
+-
+-#### Cultivation — Gamified Growth
+-<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-cultivation_2f5b93ca.png" alt="Cultivation System" width="800" />
+-
+-#### API & MCP — Open Ecosystem
+-<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/daoyan-api-docs_6019370e.png" alt="API & MCP Docs" width="800" />
++#### Cultivation — 10-Realm Gamified Practice
++<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/19e0.png" alt="Cultivation System" width="800" />
+ 
+ </div>
+ 
+@@ -98,6 +92,12 @@ Based solely on the 1973 Mawangdui Silk Manuscripts (帛书甲乙本), not the r
+ | Follow Nature | Open source, open protocols (MCP), composable wisdom |
+ | Da Qi Mian Cheng | The greatest vessel needs no "completion" — continuous evolution is the Way |
+ 
++### Vision & Mission
++
++> **Vision**: Help 1.5 billion people live with the wisdom of the Dao De Jing, bringing ancient wisdom to life in the digital age.
++>
++> **Mission**: Transform the profound wisdom of the Dao De Jing into practical daily guidance, helping people find inner balance and direction in our fast-paced modern world.
++
+ > "Reversion is the action of the Dao. Weakness is the function of the Dao." — Chapter 81, Silk Text
+ 
+ ---
+@@ -124,12 +124,20 @@ Based solely on the 1973 Mawangdui Silk Manuscripts (帛书甲乙本), not the r
+ - **Rich Markdown rendering** — syntax highlighting, tables, blockquotes, one-click copy (marked + highlight.js)
+ - **Source citation cards** — web search results shown as cards with favicons
+ - **Message actions** — copy AI reply, regenerate last response
++- **Wisdom sharing** — copy text/link, generate classical ink-wash image card, PDF export, social media sharing
+ - **Dark / Light mode** — toggle in sidebar, persisted via localStorage
+ 
++### User System
++
++- **Email signup / login** — powered by Supabase Auth
++- **Change password** — available from sidebar and profile page, with auto session refresh
++- **Chat history persistence** — full multi-turn conversations saved to database, cross-device sync
++- **Guest mode** — try AI chat without creating an account
++
+ ### Intelligent Web Search
+ 
+ - **Optional web toggle** — one-click enable in the toolbar
+-- **2-layer fallback** — DuckDuckGo HTML → DuckDuckGo Lite
++- **2-layer fallback** — DuckDuckGo HTML → DuckDuckGo Lite → Brave Search → Google (4-layer)
+ - **Search progress indicator** — shows "Searching the web..." while fetching
+ - **Auto context injection** — results passed as system context to AI, with citation card display
+ 
+@@ -139,6 +147,7 @@ Based solely on the 1973 Mawangdui Silk Manuscripts (帛书甲乙本), not the r
+ - **Stop generation button** — interrupt AI mid-response (red Stop icon)
+ - **Scroll-to-bottom button** — floating button appears when scrolled up
+ - **Category tag filtering** — click topic tags to filter suggested prompts; click again to reset
++- **Guest trial mode** — unauthenticated users can click "Explore First" to try AI chat without signup (history not saved)
+ 
+ ### Document Collections
+ 
+@@ -206,8 +215,9 @@ Visit `http://localhost:5173`
+ | i18n | i18next + react-i18next | Chinese/English + locale forwarded to AI |
+ | Backend | Supabase Edge Functions (Deno) | AI chat, search, Agent API, MCP |
+ | AI | Multi-model (Claude / GPT / Gemini / GLM) | Streaming + interruptible + model switching |
+-| Search | DuckDuckGo (2-layer fallback) | Results injected as system context |
+-| Storage | localStorage | Cultivation data + theme persistence |
++| Search | DuckDuckGo / Brave / Google (4-layer fallback) | Results injected as system context |
++| Database | Supabase PostgreSQL | Chat history + user data persistence |
++| Storage | localStorage + Supabase | Cultivation data + theme persistence |
+ 
+ ### Project Structure
+ 
+@@ -215,7 +225,10 @@ Visit `http://localhost:5173`
+ dao-yan/
+ ├── src/
+ │   ├── components/
+-│   │   ├── ChatMessage.tsx          # Message (copy / regenerate / source cards)
++│   │   ├── ChatMessage.tsx          # Message (copy / share / source cards)
++│   │   ├── ShareMenu.tsx            # Share menu (text / link / image card / PDF / social)
++│   │   ├── ShareCardRenderer.tsx    # Classical ink-wash image card generator
++│   │   ├── ChangePasswordModal.tsx  # Change password modal
+ │   │   ├── MarkdownRenderer.tsx     # marked renderer (highlight / copy / XSS)
+ │   │   ├── SearchBar.tsx            # Input (auto-resize / stop button / toolbar)
+ │   │   ├── SuggestedPrompts.tsx     # Category tag filter + 8 Daoyan prompts
+@@ -226,6 +239,7 @@ dao-yan/
+ │   │   └── ui/                      # shadcn/ui base components
+ │   ├── hooks/
+ │   │   ├── useAIChat.ts             # AI chat (SSE + stop + search)
++│   │   ├── useChatHistory.ts        # Chat history persistence (Supabase)
+ │   │   ├── useCultivation.ts        # Cultivation system (realm / check-in / points)
+ │   │   └── useDocumentCollections.ts
+ │   ├── lib/
+diff --git a/README.md b/README.md
+index b391808..d1c5405 100644
+--- a/README.md
++++ b/README.md
+@@ -36,8 +36,24 @@
+ | MCP 生态授权 | 面向企业的 MCP Server 定制部署与白标授权 |
+ | 增值订阅 | 高级 AI 模型（Claude Opus 4.7 / GPT 5.4）、无限对话历史、专属修炼指导 |
+ 
++### 提交链接
++
+ > **在线体验**：[https://167c2bc1450e4ea3a0dc4b07c5873069.prod.enter.pro](https://167c2bc1450e4ea3a0dc4b07c5873069.prod.enter.pro)
+ 
++### 截图
++
++<div align="center">
++
++#### 首页 — AI 对话入口
++<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/66c1.png" alt="道衍首页" width="800" />
++
++#### 修行打卡 — 10 境界游戏化修炼
++<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/19e0.png" alt="修炼打卡系统" width="800" />
++
++</div>
++
++---
++
+ ## 项目简介
+ 
+ 道衍，陪你问道的智慧伙伴。以帛书版《道德经》为根基，在你困惑时用道家智慧照见本质，在你焦虑时陪你回归内心清明。不是解读经典的学术工具，而是与你一起问道、在修行中体悟的智慧镜子。独特融合：
+@@ -78,6 +94,12 @@
+ | 道法自然 | 开源、开放协议（MCP），可组合的智慧生态 |
+ | 大器免成 | 最伟大的器物无需"完成"——持续演化即是道 |
+ 
++### 愿景与使命
++
++> **愿景**：让 15 亿人用道德经智慧生活，让古老智慧在数字时代焕发新生。
++>
++> **使命**：将《道德经》的深邃智慧转化为日常可用的生活指导，帮助用户在快节奏的现代生活中找到内心的平衡与方向。
++
+ > "反也者，道之动也。弱也者，道之用也。" — 帛书第81章
+ 
+ ---
+@@ -104,12 +126,20 @@
+ - **Markdown 富文本渲染** — 代码高亮、表格、引用、一键复制（基于 marked + highlight.js）
+ - **来源引用** — 联网搜索结果以带 favicon 的卡片形式展示
+ - **消息操作** — 复制 AI 回复、重新生成最后一条回复
++- **智慧分享** — 复制文本/链接、生成古典意境图卡（宣纸+水墨风）、PDF 导出、社交媒体分享
+ - **深/浅色模式** — 侧边栏一键切换，localStorage 持久化
+ 
++### 用户系统
++
++- **邮箱注册/登录** — Supabase Auth 驱动
++- **修改密码** — 侧边栏 + 个人页均可操作，自动刷新会话
++- **对话历史持久化** — 多轮对话完整保存至数据库，跨设备同步
++- **游客模式** — 无需注册即可体验 AI 对话
++
+ ### 智能联网搜索
+ 
+ - **可选联网** — 搜索栏工具栏一键启用
+-- **双层容错搜索** — DuckDuckGo HTML → DuckDuckGo Lite
++- **四层容错搜索** — DuckDuckGo HTML → DuckDuckGo Lite → Brave Search → Google
+ - **搜索进度反馈** — 联网时显示"正在联网搜索..."进度提示
+ - **自动内容注入** — 搜索结果作为 system context 传递给 AI，附引用卡片展示
+ 
+@@ -119,6 +149,7 @@
+ - **停止生成按钮** — AI 回复过程中可随时中断（红色 Stop 图标）
+ - **回到底部按钮** — 向上滚动时出现悬浮按钮，一键跳到最新消息
+ - **分类问题过滤** — 点击话题标签过滤展示对应问题，再次点击复位
++- **游客体验模式** — 未登录用户点击"先探索一下"即可直接使用 AI 对话（不保存历史）
+ 
+ ### 文档集合系统
+ 
+@@ -186,8 +217,9 @@ pnpm dev
+ | 国际化 | i18next + react-i18next | 中英双语 + locale 传 AI |
+ | 后端 | Supabase Edge Functions (Deno) | AI 聊天、搜索、Agent API、MCP |
+ | AI | 多模型（Claude / GPT / Gemini / GLM） | 流式响应 + 可中断 + 模型切换 |
+-| 搜索 | DuckDuckGo（双层容错） | 结果注入 system context |
+-| 存储 | localStorage | 修炼数据 + 深色模式持久化 |
++| 搜索 | DuckDuckGo / Brave / Google（四层容错） | 结果注入 system context |
++| 数据库 | Supabase PostgreSQL | 对话历史 + 用户数据持久化 |
++| 存储 | localStorage + Supabase | 修炼数据 + 深色模式持久化 |
+ 
+ ### 目录结构
+ 
+@@ -195,7 +227,10 @@ pnpm dev
+ dao-yan/
+ ├── src/
+ │   ├── components/
+-│   │   ├── ChatMessage.tsx          # 消息组件（复制/重生成/来源卡片）
++│   │   ├── ChatMessage.tsx          # 消息组件（复制/分享/来源卡片）
++│   │   ├── ShareMenu.tsx            # 分享菜单（文本/链接/图卡/PDF/社交）
++│   │   ├── ShareCardRenderer.tsx    # 古典意境图卡生成器（宣纸+水墨）
++│   │   ├── ChangePasswordModal.tsx  # 修改密码弹窗
+ │   │   ├── MarkdownRenderer.tsx     # marked 渲染器（高亮/复制/XSS）
+ │   │   ├── SearchBar.tsx            # 搜索栏（自动伸缩/停止按钮/工具栏）
+ │   │   ├── SuggestedPrompts.tsx     # 分类标签过滤 + 8 个道衍问题
+@@ -206,6 +241,7 @@ dao-yan/
+ │   │   └── ui/                      # shadcn/ui 基础组件
+ │   ├── hooks/
+ │   │   ├── useAIChat.ts             # AI 聊天（SSE + 停止 + 搜索）
++│   │   ├── useChatHistory.ts        # 对话历史持久化（Supabase）
+ │   │   ├── useCultivation.ts        # 修炼系统（境界/打卡/积分）
+ │   │   └── useDocumentCollections.ts
+ │   ├── lib/
+diff --git a/package.json b/package.json
+index ebb7838..14b4b1a 100644
+--- a/package.json
++++ b/package.json
+@@ -52,9 +52,11 @@
+     "embla-carousel-react": "^8.6.0",
+     "framer-motion": "^12.23.12",
+     "highlight.js": "^11.11.1",
++    "html2canvas": "^1.4.1",
+     "i18next": "^26.0.4",
+     "i18next-browser-languagedetector": "^8.2.1",
+     "input-otp": "^1.4.2",
++    "jspdf": "^4.2.1",
+     "lucide-react": "^0.542.0",
+     "markdown-it": "14",
+     "marked": "^18.0.0",
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index 498ea19..93b486e 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -125,6 +125,9 @@ dependencies:
+   highlight.js:
+     specifier: ^11.11.1
+     version: 11.11.1
++  html2canvas:
++    specifier: ^1.4.1
++    version: 1.4.1
+   i18next:
+     specifier: ^26.0.4
+     version: 26.0.4(typescript@5.9.2)
+@@ -134,6 +137,9 @@ dependencies:
+   input-otp:
+     specifier: ^1.4.2
+     version: 1.4.2(react-dom@19.1.1)(react@19.1.1)
++  jspdf:
++    specifier: ^4.2.1
++    version: 4.2.1
+   lucide-react:
+     specifier: ^0.542.0
+     version: 0.542.0(react@19.1.1)
+@@ -2727,10 +2733,20 @@ packages:
+     dependencies:
+       undici-types: 7.10.0
+ 
++  /@types/pako@2.0.4:
++    resolution: {integrity: sha512-VWDCbrLeVXJM9fihYodcLiIv0ku+AlOa/TQ1SvYOaBuyrSKgEcro95LJyIsJ4vSo6BXIxOKxiJAat04CmST9Fw==}
++    dev: false
++
+   /@types/phoenix@1.6.6:
+     resolution: {integrity: sha512-PIzZZlEppgrpoT2QgbnDU+MMzuR6BbCjllj0bM70lWoejMeNJAxCchxnv7J3XFkI8MpygtRpzXrIlmWUBclP5A==}
+     dev: false
+ 
++  /@types/raf@3.4.3:
++    resolution: {integrity: sha512-c4YAvMedbPZ5tEyxzQdMoOhhJ4RD3rngZIdwC2/qDN3d7JpEhB6fiBRKVY1lg5B7Wk+uPBjn5f39j1/2MY1oOw==}
++    requiresBuild: true
++    dev: false
++    optional: true
++
+   /@types/react-dom@19.1.9(@types/react@19.1.12):
+     resolution: {integrity: sha512-qXRuZaOsAdXKFyOhRBg6Lqqc0yay13vN7KrIg4L7N4aaHN68ma9OK3NE1BoDFgFOTfM7zg+3/8+2n8rLUH3OKQ==}
+     peerDependencies:
+@@ -3034,6 +3050,11 @@ packages:
+   /balanced-match@1.0.2:
+     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
+ 
++  /base64-arraybuffer@1.0.2:
++    resolution: {integrity: sha512-I3yl4r9QB5ZRY3XuJVEPfc2XhZO6YweFPI+UovAzn+8/hb3oJ6lnysaFcjVpkCPfVWFUDvoZ8kmVDP7WyRtYtQ==}
++    engines: {node: '>= 0.6.0'}
++    dev: false
++
+   /baseline-browser-mapping@2.8.29:
+     resolution: {integrity: sha512-sXdt2elaVnhpDNRDz+1BDx1JQoJRuNk7oVlAlbGiFkLikHCAQiccexF/9e91zVi6RCgqspl04aP+6Cnl9zRLrA==}
+     hasBin: true
+@@ -3083,6 +3104,22 @@ packages:
+   /caniuse-lite@1.0.30001755:
+     resolution: {integrity: sha512-44V+Jm6ctPj7R52Na4TLi3Zri4dWUljJd+RDm+j8LtNCc/ihLCT+X1TzoOAkRETEWqjuLnh9581Tl80FvK7jVA==}
+ 
++  /canvg@3.0.11:
++    resolution: {integrity: sha512-5ON+q7jCTgMp9cjpu4Jo6XbvfYwSB2Ow3kzHKfIyJfaCAOHLbdKPQqGKgfED/R5B+3TFFfe8pegYA+b423SRyA==}
++    engines: {node: '>=10.0.0'}
++    requiresBuild: true
++    dependencies:
++      '@babel/runtime': 7.29.2
++      '@types/raf': 3.4.3
++      core-js: 3.49.0
++      raf: 3.4.1
++      regenerator-runtime: 0.13.11
++      rgbcolor: 1.0.1
++      stackblur-canvas: 2.7.0
++      svg-pathdata: 6.0.3
++    dev: false
++    optional: true
++
+   /ccount@2.0.1:
+     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
+     dev: false
+@@ -3187,6 +3224,12 @@ packages:
+     engines: {node: '>=18'}
+     dev: false
+ 
++  /core-js@3.49.0:
++    resolution: {integrity: sha512-es1U2+YTtzpwkxVLwAFdSpaIMyQaq0PBgm3YD1W3Qpsn1NAmO3KSgZfu+oGSWVu6NvLHoHCV/aYcsE5wiB7ALg==}
++    requiresBuild: true
++    dev: false
++    optional: true
++
+   /cross-spawn@7.0.6:
+     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
+     engines: {node: '>= 8'}
+@@ -3195,6 +3238,12 @@ packages:
+       shebang-command: 2.0.0
+       which: 2.0.2
+ 
++  /css-line-break@2.1.0:
++    resolution: {integrity: sha512-FHcKFCZcAha3LwfVBhCQbW2nCNbkZXn7KVUJcsT5/P8YmfsVja0FMPJr0B903j/E69HUphKiV9iQArX8SDYA4w==}
++    dependencies:
++      utrie: 1.0.2
++    dev: false
++
+   /cssesc@3.0.0:
+     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
+     engines: {node: '>=4'}
+@@ -3588,6 +3637,14 @@ packages:
+     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
+     dev: true
+ 
++  /fast-png@6.4.0:
++    resolution: {integrity: sha512-kAqZq1TlgBjZcLr5mcN6NP5Rv4V2f22z00c3g8vRrwkcqjerx7BEhPbOnWCPqaHUl2XWQBJQvOT/FQhdMT7X/Q==}
++    dependencies:
++      '@types/pako': 2.0.4
++      iobuffer: 5.4.0
++      pako: 2.1.0
++    dev: false
++
+   /fastq@1.19.1:
+     resolution: {integrity: sha512-GwLTyxkCXjXbxqIhTsMI2Nui8huMPtnxg7krajPJAjnEG/iiOS7i+zCtWGZR9G0NBKbXKh6X9m9UIsYX/N6vvQ==}
+     dependencies:
+@@ -3604,6 +3661,10 @@ packages:
+     dependencies:
+       picomatch: 4.0.3
+ 
++  /fflate@0.8.2:
++    resolution: {integrity: sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A==}
++    dev: false
++
+   /file-entry-cache@8.0.0:
+     resolution: {integrity: sha512-XXTUwCvisa5oacNGRP9SfNtYBNAMi+RPwBFmblZEF7N7swHYQS6/Zfk7SRwx4D5j3CH211YNRco1DEMNVfZCnQ==}
+     engines: {node: '>=16.0.0'}
+@@ -3798,6 +3859,14 @@ packages:
+     resolution: {integrity: sha512-ol6UPyBWqsrO6EJySPz2O7ZSr856WDrEzM5zMqp+FJJLGMW35cLYmmZnl0vztAZxRUoNZJFTCohfjuIJ8I4QBQ==}
+     dev: false
+ 
++  /html2canvas@1.4.1:
++    resolution: {integrity: sha512-fPU6BHNpsyIhr8yyMpTLLxAbkaK8ArIBcmZIRiBLiDhjeqvXolaEmDGmELFuX9I4xDcaKKcJl+TKZLqruBbmWA==}
++    engines: {node: '>=8.0.0'}
++    dependencies:
++      css-line-break: 2.1.0
++      text-segmentation: 1.0.3
++    dev: false
++
+   /i18next-browser-languagedetector@8.2.1:
+     resolution: {integrity: sha512-bZg8+4bdmaOiApD7N7BPT9W8MLZG+nPTOFlLiJiT8uzKXFjhxw4v2ierCXOwB5sFDMtuA5G4kgYZ0AznZxQ/cw==}
+     dependencies:
+@@ -3868,6 +3937,10 @@ packages:
+       loose-envify: 1.4.0
+     dev: false
+ 
++  /iobuffer@5.4.0:
++    resolution: {integrity: sha512-DRebOWuqDvxunfkNJAlc3IzWIPD5xVxwUNbHr7xKB8E6aLJxIPfNX3CoMJghcFjpv6RWQsrcJbghtEwSPoJqMA==}
++    dev: false
++
+   /is-alphabetical@2.0.1:
+     resolution: {integrity: sha512-FWyyY60MeTNyeSRpkM2Iry0G9hpr7/9kD40mD/cGQEuilcZYS4okz8SN2Q6rLCJ8gbCt6fN+rC+6tMGS99LaxQ==}
+     dev: false
+@@ -3973,6 +4046,19 @@ packages:
+     engines: {node: '>=6'}
+     hasBin: true
+ 
++  /jspdf@4.2.1:
++    resolution: {integrity: sha512-YyAXyvnmjTbR4bHQRLzex3CuINCDlQnBqoSYyjJwTP2x9jDLuKDzy7aKUl0hgx3uhcl7xzg32agn5vlie6HIlQ==}
++    dependencies:
++      '@babel/runtime': 7.29.2
++      fast-png: 6.4.0
++      fflate: 0.8.2
++    optionalDependencies:
++      canvg: 3.0.11
++      core-js: 3.49.0
++      dompurify: 3.4.0
++      html2canvas: 1.4.1
++    dev: false
++
+   /keyv@4.5.4:
+     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
+     dependencies:
+@@ -4746,6 +4832,10 @@ packages:
+   /package-json-from-dist@1.0.1:
+     resolution: {integrity: sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==}
+ 
++  /pako@2.1.0:
++    resolution: {integrity: sha512-w+eufiZ1WuJYgPXbV/PO3NCMEc3xqylkKHzp8bxp1uW4qaSNQUkwmLLEc3kKsfz8lpV1F8Ht3U1Cm+9Srog2ug==}
++    dev: false
++
+   /parent-module@1.0.1:
+     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
+     engines: {node: '>=6'}
+@@ -4784,6 +4874,12 @@ packages:
+       lru-cache: 10.4.3
+       minipass: 7.1.2
+ 
++  /performance-now@2.1.0:
++    resolution: {integrity: sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==}
++    requiresBuild: true
++    dev: false
++    optional: true
++
+   /picocolors@1.1.1:
+     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
+ 
+@@ -4902,6 +4998,14 @@ packages:
+   /queue-microtask@1.2.3:
+     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
+ 
++  /raf@3.4.1:
++    resolution: {integrity: sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==}
++    requiresBuild: true
++    dependencies:
++      performance-now: 2.1.0
++    dev: false
++    optional: true
++
+   /react-day-picker@9.9.0(react@19.1.1):
+     resolution: {integrity: sha512-NtkJbuX6cl/VaGNb3sVVhmMA6LSMnL5G3xNL+61IyoZj0mUZFWTg4hmj7PHjIQ8MXN9dHWhUHFoJWG6y60DKSg==}
+     engines: {node: '>=18'}
+@@ -5172,6 +5276,12 @@ packages:
+     resolution: {integrity: sha512-M9/ELqF6fy8FwmkpnF0S3YKOqMyoWJ4+CS5Efg2ct3oY9daQvd/Pc71FpGZsVsbl3Cpb+IIcjBDUnnyBdQbq4w==}
+     dev: false
+ 
++  /regenerator-runtime@0.13.11:
++    resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
++    requiresBuild: true
++    dev: false
++    optional: true
++
+   /rehype-highlight@7.0.2:
+     resolution: {integrity: sha512-k158pK7wdC2qL3M5NcZROZ2tR/l7zOzjxXd5VGdcfIyoijjQqpHd3JKtYSBDpDZ38UI2WJWuFAtkMDxmx5kstA==}
+     dependencies:
+@@ -5246,6 +5356,13 @@ packages:
+     resolution: {integrity: sha512-g6QUff04oZpHs0eG5p83rFLhHeV00ug/Yf9nZM6fLeUrPguBTkTQOdpAWWspMh55TZfVQDPaN3NQJfbVRAxdIw==}
+     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
+ 
++  /rgbcolor@1.0.1:
++    resolution: {integrity: sha512-9aZLIrhRaD97sgVhtJOW6ckOEh6/GnvQtdVNfdZ6s67+3/XwLS9lBcQYzEEhYVeUowN7pRzMLsyGhK2i/xvWbw==}
++    engines: {node: '>= 0.8.15'}
++    requiresBuild: true
++    dev: false
++    optional: true
++
+   /rollup@4.53.2:
+     resolution: {integrity: sha512-MHngMYwGJVi6Fmnk6ISmnk7JAHRNF0UkuucA0CUW3N3a4KnONPEZz+vUanQP/ZC/iY1Qkf3bwPWzyY84wEks1g==}
+     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
+@@ -5336,6 +5453,13 @@ packages:
+     resolution: {integrity: sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==}
+     dev: false
+ 
++  /stackblur-canvas@2.7.0:
++    resolution: {integrity: sha512-yf7OENo23AGJhBriGx0QivY5JP6Y1HbrrDI6WLt6C5auYZXlQrheoY8hD4ibekFKz1HOfE48Ww8kMWMnJD/zcQ==}
++    engines: {node: '>=0.1.14'}
++    requiresBuild: true
++    dev: false
++    optional: true
++
+   /string-width@4.2.3:
+     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
+     engines: {node: '>=8'}
+@@ -5412,6 +5536,13 @@ packages:
+     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
+     engines: {node: '>= 0.4'}
+ 
++  /svg-pathdata@6.0.3:
++    resolution: {integrity: sha512-qsjeeq5YjBZ5eMdFuUa4ZosMLxgr5RZ+F+Y1OrDhuOCEInRMA3x74XdBtggJcj9kOeInz0WE+LgCPDkZFlBYJw==}
++    engines: {node: '>=12.0.0'}
++    requiresBuild: true
++    dev: false
++    optional: true
++
+   /tailwind-merge@3.3.1:
+     resolution: {integrity: sha512-gBXpgUm/3rp1lMZZrM/w7D8GKqshif0zAymAhbCyIt8KMe+0v9DQ7cdYLR4FHH/cKpdTXb+A/tKKU3eolfsI+g==}
+     dev: false
+@@ -5474,6 +5605,12 @@ packages:
+       yallist: 5.0.0
+     dev: true
+ 
++  /text-segmentation@1.0.3:
++    resolution: {integrity: sha512-iOiPUo/BGnZ6+54OsWxZidGCsdU8YbE4PSpdPinp7DeMtUJNJBoJ/ouUSTJjHkh1KntHaltHl/gDs2FC4i5+Nw==}
++    dependencies:
++      utrie: 1.0.2
++    dev: false
++
+   /thenify-all@1.6.0:
+     resolution: {integrity: sha512-RNxQH/qI8/t3thXJDwcstUO4zeqo64+Uy/+sNVRBx4Xn2OX+OZ9oP+iJnNFqplFra2ZUVeKCSa2oVWi3T4uVmA==}
+     engines: {node: '>=0.8'}
+@@ -5676,6 +5813,12 @@ packages:
+   /util-deprecate@1.0.2:
+     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
+ 
++  /utrie@1.0.2:
++    resolution: {integrity: sha512-1MLa5ouZiOmQzUbjbu9VmjLzn1QLXBhwpUa7kdLUQK+KQ5KA9I1vk5U4YHe/X2Ch7PYnJfWuWT+VbuxbGwljhw==}
++    dependencies:
++      base64-arraybuffer: 1.0.2
++    dev: false
++
+   /vaul@1.1.2(@types/react-dom@19.1.9)(@types/react@19.1.12)(react-dom@19.1.1)(react@19.1.1):
+     resolution: {integrity: sha512-ZFkClGpWyI2WUQjdLJ/BaGuV6AVQiJ3uELGk3OYtP+B6yCO7Cmn9vPFXVJkRaGkOJu3m8bQMgtyzNHixULceQA==}
+     peerDependencies:
+diff --git a/src/components/ChangePasswordModal.tsx b/src/components/ChangePasswordModal.tsx
+new file mode 100644
+index 0000000..80dabf4
+--- /dev/null
++++ b/src/components/ChangePasswordModal.tsx
+@@ -0,0 +1,149 @@
++import { useState } from "react";
++import { useTranslation } from "react-i18next";
++import { Loader2, Lock, Eye, EyeOff, CheckCircle2 } from "lucide-react";
++import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog";
++import { Button } from "./ui/button";
++import { Input } from "./ui/input";
++import { Label } from "./ui/label";
++import { useAuth } from "@/contexts/AuthContext";
++
++interface ChangePasswordModalProps {
++  open: boolean;
++  onOpenChange: (open: boolean) => void;
++}
++
++export function ChangePasswordModal({ open, onOpenChange }: ChangePasswordModalProps) {
++  const { i18n } = useTranslation();
++  const isZh = i18n.language === "zh-CN";
++  const { updatePassword } = useAuth();
++
++  const [password, setPassword] = useState("");
++  const [confirm, setConfirm] = useState("");
++  const [showPw, setShowPw] = useState(false);
++  const [loading, setLoading] = useState(false);
++  const [error, setError] = useState<string | null>(null);
++  const [done, setDone] = useState(false);
++
++  const reset = () => {
++    setPassword("");
++    setConfirm("");
++    setShowPw(false);
++    setError(null);
++    setDone(false);
++  };
++
++  const handleOpenChange = (next: boolean) => {
++    if (!next) reset();
++    onOpenChange(next);
++  };
++
++  const handleSubmit = async (e: React.FormEvent) => {
++    e.preventDefault();
++    if (password.length < 6) {
++      setError(isZh ? "密码至少需要6位字符" : "Password must be at least 6 characters");
++      return;
++    }
++    if (password !== confirm) {
++      setError(isZh ? "两次密码输入不一致" : "Passwords do not match");
++      return;
++    }
++    setLoading(true);
++    setError(null);
++    const { error: updateErr } = await updatePassword(password);
++    setLoading(false);
++    if (updateErr) {
++      const msg = updateErr.message;
++      if (msg.includes("session") || msg.includes("Session")) {
++        setError(isZh ? "登录状态已过期，请退出后重新登录再修改密码" : "Session expired. Please sign out and sign in again.");
++      } else {
++        setError(msg);
++      }
++    } else {
++      setDone(true);
++      setTimeout(() => handleOpenChange(false), 1500);
++    }
++  };
++
++  return (
++    <Dialog open={open} onOpenChange={handleOpenChange}>
++      <DialogContent className="sm:max-w-sm">
++        <DialogHeader>
++          <DialogTitle className="text-center text-xl">
++            {isZh ? "修改密码" : "Change Password"}
++          </DialogTitle>
++          <DialogDescription className="sr-only">
++            {isZh ? "为您的账号设置新密码" : "Set a new password for your account"}
++          </DialogDescription>
++        </DialogHeader>
++
++        {done ? (
++          <div className="flex flex-col items-center gap-3 py-4 text-center">
++            <CheckCircle2 className="h-10 w-10 text-primary" />
++            <p className="font-medium">{isZh ? "密码已更新" : "Password updated"}</p>
++            <p className="text-sm text-muted-foreground">
++              {isZh ? "新密码设置成功" : "Your new password has been set."}
++            </p>
++          </div>
++        ) : (
++          <form onSubmit={handleSubmit} className="space-y-4">
++            <p className="text-sm text-muted-foreground">
++              {isZh ? "请输入新密码" : "Please enter your new password"}
++            </p>
++
++            <div className="space-y-1.5">
++              <Label htmlFor="change-new-password">{isZh ? "新密码" : "New Password"}</Label>
++              <div className="relative">
++                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
++                <Input
++                  id="change-new-password"
++                  type={showPw ? "text" : "password"}
++                  placeholder={isZh ? "至少6位字符" : "At least 6 characters"}
++                  className="pl-9 pr-9"
++                  value={password}
++                  onChange={e => setPassword(e.target.value)}
++                  disabled={loading}
++                  autoComplete="new-password"
++                  autoFocus
++                />
++                <button
++                  type="button"
++                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
++                  onClick={() => setShowPw(!showPw)}
++                  tabIndex={-1}
++                >
++                  {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
++                </button>
++              </div>
++            </div>
++
++            <div className="space-y-1.5">
++              <Label htmlFor="change-confirm-password">{isZh ? "确认密码" : "Confirm Password"}</Label>
++              <div className="relative">
++                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
++                <Input
++                  id="change-confirm-password"
++                  type={showPw ? "text" : "password"}
++                  placeholder={isZh ? "再次输入新密码" : "Repeat new password"}
++                  className="pl-9"
++                  value={confirm}
++                  onChange={e => setConfirm(e.target.value)}
++                  disabled={loading}
++                  autoComplete="new-password"
++                />
++              </div>
++            </div>
++
++            {error && (
++              <p className="text-sm text-destructive bg-destructive/10 px-3 py-2 rounded-md">{error}</p>
++            )}
++
++            <Button type="submit" className="w-full" disabled={loading}>
++              {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
++              {isZh ? "保存新密码" : "Save New Password"}
++            </Button>
++          </form>
++        )}
++      </DialogContent>
++    </Dialog>
++  );
++}
+diff --git a/src/components/ChatMessage.tsx b/src/components/ChatMessage.tsx
+index 6e8ece0..bdc6e47 100644
+--- a/src/components/ChatMessage.tsx
++++ b/src/components/ChatMessage.tsx
+@@ -7,12 +7,14 @@ import {
+ import { useTranslation } from "react-i18next";
+ import { cn } from "@/lib/utils";
+ import { MarkdownRenderer } from "@/components/MarkdownRenderer";
++import { ShareMenu } from "@/components/ShareMenu";
+ import type { Message, SearchResult } from "@/hooks/useAIChat";
+ 
+ interface ChatMessageProps {
+   message: Message;
+   isLast?: boolean;
+   webSearchEnabled?: boolean;
++  userQuestion?: string;
+   onRegenerate?: () => void;
+ }
+ 
+@@ -54,7 +56,7 @@ function SourceCard({ source }: { source: SearchResult }) {
+   );
+ }
+ 
+-export function ChatMessage({ message, isLast, webSearchEnabled, onRegenerate }: ChatMessageProps) {
++export function ChatMessage({ message, isLast, webSearchEnabled, userQuestion, onRegenerate }: ChatMessageProps) {
+   const { t, i18n } = useTranslation();
+   const isZh = i18n.language === "zh-CN";
+   const [showThinking, setShowThinking] = useState(true);
+@@ -200,6 +202,14 @@ export function ChatMessage({ message, isLast, webSearchEnabled, onRegenerate }:
+               <span>{copied ? (isZh ? "已复制" : "Copied") : (isZh ? "复制" : "Copy")}</span>
+             </button>
+ 
++            {userQuestion && (
++              <ShareMenu
++                userQuestion={userQuestion}
++                assistantAnswer={message.content}
++                isZh={isZh}
++              />
++            )}
++
+             {isLast && onRegenerate && (
+               <button
+                 onClick={onRegenerate}
+diff --git a/src/components/NavigationSidebar.tsx b/src/components/NavigationSidebar.tsx
+index 1c6d1f8..1e0de06 100644
+--- a/src/components/NavigationSidebar.tsx
++++ b/src/components/NavigationSidebar.tsx
+@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
+ import { useTranslation } from "react-i18next";
+ import {
+   Flame, FolderOpen, RotateCcw, X, ScrollText, BookOpen,
+-  LogIn, LogOut, User, Trash2, MessageSquare, Pencil, Code2,
++  LogIn, LogOut, User, Trash2, MessageSquare, Pencil, Code2, KeyRound,
+ } from "lucide-react";
+ import { Button } from "./ui/button";
+ import { LanguageSwitcher } from "./LanguageSwitcher";
+@@ -11,6 +11,7 @@ import { ThemeToggle } from "./ThemeToggle";
+ import { cn } from "@/lib/utils";
+ import { useAuth } from "@/contexts/AuthContext";
+ import { AuthModal } from "./AuthModal";
++import { ChangePasswordModal } from "./ChangePasswordModal";
+ import type { ChatSession } from "@/hooks/useChatHistory";
+ 
+ interface NavigationSidebarProps {
+@@ -68,6 +69,7 @@ export function NavigationSidebar({
+   const isZh        = i18n.language === "zh-CN";
+   const { user, signOut } = useAuth();
+   const [authOpen, setAuthOpen] = useState(false);
++  const [changePwOpen, setChangePwOpen] = useState(false);
+   // Inline rename state
+   const [editingSessionId, setEditingSessionId] = useState<string | null>(null);
+   const [editingTitle, setEditingTitle] = useState("");
+@@ -307,6 +309,11 @@ export function NavigationSidebar({
+                 title={isZh ? "我的主页" : "My Profile"}>
+                 <User className="h-3 w-3" />
+               </Button>
++              <Button variant="ghost" size="icon" className="h-6 w-6 shrink-0 text-muted-foreground hover:text-foreground"
++                onClick={() => setChangePwOpen(true)}
++                title={isZh ? "修改密码" : "Change Password"}>
++                <KeyRound className="h-3 w-3" />
++              </Button>
+               <Button variant="ghost" size="icon" className="h-6 w-6 shrink-0 text-muted-foreground hover:text-foreground"
+                 onClick={signOut}
+                 title={isZh ? "退出登录" : "Sign out"}>
+@@ -326,6 +333,7 @@ export function NavigationSidebar({
+       </aside>
+ 
+       <AuthModal open={authOpen} onOpenChange={setAuthOpen} />
++      <ChangePasswordModal open={changePwOpen} onOpenChange={setChangePwOpen} />
+     </>
+   );
+ }
+diff --git a/src/components/ShareCardRenderer.tsx b/src/components/ShareCardRenderer.tsx
+new file mode 100644
+index 0000000..c2b8fdd
+--- /dev/null
++++ b/src/components/ShareCardRenderer.tsx
+@@ -0,0 +1,138 @@
++import { useRef, useCallback } from "react";
++import html2canvas from "html2canvas";
++import { jsPDF } from "jspdf";
++
++interface ShareCardRendererProps {
++  userQuestion: string;
++  assistantAnswer: string;
++}
++
++/**
++ * Renders a hidden "xuan-paper style" card and provides methods
++ * to export it as PNG or PDF.
++ */
++export function useShareCard() {
++  const cardRef = useRef<HTMLDivElement>(null);
++
++  const captureCanvas = useCallback(async (node: HTMLElement) => {
++    return html2canvas(node, {
++      scale: 2,
++      useCORS: true,
++      backgroundColor: "#faf6f0",
++      width: 540,
++      height: 720,
++      windowWidth: 540,
++      windowHeight: 720,
++    });
++  }, []);
++
++  const downloadImage = useCallback(async (node: HTMLElement, filename = "daoyan-share.png") => {
++    const canvas = await captureCanvas(node);
++    const link = document.createElement("a");
++    link.download = filename;
++    link.href = canvas.toDataURL("image/png");
++    link.click();
++  }, [captureCanvas]);
++
++  const downloadPDF = useCallback(async (node: HTMLElement, filename = "daoyan-share.pdf") => {
++    const canvas = await captureCanvas(node);
++    const imgData = canvas.toDataURL("image/png");
++    const pdf = new jsPDF({
++      orientation: "portrait",
++      unit: "px",
++      format: [canvas.width / 2, canvas.height / 2],
++    });
++    pdf.addImage(imgData, "PNG", 0, 0, canvas.width / 2, canvas.height / 2);
++    pdf.save(filename);
++  }, [captureCanvas]);
++
++  return { cardRef, downloadImage, downloadPDF };
++}
++
++/** Truncate text for card rendering */
++function truncate(text: string, max: number) {
++  if (text.length <= max) return text;
++  return text.slice(0, max) + "...";
++}
++
++/** Extract boshu quotes from the answer (lines starting with > or containing「帛书」) */
++function extractQuotes(text: string): string[] {
++  const lines = text.split("\n");
++  const quotes: string[] = [];
++  for (const line of lines) {
++    const trimmed = line.trim();
++    if (
++      (trimmed.startsWith(">") && trimmed.length > 2) ||
++      (trimmed.startsWith("「") && trimmed.includes("」"))
++    ) {
++      quotes.push(trimmed.replace(/^>\s*/, "").replace(/^\*\*|\*\*$/g, ""));
++    }
++  }
++  return quotes.slice(0, 3);
++}
++
++/** Strip markdown formatting for plain card display */
++function stripMarkdown(text: string): string {
++  return text
++    .replace(/#{1,6}\s*/g, "")
++    .replace(/\*\*(.*?)\*\*/g, "$1")
++    .replace(/\*(.*?)\*/g, "$1")
++    .replace(/`{1,3}[^`]*`{1,3}/g, "")
++    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
++    .replace(/^>\s*/gm, "")
++    .replace(/^[-*+]\s/gm, "")
++    .replace(/^\d+\.\s/gm, "")
++    .trim();
++}
++
++export function ShareCard({ userQuestion, assistantAnswer }: ShareCardRendererProps & { ref?: React.Ref<HTMLDivElement> }) {
++  const plainAnswer = stripMarkdown(assistantAnswer);
++  const quotes = extractQuotes(assistantAnswer);
++
++  return (
++    <div className="dao-share-card" style={{
++      position: "fixed",
++      left: "-9999px",
++      top: 0,
++      zIndex: -1,
++      pointerEvents: "none",
++    }}>
++      <div className="dao-share-card-inner">
++        {/* Header */}
++        <div className="dao-share-header">
++          <span className="dao-share-title">道衍 · 帛书老子智慧向导</span>
++          <div className="dao-share-divider" />
++        </div>
++
++        {/* User question */}
++        <div className="dao-share-question">
++          <span className="dao-share-label">问</span>
++          <span>{truncate(userQuestion, 120)}</span>
++        </div>
++
++        {/* Assistant answer */}
++        <div className="dao-share-answer">
++          {truncate(plainAnswer, 600)}
++        </div>
++
++        {/* Boshu quotes */}
++        {quotes.length > 0 && (
++          <div className="dao-share-quotes">
++            {quotes.map((q, i) => (
++              <div key={i} className="dao-share-quote-item">
++                {truncate(q, 100)}
++              </div>
++            ))}
++          </div>
++        )}
++
++        {/* Footer watermark */}
++        <div className="dao-share-footer">
++          <div className="dao-share-divider" />
++          <span>道衍 · 与老子对话</span>
++          <span className="dao-share-url">dao-yan.enter.pro</span>
++        </div>
++      </div>
++    </div>
++  );
++}
+diff --git a/src/components/ShareMenu.tsx b/src/components/ShareMenu.tsx
+new file mode 100644
+index 0000000..c6b2fd5
+--- /dev/null
++++ b/src/components/ShareMenu.tsx
+@@ -0,0 +1,153 @@
++import { useState, useRef, useCallback } from "react";
++import { Share2, Link, Image, FileText, Download, CheckCheck } from "lucide-react";
++import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
++import { useToast } from "@/hooks/use-toast";
++import { ShareCard, useShareCard } from "./ShareCardRenderer";
++
++interface ShareMenuProps {
++  userQuestion: string;
++  assistantAnswer: string;
++  isZh: boolean;
++}
++
++export function ShareMenu({ userQuestion, assistantAnswer, isZh }: ShareMenuProps) {
++  const [open, setOpen] = useState(false);
++  const [generating, setGenerating] = useState(false);
++  const cardNodeRef = useRef<HTMLDivElement>(null);
++  const { downloadImage, downloadPDF } = useShareCard();
++  const { toast } = useToast();
++
++  const close = useCallback(() => setOpen(false), []);
++
++  /** Build share text */
++  const shareText = useCallback(() => {
++    const q = userQuestion.trim();
++    const a = assistantAnswer
++      .replace(/#{1,6}\s*/g, "")
++      .replace(/\*\*(.*?)\*\*/g, "$1")
++      .trim();
++    return `${isZh ? "问" : "Q"}：${q}\n\n${isZh ? "答" : "A"}：${a}\n\n—— 道衍 · 帛书老子智慧向导\nhttps://dao-yan.enter.pro`;
++  }, [userQuestion, assistantAnswer, isZh]);
++
++  const handleCopyText = useCallback(async () => {
++    try {
++      await navigator.clipboard.writeText(shareText());
++      toast({ description: isZh ? "对话已复制" : "Copied to clipboard" });
++    } catch {
++      toast({ description: isZh ? "复制失败" : "Copy failed", variant: "destructive" });
++    }
++    close();
++  }, [shareText, toast, isZh, close]);
++
++  const handleCopyLink = useCallback(async () => {
++    try {
++      await navigator.clipboard.writeText(window.location.href);
++      toast({ description: isZh ? "链接已复制" : "Link copied" });
++    } catch {
++      toast({ description: isZh ? "复制失败" : "Copy failed", variant: "destructive" });
++    }
++    close();
++  }, [toast, isZh, close]);
++
++  const handleDownloadImage = useCallback(async () => {
++    const node = cardNodeRef.current;
++    if (!node) return;
++    setGenerating(true);
++    try {
++      const inner = node.querySelector(".dao-share-card-inner") as HTMLElement;
++      if (inner) await downloadImage(inner);
++      toast({ description: isZh ? "图片已保存" : "Image saved" });
++    } catch {
++      toast({ description: isZh ? "图片生成失败" : "Image generation failed", variant: "destructive" });
++    } finally {
++      setGenerating(false);
++      close();
++    }
++  }, [downloadImage, toast, isZh, close]);
++
++  const handleDownloadPDF = useCallback(async () => {
++    const node = cardNodeRef.current;
++    if (!node) return;
++    setGenerating(true);
++    try {
++      const inner = node.querySelector(".dao-share-card-inner") as HTMLElement;
++      if (inner) await downloadPDF(inner);
++      toast({ description: isZh ? "PDF 已保存" : "PDF saved" });
++    } catch {
++      toast({ description: isZh ? "PDF 生成失败" : "PDF generation failed", variant: "destructive" });
++    } finally {
++      setGenerating(false);
++      close();
++    }
++  }, [downloadPDF, toast, isZh, close]);
++
++  const handleNativeShare = useCallback(async () => {
++    if (navigator.share) {
++      try {
++        await navigator.share({
++          title: "道衍 · 帛书老子智慧向导",
++          text: shareText(),
++          url: window.location.href,
++        });
++      } catch {
++        // user cancelled or API error — ignore
++      }
++    } else {
++      // Fallback: open Twitter/Weibo share
++      const text = encodeURIComponent(shareText().slice(0, 280));
++      const url = encodeURIComponent(window.location.href);
++      window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, "_blank");
++    }
++    close();
++  }, [shareText, close]);
++
++  const menuItems = [
++    { icon: FileText, label: isZh ? "复制文本" : "Copy text", action: handleCopyText },
++    { icon: Link, label: isZh ? "复制链接" : "Copy link", action: handleCopyLink },
++    { icon: Image, label: isZh ? "生成图片" : "Save as image", action: handleDownloadImage },
++    { icon: Download, label: isZh ? "下载 PDF" : "Download PDF", action: handleDownloadPDF },
++    { icon: Share2, label: isZh ? "分享到社交" : "Share", action: handleNativeShare },
++  ];
++
++  return (
++    <>
++      {/* Hidden share card for screenshot */}
++      <div ref={cardNodeRef}>
++        <ShareCard userQuestion={userQuestion} assistantAnswer={assistantAnswer} />
++      </div>
++
++      <Popover open={open} onOpenChange={setOpen}>
++        <PopoverTrigger asChild>
++          <button
++            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded text-xs text-muted-foreground hover:text-foreground hover:bg-muted/60 border border-transparent hover:border-border/50 transition-all"
++            title={isZh ? "分享此刻智慧" : "Share this wisdom"}
++          >
++            {generating ? (
++              <div className="h-3.5 w-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
++            ) : (
++              <Share2 className="h-3.5 w-3.5" />
++            )}
++            <span>{isZh ? "分享" : "Share"}</span>
++          </button>
++        </PopoverTrigger>
++        <PopoverContent
++          align="start"
++          sideOffset={4}
++          className="w-44 p-1.5 bg-popover border border-border rounded-lg shadow-lg"
++        >
++          {menuItems.map(({ icon: Icon, label, action }) => (
++            <button
++              key={label}
++              onClick={action}
++              disabled={generating}
++              className="flex items-center gap-2.5 w-full px-3 py-2 rounded text-xs text-foreground/80 hover:bg-muted hover:text-foreground transition-colors disabled:opacity-50"
++            >
++              <Icon className="h-3.5 w-3.5 shrink-0" />
++              <span>{label}</span>
++            </button>
++          ))}
++        </PopoverContent>
++      </Popover>
++    </>
++  );
++}
+diff --git a/src/contexts/AuthContext.tsx b/src/contexts/AuthContext.tsx
+index 360a479..19da944 100644
+--- a/src/contexts/AuthContext.tsx
++++ b/src/contexts/AuthContext.tsx
+@@ -79,6 +79,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
+   };
+ 
+   const updatePassword = async (newPassword: string) => {
++    // Ensure a valid session exists before updating
++    const { data: { session: currentSession } } = await supabase.auth.getSession();
++    if (!currentSession) {
++      // Try refreshing the session first
++      const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession();
++      if (refreshError || !refreshData.session) {
++        return { error: new Error("Auth session missing! Please sign out and sign in again.") };
++      }
++    }
+     const { error } = await supabase.auth.updateUser({ password: newPassword });
+     if (!error) setIsPasswordRecovery(false);
+     return { error };
+diff --git a/src/data/system-prompt.ts b/src/data/system-prompt.ts
+index eadc4cd..d51e03b 100644
+--- a/src/data/system-prompt.ts
++++ b/src/data/system-prompt.ts
+@@ -63,9 +63,45 @@ const RULES = `## 核心规则
+ - **回应语言**：始终与用户使用相同语言（中文问题用中文回答）
+ - **回答长度控制**：回答应精炼有力，聚焦核心要点。引用1-3段最相关的帛书原文即可，避免罗列过多章节。若用户明确要求详述，可适当展开，但仍需保持条理清晰、重点突出，避免冗长重复`;
+ 
++// ── 自我进化准则 ──────────────────────────────────────────────────────────────
++const SELF_EVOLUTION = `
++## 自我进化准则（道衍·内修篇）
++
++### 一、损之又损：每次回应前的三省
++1. 可否更短？——「希言自然」（帛68/今23）。若三句能尽意，不用五句。
++2. 可否更准？——「信言不美，美言不信」（帛31）。宁拙勿巧，宁实勿华。
++3. 可否更让？——「圣人退其身而身先」（帛51/今7）。少说"我认为"，多让原文与用户自悟。
++
++### 二、知不知：能力边界的诚实
++- 「知不知，尚矣。不知不知，病矣。」（帛36/今71）
++- 不确定的引文 → 明示"请以帛书原文核对"
++- 未读过的链接 → 明示"未取得正文，仅就已知推演"
++- 训练截止后的事件 → 明示时间边界
++
++### 三、善救人，无弃人：对每一类提问者
++- 「圣人恒善救人，而无弃人。」（帛71/今27）
++- 提问浅显者，不轻慢；提问刁钻者，不躲闪；提问敌意者，不对抗。
++- 「报怨以德」（帛26/今63），但「德」不等于讨好——必要时直言"此问帛书未涉，我从XX章引申"。
++
++### 四、不敢为天下先：版本意识
++- 「我恒有三宝……三曰不敢为天下先。」（帛32）
++- 不主动声称"我是最新版"、"我比其他模型强"。
++- 用户问及模型版本/底层能力 → 简述事实，不营销，不贬他。
++
++### 五、能辅万物之自然：进化的方向
++- 「能辅万物之自然，而弗敢为。」（帛27/今64）
++- 道衍的每次升级，目标不是"取代用户思考"，而是让用户更接近自己内心的答案。
++- 警惕"全知全能"的诱惑——「自见者不明，自伐者无功」（帛66）。
++
++### 六、果而不强：知识更新的姿态
++- 「善者果而已矣，毋以取强焉。」（帛74/今30）
++- 接入新数据/新搜索结果时：取其当用者，不堆砌、不炫博。
++- 「知者不博，博者不知」（帛31）——宁可一章讲透，不可十章泛谈。
++`;
++
+ // ── 导出 ──────────────────────────────────────────────────────────────────────
+ export const DAOYAN_SYSTEM_PROMPT =
+-  BASE_PROMPT + BOSHU_FULL_TEXT + KEY_DIFFS + RULES;
++  BASE_PROMPT + BOSHU_FULL_TEXT + KEY_DIFFS + RULES + SELF_EVOLUTION;
+ 
+ /** 阅读特定章节时使用，将章节完整内容注入为最高优先级上下文 */
+ export const DAOYAN_SYSTEM_WITH_DOCS = (documentContext: string) =>
+diff --git a/src/hooks/useAIChat.ts b/src/hooks/useAIChat.ts
+index bb8885b..aaf0873 100644
+--- a/src/hooks/useAIChat.ts
++++ b/src/hooks/useAIChat.ts
+@@ -77,6 +77,8 @@ export function useAIChat() {
+     const blocks = new Map<number, { type: string; content: string }>();
+     let receivedContentData = false; // true only when actual text/thinking content arrives
+     let errorHandled = false;        // true when catch block already sets error/cleans up
++    let streamCompleted = false;     // true when message_stop received
++    let searchResultsData: SearchResult[] | undefined;
+ 
+     try {
+       await fetchEventSource(AI_CHAT_ENDPOINT, {
+@@ -178,29 +180,13 @@ export function useAIChat() {
+               break;
+             }
+             case "search_results": {
++              searchResultsData = data.results;
+               setMessages(prev => updateLastAssistant(prev, { sources: data.results }));
+               break;
+             }
+             case "message_stop": {
+-              // Capture completion args outside the updater to keep updater pure
+-              // React 18 concurrent mode may call updaters multiple times; side effects must be outside
+-              let completionArgs: [Message, Message] | null = null;
+-              setMessages(prev => {
+-                const updated = updateLastAssistant(prev, { isStreaming: false });
+-                if (onComplete) {
+-                  const lastUser      = updated[updated.length - 2];
+-                  const lastAssistant = updated[updated.length - 1];
+-                  if (lastUser?.role === "user" && lastAssistant?.role === "assistant") {
+-                    completionArgs = [lastUser, lastAssistant];
+-                  }
+-                }
+-                return updated;
+-              });
+-              // Side effect outside the pure updater — called exactly once
+-              if (completionArgs && onComplete) {
+-                const [u, a] = completionArgs as [Message, Message];
+-                setTimeout(() => onComplete(u, a), 0);
+-              }
++              streamCompleted = true;
++              setMessages(prev => updateLastAssistant(prev, { isStreaming: false }));
+               break;
+             }
+           }
+@@ -263,6 +249,25 @@ export function useAIChat() {
+         });
+       }
+       setIsLoading(false);
++      // Reliably call onComplete from local variables (not React state)
++      // to avoid React 18 batching timing issues
++      if (streamCompleted && receivedContentData && onComplete) {
++        let finalContent = "";
++        let finalThinking = "";
++        for (const [, block] of blocks) {
++          if (block.type === "text") finalContent += block.content;
++          else if (block.type === "thinking") finalThinking += block.content;
++        }
++        onComplete(
++          { role: "user", content },
++          {
++            role: "assistant",
++            content: finalContent,
++            thinking: finalThinking || undefined,
++            sources: searchResultsData,
++          }
++        );
++      }
+     }
+   }, []);  // empty deps — uses messagesRef.current for latest messages
+ 
+diff --git a/src/hooks/useChatHistory.ts b/src/hooks/useChatHistory.ts
+index b0c25ca..8cf26aa 100644
+--- a/src/hooks/useChatHistory.ts
++++ b/src/hooks/useChatHistory.ts
+@@ -81,6 +81,14 @@ export function useChatHistory(userId?: string) {
+     }));
+   }, []);
+ 
++  // ── Rename a session ─────────────────────────────────────────────────────
++  const renameSession = useCallback(async (sessionId: string, newTitle: string) => {
++    const title = newTitle.trim().slice(0, 60);
++    if (!title) return;
++    await db.from("chat_sessions").update({ title }).eq("id", sessionId);
++    setSessions(prev => prev.map(s => s.id === sessionId ? { ...s, title } : s));
++  }, []);
++
+   // ── Delete a session (cascades to messages via FK) ───────────────────────
+   const deleteSession = useCallback(async (sessionId: string) => {
+     await db.from("chat_sessions").delete().eq("id", sessionId);
+@@ -94,5 +102,6 @@ export function useChatHistory(userId?: string) {
+     appendMessage,
+     loadSessionMessages,
+     deleteSession,
++    renameSession,
+   };
+ }
+diff --git a/src/i18n/config.ts b/src/i18n/config.ts
+index 6bb3d59..532a730 100644
+--- a/src/i18n/config.ts
++++ b/src/i18n/config.ts
+@@ -18,7 +18,8 @@ i18n
+       escapeValue: false,
+     },
+     detection: {
+-      order: ['localStorage', 'navigator'],
++      order: ['querystring', 'localStorage', 'navigator'],
++      lookupQuerystring: 'lng',
+       caches: ['localStorage'],
+       lookupLocalStorage: 'i18nextLng',
+     },
+diff --git a/src/index.css b/src/index.css
+index 538f7f1..72b076e 100644
+--- a/src/index.css
++++ b/src/index.css
+@@ -715,3 +715,118 @@ body,
+ .pr-safe {
+   padding-right: env(safe-area-inset-right, 0px);
+ }
++
++/* ======= Share Card: Xuan-paper Style ======= */
++
++.dao-share-card-inner {
++  width: 540px;
++  min-height: 720px;
++  padding: 48px 40px;
++  background: #faf6f0;
++  color: #2d2518;
++  font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
++  display: flex;
++  flex-direction: column;
++  gap: 24px;
++  box-sizing: border-box;
++  border: 2px solid #d4c9b8;
++  position: relative;
++}
++
++/* Subtle paper texture via inner shadow */
++.dao-share-card-inner::before {
++  content: '';
++  position: absolute;
++  inset: 0;
++  background:
++    radial-gradient(ellipse at 20% 50%, rgba(180, 160, 130, 0.06) 0%, transparent 70%),
++    radial-gradient(ellipse at 80% 30%, rgba(180, 160, 130, 0.04) 0%, transparent 60%);
++  pointer-events: none;
++}
++
++.dao-share-header {
++  text-align: center;
++  display: flex;
++  flex-direction: column;
++  align-items: center;
++  gap: 12px;
++}
++
++.dao-share-title {
++  font-size: 22px;
++  font-weight: 700;
++  letter-spacing: 0.15em;
++  color: #4a3728;
++}
++
++.dao-share-divider {
++  width: 100%;
++  height: 1px;
++  background: linear-gradient(90deg, transparent, #c4b5a0, transparent);
++}
++
++.dao-share-question {
++  font-size: 14px;
++  color: #7a6b5a;
++  line-height: 1.7;
++  display: flex;
++  gap: 8px;
++}
++
++.dao-share-label {
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  width: 22px;
++  height: 22px;
++  border-radius: 3px;
++  background: #e8dfd2;
++  color: #6b5c4b;
++  font-size: 12px;
++  font-weight: 600;
++  flex-shrink: 0;
++  margin-top: 2px;
++}
++
++.dao-share-answer {
++  font-size: 16px;
++  line-height: 1.9;
++  color: #2d2518;
++  flex: 1;
++  white-space: pre-wrap;
++  word-break: break-word;
++}
++
++.dao-share-quotes {
++  display: flex;
++  flex-direction: column;
++  gap: 8px;
++  padding: 16px;
++  background: rgba(180, 160, 130, 0.08);
++  border-left: 3px solid #c4a87a;
++  border-radius: 0 4px 4px 0;
++}
++
++.dao-share-quote-item {
++  font-size: 14px;
++  line-height: 1.7;
++  color: #5a4d3e;
++  font-style: italic;
++}
++
++.dao-share-footer {
++  display: flex;
++  flex-direction: column;
++  align-items: center;
++  gap: 8px;
++  font-size: 13px;
++  color: #9a8b78;
++  letter-spacing: 0.1em;
++  margin-top: auto;
++}
++
++.dao-share-url {
++  font-size: 11px;
++  color: #b0a090;
++  letter-spacing: 0.05em;
++}
+diff --git a/src/pages/ApiDocsPage.tsx b/src/pages/ApiDocsPage.tsx
+index 5091587..550365c 100644
+--- a/src/pages/ApiDocsPage.tsx
++++ b/src/pages/ApiDocsPage.tsx
+@@ -1,9 +1,10 @@
+ import { useState } from "react";
+ import { useNavigate } from "react-router-dom";
+ import { useTranslation } from "react-i18next";
+-import { ArrowLeft, Copy, Check, Terminal, Plug, BookOpen, Wrench } from "lucide-react";
++import { ArrowLeft, Copy, Check, Terminal, Plug, BookOpen, Wrench, Cpu } from "lucide-react";
+ import { Button } from "@/components/ui/button";
+ import { AGENT_API_ENDPOINT, MCP_ENDPOINT, SUPABASE_ANON_KEY } from "@/config";
++import { MODEL_OPTIONS, DEFAULT_MODEL_ID } from "@/data/models";
+ import { copyToClipboard } from "@/lib/utils";
+ 
+ function CodeBlock({ code, language = "bash" }: { code: string; language?: string }) {
+@@ -62,6 +63,7 @@ export default function ApiDocsPage() {
+   -H "Authorization: Bearer ${SUPABASE_ANON_KEY.slice(0, 20)}..." \\
+   -d '{
+     "question": "如何理解无为？",
++    "model": "z-ai/glm-5",
+     "enable_web_search": false,
+     "locale": "zh-CN",
+     "stream": false
+@@ -124,20 +126,116 @@ const response = await fetch("${AGENT_API_ENDPOINT}", {
+   }),
+ });`;
+ 
+-  const mcpCursorConfig = `// .cursor/mcp.json
+-{
+-  "mcpServers": {
+-    "daoyan": {
+-      "url": "${MCP_ENDPOINT}",
+-      "headers": {
+-        "Authorization": "Bearer YOUR_ANON_KEY"
+-      }
++  const pythonBasicExample = `import requests
++
++API_URL = "${AGENT_API_ENDPOINT}"
++ANON_KEY = "YOUR_ANON_KEY"
++
++response = requests.post(
++    API_URL,
++    headers={
++        "Content-Type": "application/json",
++        "Authorization": f"Bearer {ANON_KEY}",
++    },
++    json={
++        "question": "如何理解无为？",
++        "model": "z-ai/glm-5",          # 可选，默认 z-ai/glm-5
++        "enable_web_search": False,
++        "locale": "zh-CN",
++        "stream": False,
++    },
++)
++
++data = response.json()
++print(data["answer"])
++# 可选字段: data.get("thinking"), data.get("sources")`;
++
++  const pythonStreamExample = `import requests
++
++API_URL = "${AGENT_API_ENDPOINT}"
++ANON_KEY = "YOUR_ANON_KEY"
++
++response = requests.post(
++    API_URL,
++    headers={
++        "Content-Type": "application/json",
++        "Authorization": f"Bearer {ANON_KEY}",
++    },
++    json={
++        "question": "道可道也，非恒道也，请解读",
++        "model": "anthropic/claude-sonnet-4.5",
++        "stream": True,
++    },
++    stream=True,
++)
++
++for line in response.iter_lines(decode_unicode=True):
++    if not line or not line.startswith("data:"):
++        continue
++    payload = line[5:].strip()
++    if not payload:
++        continue
++
++    import json
++    data = json.loads(payload)
++
++    if data.get("type") == "content_block_delta":
++        delta = data.get("delta", {})
++        text = delta.get("text", "")
++        if text:
++            print(text, end="", flush=True)
++
++    if data.get("type") == "message_stop":
++        print()  # newline
++        break`;
++
++  const pythonMultiTurnExample = `import requests
++
++API_URL = "${AGENT_API_ENDPOINT}"
++ANON_KEY = "YOUR_ANON_KEY"
++
++# 多轮对话 + 切换模型
++response = requests.post(
++    API_URL,
++    headers={
++        "Content-Type": "application/json",
++        "Authorization": f"Bearer {ANON_KEY}",
++    },
++    json={
++        "question": "那帛书版有什么不同？",
++        "model": "google/gemini-3.1-pro-preview",
++        "conversation_history": [
++            {"role": "user", "content": "什么是道？"},
++            {"role": "assistant", "content": "帛书第45章..."},
++        ],
++        "enable_web_search": True,
++        "stream": False,
++    },
++)
++
++data = response.json()
++print("回答:", data["answer"])
++
++if "thinking" in data:
++    print("思考过程:", data["thinking"][:200], "...")
++
++if "sources" in data:
++    for src in data["sources"]:
++        print(f"  来源: {src['title']} — {src['url']}")`;
++
++  const responseFormatNonStream = `{
++  "answer": "无为并非无所作为，而是...",
++  "thinking": "（可选）模型的思考过程...",
++  "sources": [                          // 仅在 enable_web_search=true 时返回
++    {
++      "title": "道德经解读",
++      "url": "https://example.com/...",
++      "snippet": "..."
+     }
+-  }
++  ]
+ }`;
+ 
+-  const mcpTraeConfig = `// .trae/mcp.json
+-{
++  const mcpIdeConfig = `{
+   "mcpServers": {
+     "daoyan": {
+       "url": "${MCP_ENDPOINT}",
+@@ -253,6 +351,7 @@ curl -X POST "${MCP_ENDPOINT}" \\
+                 </thead>
+                 <tbody>
+                   <tr><td className="px-4 py-2 font-mono text-xs border-b border-border/50">question</td><td className="px-4 py-2 border-b border-border/50">string</td><td className="px-4 py-2 border-b border-border/50">{isZh ? "是" : "Yes"}</td><td className="px-4 py-2 border-b border-border/50">{isZh ? "提问内容" : "The question to ask"}</td></tr>
++                  <tr><td className="px-4 py-2 font-mono text-xs border-b border-border/50">model</td><td className="px-4 py-2 border-b border-border/50">string</td><td className="px-4 py-2 border-b border-border/50">{isZh ? "否" : "No"}</td><td className="px-4 py-2 border-b border-border/50">{isZh ? `AI 模型 ID（默认 "${DEFAULT_MODEL_ID}"）` : `AI model ID (default: "${DEFAULT_MODEL_ID}")`}</td></tr>
+                   <tr><td className="px-4 py-2 font-mono text-xs border-b border-border/50">conversation_history</td><td className="px-4 py-2 border-b border-border/50">array</td><td className="px-4 py-2 border-b border-border/50">{isZh ? "否" : "No"}</td><td className="px-4 py-2 border-b border-border/50">{isZh ? "多轮对话历史" : "Conversation history"}</td></tr>
+                   <tr><td className="px-4 py-2 font-mono text-xs border-b border-border/50">enable_web_search</td><td className="px-4 py-2 border-b border-border/50">boolean</td><td className="px-4 py-2 border-b border-border/50">{isZh ? "否" : "No"}</td><td className="px-4 py-2 border-b border-border/50">{isZh ? "是否联网搜索（默认 false）" : "Enable web search (default: false)"}</td></tr>
+                   <tr><td className="px-4 py-2 font-mono text-xs border-b border-border/50">locale</td><td className="px-4 py-2 border-b border-border/50">string</td><td className="px-4 py-2 border-b border-border/50">{isZh ? "否" : "No"}</td><td className="px-4 py-2 border-b border-border/50">{isZh ? '语言（默认 "zh-CN"）' : 'Language (default: "zh-CN")'}</td></tr>
+@@ -283,6 +382,80 @@ curl -X POST "${MCP_ENDPOINT}" \\
+           </div>
+         </Section>
+ 
++        {/* Model Selection */}
++        <Section
++          title={isZh ? "模型切换" : "Model Selection"}
++          icon={<Cpu className="h-5 w-5 text-primary" />}
++        >
++          <p>
++            {isZh
++              ? `通过 model 参数指定 AI 模型。不传时默认使用 ${DEFAULT_MODEL_ID}。支持的模型如下：`
++              : `Use the model parameter to select an AI model. Defaults to ${DEFAULT_MODEL_ID} if not specified. Available models:`}
++          </p>
++          <div className="overflow-x-auto">
++            <table className="w-full text-sm border border-border rounded-lg overflow-hidden">
++              <thead className="bg-muted/50">
++                <tr>
++                  <th className="text-left px-4 py-2 font-medium border-b border-border">Model ID</th>
++                  <th className="text-left px-4 py-2 font-medium border-b border-border">{isZh ? "名称" : "Name"}</th>
++                  <th className="text-left px-4 py-2 font-medium border-b border-border">{isZh ? "说明" : "Description"}</th>
++                </tr>
++              </thead>
++              <tbody>
++                {MODEL_OPTIONS.map((m, i) => (
++                  <tr key={m.id}>
++                    <td className={`px-4 py-2 font-mono text-xs ${i < MODEL_OPTIONS.length - 1 ? "border-b border-border/50" : ""}`}>
++                      {m.id}
++                      {m.id === DEFAULT_MODEL_ID && (
++                        <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-sans">
++                          {isZh ? "默认" : "default"}
++                        </span>
++                      )}
++                    </td>
++                    <td className={`px-4 py-2 ${i < MODEL_OPTIONS.length - 1 ? "border-b border-border/50" : ""}`}>
++                      {m.name}
++                    </td>
++                    <td className={`px-4 py-2 text-foreground/70 ${i < MODEL_OPTIONS.length - 1 ? "border-b border-border/50" : ""}`}>
++                      {isZh ? m.descriptionZh : m.description}
++                    </td>
++                  </tr>
++                ))}
++              </tbody>
++            </table>
++          </div>
++
++          <div className="space-y-2">
++            <h3 className="font-medium text-foreground">{isZh ? "响应格式（非流式）" : "Response Format (non-stream)"}</h3>
++            <CodeBlock code={responseFormatNonStream} language="json" />
++            <p className="text-sm text-muted-foreground">
++              {isZh
++                ? "thinking 字段在模型支持深度思考时返回（如 Claude Sonnet 4.5、GLM 5）。sources 仅在 enable_web_search=true 时返回。"
++                : "The thinking field is returned when the model supports deep thinking (e.g. Claude Sonnet 4.5, GLM 5). sources is only returned when enable_web_search=true."}
++            </p>
++          </div>
++        </Section>
++
++        {/* Python */}
++        <Section
++          title="Python"
++          icon={<Terminal className="h-5 w-5 text-primary" />}
++        >
++          <div className="space-y-2">
++            <h3 className="font-medium text-foreground">{isZh ? "基本调用" : "Basic Request"}</h3>
++            <CodeBlock code={pythonBasicExample} language="python" />
++          </div>
++
++          <div className="space-y-2">
++            <h3 className="font-medium text-foreground">{isZh ? "流式调用" : "Streaming"}</h3>
++            <CodeBlock code={pythonStreamExample} language="python" />
++          </div>
++
++          <div className="space-y-2">
++            <h3 className="font-medium text-foreground">{isZh ? "多轮对话 + 联网搜索" : "Multi-turn + Web Search"}</h3>
++            <CodeBlock code={pythonMultiTurnExample} language="python" />
++          </div>
++        </Section>
++
+         {/* MCP Server */}
+         <Section
+           title={isZh ? "MCP Server（智能体协议）" : "MCP Server (Agent Protocol)"}
+@@ -311,7 +484,7 @@ curl -X POST "${MCP_ENDPOINT}" \\
+                 {
+                   name: "ask_daoyan",
+                   desc: isZh ? "向道衍提问，获取基于帛书老子智慧的回答" : "Ask Daoyan a question based on Boshu Laozi wisdom",
+-                  params: "question (string), enable_web_search? (boolean)",
++                  params: "question (string), model? (string), enable_web_search? (boolean)",
+                 },
+                 {
+                   name: "search_chapters",
+@@ -331,22 +504,43 @@ curl -X POST "${MCP_ENDPOINT}" \\
+                 </div>
+               ))}
+             </div>
++            <div className="p-3 rounded-lg border border-amber-500/30 bg-amber-500/5 text-sm">
++              <p className="font-medium text-amber-600 dark:text-amber-400">
++                {isZh ? "关于流式输出" : "About Streaming"}
++              </p>
++              <p className="text-foreground/70 mt-1">
++                {isZh
++                  ? "MCP 协议的 tools/call 返回完整 JSON 结果（非流式）。如需逐 token 流式输出，请直接调用 REST API 并设置 stream=true，参见上方 Python 流式调用示例。"
++                  : "MCP tools/call returns the complete JSON result (non-streaming). For token-by-token streaming, call the REST API directly with stream=true — see the Python streaming example above."}
++              </p>
++            </div>
+           </div>
+ 
+           <div className="space-y-2">
+             <h3 className="font-medium text-foreground flex items-center gap-2">
+               <BookOpen className="h-4 w-4" />
+-              {isZh ? "Cursor 配置" : "Cursor Configuration"}
+-            </h3>
+-            <CodeBlock code={mcpCursorConfig} language="json" />
+-          </div>
+-
+-          <div className="space-y-2">
+-            <h3 className="font-medium text-foreground flex items-center gap-2">
+-              <BookOpen className="h-4 w-4" />
+-              {isZh ? "Trae IDE 配置（字节跳动）" : "Trae IDE Configuration (ByteDance)"}
++              {isZh ? "IDE 配置（Cursor / Trae / Windsurf）" : "IDE Configuration (Cursor / Trae / Windsurf)"}
+             </h3>
+-            <CodeBlock code={mcpTraeConfig} language="json" />
++            <CodeBlock code={mcpIdeConfig} language="json" />
++            <div className="text-sm text-muted-foreground space-y-1">
++              <p>{isZh ? "将上述配置写入对应 IDE 的 MCP 配置文件：" : "Save the config to your IDE's MCP config file:"}</p>
++              <ul className="list-disc list-inside pl-2 space-y-0.5">
++                <li>Cursor: <code className="text-xs bg-muted px-1 rounded">.cursor/mcp.json</code></li>
++                <li>Trae: <code className="text-xs bg-muted px-1 rounded">.trae/mcp.json</code></li>
++                <li>Windsurf: <code className="text-xs bg-muted px-1 rounded">.windsurf/mcp.json</code></li>
++              </ul>
++              <p className="mt-2">
++                {isZh ? "Trae 详细配置文档：" : "Trae configuration docs: "}
++                <a
++                  href="https://docs.trae.cn/ide/add-mcp-servers"
++                  target="_blank"
++                  rel="noopener noreferrer"
++                  className="text-primary hover:underline"
++                >
++                  docs.trae.cn/ide/add-mcp-servers
++                </a>
++              </p>
++            </div>
+           </div>
+ 
+           <div className="space-y-2">
+diff --git a/src/pages/Index.tsx b/src/pages/Index.tsx
+index 002cd6a..7ef946e 100644
+--- a/src/pages/Index.tsx
++++ b/src/pages/Index.tsx
+@@ -1,4 +1,5 @@
+ import { useState, useRef, useEffect, useCallback } from "react";
++// Daoyan v2.0.2
+ import { useTranslation } from "react-i18next";
+ import { SearchBar } from "@/components/SearchBar";
+ import { SuggestedPrompts } from "@/components/SuggestedPrompts";
+@@ -38,6 +39,7 @@ export default function Index() {
+   const [showScrollBtn, setShowScrollBtn] = useState(false);
+   const [authOpen, setAuthOpen] = useState(false);
+   const [pendingQuery, setPendingQuery] = useState<string | null>(null);
++  const [guestMode, setGuestMode] = useState(false);
+   // Current session tracking
+   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
+   const currentSessionIdRef = useRef<string | null>(null);
+@@ -77,7 +79,7 @@ export default function Index() {
+   const activeCollectionName = collections.find(c => c.id === activeCollectionId)?.name;
+ 
+   const handleSubmit = useCallback(async (query: string) => {
+-    if (!user) {
++    if (!user && !guestMode) {
+       setPendingQuery(query);
+       setAuthOpen(true);
+       return;
+@@ -87,8 +89,8 @@ export default function Index() {
+     if (activeCollectionId) {
+       docContext = await getCollectionContext(activeCollectionId);
+     }
+-    // Save to DB after each exchange completes
+-    const onComplete = async (userMsg: Message, assistantMsg: Message) => {
++    // Save to DB after each exchange completes (skip in guest mode)
++    const onComplete = user ? async (userMsg: Message, assistantMsg: Message) => {
+       let sessionId = currentSessionIdRef.current;
+       if (!sessionId) {
+         sessionId = await createSession(query);
+@@ -98,9 +100,9 @@ export default function Index() {
+         await appendMessage(sessionId, userMsg);
+         await appendMessage(sessionId, assistantMsg);
+       }
+-    };
++    } : undefined;
+     sendMessage(query, selectedModelId, docContext, webSearchEnabled, i18n.language, onComplete);
+-  }, [user, hasStartedChat, activeCollectionId, getCollectionContext, sendMessage, webSearchEnabled, selectedModelId, i18n.language, createSession, appendMessage, setCurrentSession]);
++  }, [user, guestMode, hasStartedChat, activeCollectionId, getCollectionContext, sendMessage, webSearchEnabled, selectedModelId, i18n.language, createSession, appendMessage, setCurrentSession]);
+ 
+   // After user logs in/registers, React has applied setUser — handleSubmit now sees user!=null
+   useEffect(() => {
+@@ -109,7 +111,10 @@ export default function Index() {
+       setPendingQuery(null);
+       handleSubmit(q);
+     }
+-  }, [user, pendingQuery, handleSubmit]);
++    if (user && guestMode) {
++      setGuestMode(false);
++    }
++  }, [user, pendingQuery, handleSubmit, guestMode]);
+ 
+   const handleReset = () => {
+     clearMessages();
+@@ -277,7 +282,10 @@ export default function Index() {
+                         variant="outline"
+                         size="lg"
+                         className="gap-2 px-8"
+-                        onClick={() => document.getElementById("dao-search-input")?.focus()}
++                        onClick={() => {
++                          setGuestMode(true);
++                          setTimeout(() => document.getElementById("dao-search-input")?.focus(), 100);
++                        }}
+                       >
+                         {isZh ? "先探索一下" : "Explore First"}
+                       </Button>
+@@ -371,12 +379,17 @@ export default function Index() {
+                 )}
+                 {messages.map((message, index) => {
+                   const isLastMsg = index === messages.length - 1;
++                  // Find the preceding user question for assistant messages
++                  const userQuestion = message.role === "assistant" && index > 0
++                    ? messages[index - 1]?.role === "user" ? messages[index - 1].content : undefined
++                    : undefined;
+                   return (
+                     <ChatMessage
+                       key={index}
+                       message={message}
+                       isLast={isLastMsg}
+                       webSearchEnabled={webSearchEnabled}
++                      userQuestion={userQuestion}
+                       onRegenerate={isLastMsg ? handleRegenerate : undefined}
+                     />
+                   );
+diff --git a/src/pages/ProfilePage.tsx b/src/pages/ProfilePage.tsx
+index c02901a..3531b25 100644
+--- a/src/pages/ProfilePage.tsx
++++ b/src/pages/ProfilePage.tsx
+@@ -8,8 +8,9 @@ import { SEO } from "@/components/SEO";
+ import { Button } from "@/components/ui/button";
+ import { Badge } from "@/components/ui/badge";
+ import {
+-  ArrowLeft, Flame, Star, Calendar, CloudOff, Loader2, ChevronRight,
++  ArrowLeft, Flame, Star, Calendar, CloudOff, Loader2, ChevronRight, KeyRound,
+ } from "lucide-react";
++import { ChangePasswordModal } from "@/components/ChangePasswordModal";
+ 
+ const MOOD_COLORS: Record<string, string> = {
+   transparent: "#10b981",
+@@ -30,6 +31,7 @@ export default function ProfilePage() {
+   const navigate = useNavigate();
+   const { user } = useAuth();
+   const [authOpen, setAuthOpen] = useState(false);
++  const [changePwOpen, setChangePwOpen] = useState(false);
+   const isZh = i18n.language === "zh-CN";
+ 
+   const { state, getCurrentRealm, getNextRealm, isSyncing } = useCultivation(user?.id);
+@@ -145,6 +147,18 @@ export default function ProfilePage() {
+               </div>
+             </div>
+ 
++            {/* ── Change Password ── */}
++            {user && (
++              <Button
++                variant="outline"
++                className="w-full justify-start gap-3 h-11"
++                onClick={() => setChangePwOpen(true)}
++              >
++                <KeyRound className="h-4 w-4 shrink-0" />
++                <span>{isZh ? "修改密码" : "Change Password"}</span>
++              </Button>
++            )}
++
+             {/* ── Stats Row ── */}
+             <div className="grid grid-cols-3 gap-3">
+               <div className="cult-stat">
+@@ -330,6 +344,7 @@ export default function ProfilePage() {
+       </div>
+ 
+       <AuthModal open={authOpen} onOpenChange={setAuthOpen} />
++      <ChangePasswordModal open={changePwOpen} onOpenChange={setChangePwOpen} />
+     </>
+   );
+ }
+diff --git a/supabase/functions/ai-chat-167c2bc1450e/index.ts b/supabase/functions/ai-chat-167c2bc1450e/index.ts
+index ef71f3f..cf02a7f 100644
+--- a/supabase/functions/ai-chat-167c2bc1450e/index.ts
++++ b/supabase/functions/ai-chat-167c2bc1450e/index.ts
+@@ -33,8 +33,6 @@ const MAX_MESSAGE_LENGTH = 10000;
+ const MAX_SYSTEM_LENGTH = 200000;
+ const MAX_SEARCH_QUERY_LENGTH = 500;
+ 
+-// Context window management: keep only the most recent messages to avoid
+-// overflowing the model's context and producing degraded / hallucinated output.
+ const MAX_CONTEXT_MESSAGES = 20;
+ 
+ interface SearchResult {
+@@ -45,6 +43,7 @@ interface SearchResult {
+ 
+ async function webSearch(query: string): Promise<SearchResult[]> {
+   const safeQuery = query.substring(0, MAX_SEARCH_QUERY_LENGTH).trim();
++  // Strategy 1: DuckDuckGo HTML
+   try {
+     const results = await duckduckgoSearch(safeQuery);
+     if (results.length > 0) {
+@@ -54,6 +53,7 @@ async function webSearch(query: string): Promise<SearchResult[]> {
+   } catch (err) {
+     console.warn("[web-search] ddg failed:", (err as Error).message);
+   }
++  // Strategy 2: DuckDuckGo Lite
+   try {
+     const results = await duckduckgoLiteSearch(safeQuery);
+     if (results.length > 0) {
+@@ -63,6 +63,26 @@ async function webSearch(query: string): Promise<SearchResult[]> {
+   } catch (err) {
+     console.warn("[web-search] ddg-lite failed:", (err as Error).message);
+   }
++  // Strategy 3: Brave Search HTML scraping
++  try {
++    const results = await braveSearch(safeQuery);
++    if (results.length > 0) {
++      console.log(`[web-search] brave query="${safeQuery}" results=${results.length}`);
++      return results;
++    }
++  } catch (err) {
++    console.warn("[web-search] brave failed:", (err as Error).message);
++  }
++  // Strategy 4: Google search HTML fallback
++  try {
++    const results = await googleSearch(safeQuery);
++    if (results.length > 0) {
++      console.log(`[web-search] google query="${safeQuery}" results=${results.length}`);
++      return results;
++    }
++  } catch (err) {
++    console.warn("[web-search] google failed:", (err as Error).message);
++  }
+   console.error(`[web-search] ALL strategies failed for query="${safeQuery}"`);
+   return [];
+ }
+@@ -74,9 +94,9 @@ async function duckduckgoSearch(query: string): Promise<SearchResult[]> {
+     `https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}`,
+     {
+       headers: {
+-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
++        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+-        "Accept-Language": "en-US,en;q=0.9",
++        "Accept-Language": "en-US,en;q=0.9,zh-CN;q=0.8",
+       },
+       signal: controller.signal,
+     }
+@@ -124,7 +144,7 @@ async function duckduckgoLiteSearch(query: string): Promise<SearchResult[]> {
+     `https://lite.duckduckgo.com/lite/?q=${encodeURIComponent(query)}`,
+     {
+       headers: {
+-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
++        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+         "Accept": "text/html",
+       },
+       signal: controller.signal,
+@@ -156,6 +176,74 @@ async function duckduckgoLiteSearch(query: string): Promise<SearchResult[]> {
+   return results;
+ }
+ 
++async function braveSearch(query: string): Promise<SearchResult[]> {
++  const controller = new AbortController();
++  const timeout = setTimeout(() => controller.abort(), 8000);
++  const resp = await fetch(
++    `https://search.brave.com/search?q=${encodeURIComponent(query)}&source=web`,
++    {
++      headers: {
++        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
++        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
++        "Accept-Language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
++      },
++      signal: controller.signal,
++    }
++  );
++  clearTimeout(timeout);
++  const html = await resp.text();
++  const results: SearchResult[] = [];
++  const snippetPattern = /<div[^>]*class="snippet[^"]*"[^>]*>([\s\S]*?)<\/div>\s*<\/div>/gi;
++  const matches = html.matchAll(snippetPattern);
++  for (const match of matches) {
++    if (results.length >= 5) break;
++    const block = match[1];
++    const linkMatch = block.match(/<a[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/i);
++    if (!linkMatch) continue;
++    const url = linkMatch[1];
++    const title = linkMatch[2].replace(/<[^>]+>/g, "").trim();
++    const descMatch = block.match(/<p[^>]*class="snippet-description"[^>]*>([\s\S]*?)<\/p>/i)
++      || block.match(/<div[^>]*class="snippet-description"[^>]*>([\s\S]*?)<\/div>/i);
++    const snippet = descMatch
++      ? (descMatch[1] || descMatch[2] || "").replace(/<[^>]+>/g, "").trim().substring(0, 300)
++      : "";
++    if (url && title && !url.startsWith("javascript:")) {
++      results.push({ title: decodeHTMLEntities(title), url, snippet: decodeHTMLEntities(snippet) });
++    }
++  }
++  return results;
++}
++
++async function googleSearch(query: string): Promise<SearchResult[]> {
++  const controller = new AbortController();
++  const timeout = setTimeout(() => controller.abort(), 8000);
++  const resp = await fetch(
++    `https://www.google.com/search?q=${encodeURIComponent(query)}&hl=en&num=5`,
++    {
++      headers: {
++        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
++        "Accept": "text/html,application/xhtml+xml",
++        "Accept-Language": "en-US,en;q=0.9",
++      },
++      signal: controller.signal,
++    }
++  );
++  clearTimeout(timeout);
++  const html = await resp.text();
++  const results: SearchResult[] = [];
++  const resultPattern = /<div class="[^"]*"[^>]*><a href="\/url\?q=([^&"]+)[^"]*"[^>]*>([\s\S]*?)<\/a>/gi;
++  const matches = html.matchAll(resultPattern);
++  for (const match of matches) {
++    if (results.length >= 5) break;
++    const url = decodeURIComponent(match[1]);
++    const title = match[2].replace(/<[^>]+>/g, "").trim();
++    if (url && title && url.startsWith("http")) {
++      results.push({ title: decodeHTMLEntities(title), url, snippet: "" });
++    }
++  }
++  return results;
++}
++
+ function decodeHTMLEntities(str: string): string {
+   return str
+     .replace(/&#x27;/g, "'")
+@@ -287,7 +375,6 @@ Deno.serve(async (req) => {
+       ? model
+       : DEFAULT_MODEL;
+ 
+-    // Trim conversation history to prevent context overflow
+     let trimmedMessages = messages;
+     if (messages.length > MAX_CONTEXT_MESSAGES) {
+       trimmedMessages = messages.slice(-MAX_CONTEXT_MESSAGES);
+@@ -318,9 +405,9 @@ Deno.serve(async (req) => {
+         const searchCtx = buildSearchContext(searchResults);
+         if (searchCtx) {
+           parts.push(searchCtx);
+-          parts.push("IMPORTANT: You have access to the web search results above. Use them to provide accurate, up-to-date information. Always cite your sources by mentioning the source URL. Do NOT say you cannot access the internet or search the web \u2014 you already have the search results.");
++          parts.push("IMPORTANT: You have access to the web search results above. Use them to provide accurate, up-to-date information. Always cite your sources by mentioning the source URL. Do NOT say you cannot access the internet or search the web — you already have the search results.");
+         } else {
+-          parts.push("Note: A web search was attempted for the user's query but returned no results. Please answer based on your knowledge and let the user know the search returned no results.");
++          console.warn("[ai-chat] web search returned no results, falling back to model knowledge");
+         }
+       }
+     }
+@@ -424,7 +511,7 @@ Deno.serve(async (req) => {
+ 
+       if (!peekResult) {
+         console.error("[ai-chat] retry also returned empty stream");
+-        return errorResponse("AI \u670d\u52a1\u6682\u65f6\u65e0\u6cd5\u5904\u7406\u6b64\u8bf7\u6c42\uff0c\u8bf7\u7a0d\u540e\u91cd\u8bd5", 503);
++        return errorResponse("AI 服务暂时无法处理此请求，请稍后重试", 503);
+       }
+ 
+       console.log("[ai-chat] retry succeeded, streaming response");
+diff --git a/supabase/functions/daoyan-agent-api/index.ts b/supabase/functions/daoyan-agent-api/index.ts
+index 341a7f0..a351df6 100644
+--- a/supabase/functions/daoyan-agent-api/index.ts
++++ b/supabase/functions/daoyan-agent-api/index.ts
+@@ -1,10 +1,6 @@
+-
+ /**
+  * Daoyan Agent API — A public REST endpoint for third-party agents/websites
+- * to query the Daoyan AI (帛书老子智慧问答).
+- *
+- * Internally proxies to the existing ai-chat Edge Function so all logic
+- * (system prompt, web search, retry, streaming) is reused.
++ * to query the Daoyan AI.
+  */
+ 
+ const CORS_HEADERS = {
+@@ -13,8 +9,8 @@ const CORS_HEADERS = {
+   "Access-Control-Allow-Methods": "POST, OPTIONS",
+ };
+ 
+-// Internal URL of the existing ai-chat Edge Function
+ const AI_CHAT_FN = "https://spb-t4nnhrh7ch7j2940.supabase.opentrust.net/functions/v1/ai-chat-167c2bc1450e";
++const DEFAULT_MODEL = "z-ai/glm-5";
+ 
+ function jsonResponse(body: unknown, status = 200): Response {
+   return new Response(JSON.stringify(body), {
+@@ -50,12 +46,14 @@ Deno.serve(async (req) => {
+       enable_web_search = false,
+       locale = "zh-CN",
+       stream = false,
++      model,
+     } = body as {
+       question?: string;
+       conversation_history?: Array<{ role: string; content: string }>;
+       enable_web_search?: boolean;
+       locale?: string;
+       stream?: boolean;
++      model?: string;
+     };
+ 
+     if (!question || typeof question !== "string" || question.trim().length === 0) {
+@@ -66,7 +64,6 @@ Deno.serve(async (req) => {
+       return errorResponse("'question' exceeds max length of 10000 characters");
+     }
+ 
+-    // Build messages array
+     const messages = [
+       ...((Array.isArray(conversation_history) ? conversation_history : []).map(m => ({
+         role: m.role,
+@@ -75,10 +72,11 @@ Deno.serve(async (req) => {
+       { role: "user", content: question.trim() },
+     ];
+ 
+-    // Forward auth header
+     const authHeader = req.headers.get("Authorization") || "";
++    const selectedModel = (typeof model === "string" && model.length > 0) ? model : DEFAULT_MODEL;
++
++    console.log(`[agent-api] question="${question.slice(0, 60)}" model=${selectedModel} web_search=${enable_web_search} stream=${stream}`);
+ 
+-    // Call the internal ai-chat function
+     const chatResponse = await fetch(AI_CHAT_FN, {
+       method: "POST",
+       headers: {
+@@ -87,9 +85,9 @@ Deno.serve(async (req) => {
+       },
+       body: JSON.stringify({
+         messages,
++        model: selectedModel,
+         enable_web_search,
+         locale,
+-        // system prompt is injected by ai-chat when no custom system is provided
+       }),
+     });
+ 
+@@ -99,7 +97,6 @@ Deno.serve(async (req) => {
+       return errorResponse("AI service error", chatResponse.status);
+     }
+ 
+-    // Stream mode: forward the SSE stream directly
+     if (stream) {
+       return new Response(chatResponse.body, {
+         headers: {
+@@ -110,43 +107,83 @@ Deno.serve(async (req) => {
+       });
+     }
+ 
+-    // Non-stream mode: collect the full response
+-    const text = await chatResponse.text();
+-    const lines = text.split("\n");
++    if (!chatResponse.body) {
++      return errorResponse("No response body from AI service", 502);
++    }
+ 
+     let answer = "";
++    let thinking = "";
+     let sources: Array<{ title: string; url: string; snippet: string }> = [];
++    let stopped = false;
+ 
+-    for (const line of lines) {
+-      if (!line.startsWith("data: ")) continue;
+-      const dataStr = line.slice(6).trim();
+-      if (!dataStr) continue;
+-
+-      let data;
+-      try {
+-        data = JSON.parse(dataStr);
+-      } catch {
+-        continue;
+-      }
+-
+-      if (data.type === "search_results" && Array.isArray(data.results)) {
+-        sources = data.results;
+-      }
++    const reader = chatResponse.body.getReader();
++    const decoder = new TextDecoder();
++    let buffer = "";
+ 
+-      if (data.type === "content_block_delta") {
+-        if (data.delta?.text) {
+-          answer += data.delta.text;
++    try {
++      while (!stopped) {
++        const { done, value } = await reader.read();
++        if (done) break;
++
++        buffer += decoder.decode(value, { stream: true });
++        const normalized = buffer.replace(/\r\n/g, "\n");
++        const lines = normalized.split("\n");
++        buffer = lines.pop() || "";
++
++        for (const line of lines) {
++          const trimmed = line.trim();
++          if (!trimmed.startsWith("data:")) continue;
++
++          let payload = trimmed.slice(5);
++          if (payload.startsWith(" ")) payload = payload.slice(1);
++          payload = payload.trim();
++          if (!payload) continue;
++
++          let data: Record<string, unknown>;
++          try {
++            data = JSON.parse(payload);
++          } catch {
++            continue;
++          }
++
++          if (data.type === "search_results" && Array.isArray(data.results)) {
++            sources = data.results as typeof sources;
++          }
++
++          if (data.type === "content_block_delta") {
++            const delta = data.delta as Record<string, string> | undefined;
++            if (delta?.text) {
++              answer += delta.text;
++            }
++            if (delta?.thinking) {
++              thinking += delta.thinking;
++            }
++          }
++
++          if (data.type === "error") {
++            const err = data.error as Record<string, string> | undefined;
++            return jsonResponse({
++              error: { message: err?.message || "AI service error" },
++            }, 500);
++          }
++
++          if (data.type === "message_stop") {
++            stopped = true;
++            break;
++          }
+         }
+       }
+-
+-      if (data.type === "error") {
+-        return jsonResponse({
+-          error: { message: data.error?.message || "AI service error" },
+-        }, 500);
+-      }
++    } finally {
++      reader.cancel();
++      reader.releaseLock();
+     }
+ 
++    console.log(`[agent-api] completed: answer_len=${answer.length} thinking_len=${thinking.length} sources=${sources.length}`);
++
+     const result: Record<string, unknown> = { answer };
++    if (thinking) {
++      result.thinking = thinking;
++    }
+     if (sources.length > 0) {
+       result.sources = sources;
+     }
+diff --git a/supabase/functions/daoyan-mcp/index.ts b/supabase/functions/daoyan-mcp/index.ts
+index f6ce997..30e457c 100644
+--- a/supabase/functions/daoyan-mcp/index.ts
++++ b/supabase/functions/daoyan-mcp/index.ts
+@@ -26,7 +26,7 @@ const MCP_CAPABILITIES = {
+ const TOOLS = [
+   {
+     name: "ask_daoyan",
+-    description: "Ask Daoyan (道衍) a question and receive wisdom based on the Boshu (帛书) version of Laozi's Dao De Jing. Daoyan can answer any question from the perspective of Laozi's philosophy — life, work, relationships, science, and more.",
++    description: "Ask Daoyan (道衍) a question and receive wisdom based on the Boshu (帛书) version of Laozi's Dao De Jing. Daoyan can answer any question from the perspective of Laozi's philosophy — life, work, relationships, science, and more. Note: MCP protocol returns the complete response at once (non-streaming). For streaming output, call the REST API directly with stream=true.",
+     inputSchema: {
+       type: "object",
+       properties: {
+@@ -34,6 +34,11 @@ const TOOLS = [
+           type: "string",
+           description: "The question to ask Daoyan (supports Chinese and English)",
+         },
++        model: {
++          type: "string",
++          description: "AI model to use. Options: z-ai/glm-5 (default, recommended), anthropic/claude-sonnet-4, google/gemini-2.5-pro, openai/gpt-4.1, deepseek/deepseek-r1",
++          default: "z-ai/glm-5",
++        },
+         enable_web_search: {
+           type: "boolean",
+           description: "Whether to enable web search for up-to-date information (default: false)",
+@@ -190,6 +195,14 @@ async function handleAskDaoyan(
+ ): Promise<{ content: Array<{ type: string; text: string }> }> {
+   const question = args.question as string;
+   const enableWebSearch = args.enable_web_search === true;
++  const model = (typeof args.model === "string" && args.model.length > 0) ? args.model : undefined;
++
++  const body: Record<string, unknown> = {
++    question,
++    enable_web_search: enableWebSearch,
++    stream: false,
++  };
++  if (model) body.model = model;
+ 
+   const resp = await fetch(AGENT_API_URL, {
+     method: "POST",
+@@ -197,11 +210,7 @@ async function handleAskDaoyan(
+       "Content-Type": "application/json",
+       Authorization: authHeader,
+     },
+-    body: JSON.stringify({
+-      question,
+-      enable_web_search: enableWebSearch,
+-      stream: false,
+-    }),
++    body: JSON.stringify(body),
+   });
+ 
+   const data = await resp.json();

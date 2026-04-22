@@ -3,6 +3,7 @@ import CultivationPage from "./pages/CultivationPage";
 import DaodejingPage from "./pages/DaodejingPage";
 import ProfilePage from "./pages/ProfilePage";
 import ApiDocsPage from "./pages/ApiDocsPage";
+import AdminPage from "./pages/AdminPage";
 import NotFound from "./pages/NotFound";
 
 export const routers = [
@@ -30,6 +31,11 @@ export const routers = [
       path: "/api-docs",
       name: 'api-docs',
       element: <ApiDocsPage />,
+    },
+    {
+      path: "/admin",
+      name: 'admin',
+      element: <AdminPage />,
     },
     /* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */
     {

@@ -3,14 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   Flame, FolderOpen, RotateCcw, X, ScrollText, BookOpen,
-  LogIn, LogOut, User, Trash2, MessageSquare, Pencil, Code2,
+  LogIn, LogOut, User, Trash2, MessageSquare, Pencil, Code2, KeyRound, Shield,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { ThemeToggle } from "./ThemeToggle";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { AuthModal } from "./AuthModal";
+import { ChangePasswordModal } from "./ChangePasswordModal";
 import type { ChatSession } from "@/hooks/useChatHistory";
 
 interface NavigationSidebarProps {
@@ -68,6 +70,15 @@ export function NavigationSidebar({
   const isZh        = i18n.language === "zh-CN";
   const { user, signOut } = useAuth();
   const [authOpen, setAuthOpen] = useState(false);
+  const [changePwOpen, setChangePwOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // Check admin status
+  useEffect(() => {
+    if (!user) { setIsAdmin(false); return; }
+    supabase.from("profiles").select("is_admin").eq("id", user.id).maybeSingle()
+      .then(({ data }) => setIsAdmin(data?.is_admin ?? false));
+  }, [user]);
   // Inline rename state
   const [editingSessionId, setEditingSessionId] = useState<string | null>(null);
   const [editingTitle, setEditingTitle] = useState("");
@@ -287,6 +298,14 @@ export function NavigationSidebar({
               <Code2 className="h-4 w-4 shrink-0" />
               <span>{isZh ? "API & MCP" : "API & MCP"}</span>
             </Button>
+
+            {isAdmin && (
+              <Button variant="ghost" className="w-full justify-start gap-3 h-11 text-primary"
+                onClick={() => { navigate("/admin"); onClose(); }}>
+                <Shield className="h-4 w-4 shrink-0" />
+                <span>{isZh ? "管理后台" : "Admin"}</span>
+              </Button>
+            )}
           </nav>
         </div>
 
@@ -308,6 +327,11 @@ export function NavigationSidebar({
                 <User className="h-3 w-3" />
               </Button>
               <Button variant="ghost" size="icon" className="h-6 w-6 shrink-0 text-muted-foreground hover:text-foreground"
+                onClick={() => setChangePwOpen(true)}
+                title={isZh ? "修改密码" : "Change Password"}>
+                <KeyRound className="h-3 w-3" />
+              </Button>
+              <Button variant="ghost" size="icon" className="h-6 w-6 shrink-0 text-muted-foreground hover:text-foreground"
                 onClick={signOut}
                 title={isZh ? "退出登录" : "Sign out"}>
                 <LogOut className="h-3 w-3" />
@@ -326,6 +350,7 @@ export function NavigationSidebar({
       </aside>
 
       <AuthModal open={authOpen} onOpenChange={setAuthOpen} />
+      <ChangePasswordModal open={changePwOpen} onOpenChange={setChangePwOpen} />
     </>
   );
 }

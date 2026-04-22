@@ -81,6 +81,14 @@ export function useChatHistory(userId?: string) {
     }));
   }, []);
 
+  // ── Rename a session ─────────────────────────────────────────────────────
+  const renameSession = useCallback(async (sessionId: string, newTitle: string) => {
+    const title = newTitle.trim().slice(0, 60);
+    if (!title) return;
+    await db.from("chat_sessions").update({ title }).eq("id", sessionId);
+    setSessions(prev => prev.map(s => s.id === sessionId ? { ...s, title } : s));
+  }, []);
+
   // ── Delete a session (cascades to messages via FK) ───────────────────────
   const deleteSession = useCallback(async (sessionId: string) => {
     await db.from("chat_sessions").delete().eq("id", sessionId);
@@ -94,5 +102,6 @@ export function useChatHistory(userId?: string) {
     appendMessage,
     loadSessionMessages,
     deleteSession,
+    renameSession,
   };
 }

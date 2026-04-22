@@ -26,13 +26,18 @@ const MCP_CAPABILITIES = {
 const TOOLS = [
   {
     name: "ask_daoyan",
-    description: "Ask Daoyan (道衍) a question and receive wisdom based on the Boshu (帛书) version of Laozi's Dao De Jing. Daoyan can answer any question from the perspective of Laozi's philosophy — life, work, relationships, science, and more.",
+    description: "Ask Daoyan (道衍) a question and receive wisdom based on the Boshu (帛书) version of Laozi's Dao De Jing. Daoyan can answer any question from the perspective of Laozi's philosophy — life, work, relationships, science, and more. Note: MCP protocol returns the complete response at once (non-streaming). For streaming output, call the REST API directly with stream=true.",
     inputSchema: {
       type: "object",
       properties: {
         question: {
           type: "string",
           description: "The question to ask Daoyan (supports Chinese and English)",
+        },
+        model: {
+          type: "string",
+          description: "AI model to use. Options: z-ai/glm-5 (default, recommended), anthropic/claude-sonnet-4, google/gemini-2.5-pro, openai/gpt-4.1, deepseek/deepseek-r1",
+          default: "z-ai/glm-5",
         },
         enable_web_search: {
           type: "boolean",
@@ -190,6 +195,14 @@ async function handleAskDaoyan(
 ): Promise<{ content: Array<{ type: string; text: string }> }> {
   const question = args.question as string;
   const enableWebSearch = args.enable_web_search === true;
+  const model = (typeof args.model === "string" && args.model.length > 0) ? args.model : undefined;
+
+  const body: Record<string, unknown> = {
+    question,
+    enable_web_search: enableWebSearch,
+    stream: false,
+  };
+  if (model) body.model = model;
 
   const resp = await fetch(AGENT_API_URL, {
     method: "POST",
@@ -197,11 +210,7 @@ async function handleAskDaoyan(
       "Content-Type": "application/json",
       Authorization: authHeader,
     },
-    body: JSON.stringify({
-      question,
-      enable_web_search: enableWebSearch,
-      stream: false,
-    }),
+    body: JSON.stringify(body),
   });
 
   const data = await resp.json();

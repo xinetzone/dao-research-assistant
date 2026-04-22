@@ -36,7 +36,23 @@
 | MCP 生态授权 | 面向企业的 MCP Server 定制部署与白标授权 |
 | 增值订阅 | 高级 AI 模型（Claude Opus 4.7 / GPT 5.4）、无限对话历史、专属修炼指导 |
 
+### 提交链接
+
 > **在线体验**：[https://167c2bc1450e4ea3a0dc4b07c5873069.prod.enter.pro](https://167c2bc1450e4ea3a0dc4b07c5873069.prod.enter.pro)
+
+### 截图
+
+<div align="center">
+
+#### 首页 — AI 对话入口
+<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/66c1.png" alt="道衍首页" width="800" />
+
+#### 修行打卡 — 10 境界游戏化修炼
+<img src="https://grazia-prod.oss-ap-southeast-1.aliyuncs.com/resources/uid_100032143/19e0.png" alt="修炼打卡系统" width="800" />
+
+</div>
+
+---
 
 ## 项目简介
 
@@ -78,6 +94,12 @@
 | 道法自然 | 开源、开放协议（MCP），可组合的智慧生态 |
 | 大器免成 | 最伟大的器物无需"完成"——持续演化即是道 |
 
+### 愿景与使命
+
+> **愿景**：让 15 亿人用道德经智慧生活，让古老智慧在数字时代焕发新生。
+>
+> **使命**：将《道德经》的深邃智慧转化为日常可用的生活指导，帮助用户在快节奏的现代生活中找到内心的平衡与方向。
+
 > "反也者，道之动也。弱也者，道之用也。" — 帛书第81章
 
 ---
@@ -104,12 +126,20 @@
 - **Markdown 富文本渲染** — 代码高亮、表格、引用、一键复制（基于 marked + highlight.js）
 - **来源引用** — 联网搜索结果以带 favicon 的卡片形式展示
 - **消息操作** — 复制 AI 回复、重新生成最后一条回复
+- **智慧分享** — 复制文本/链接、生成古典意境图卡（宣纸+水墨风）、PDF 导出、社交媒体分享
 - **深/浅色模式** — 侧边栏一键切换，localStorage 持久化
+
+### 用户系统
+
+- **邮箱注册/登录** — Supabase Auth 驱动
+- **修改密码** — 侧边栏 + 个人页均可操作，自动刷新会话
+- **对话历史持久化** — 多轮对话完整保存至数据库，跨设备同步
+- **游客模式** — 无需注册即可体验 AI 对话
 
 ### 智能联网搜索
 
 - **可选联网** — 搜索栏工具栏一键启用
-- **双层容错搜索** — DuckDuckGo HTML → DuckDuckGo Lite
+- **四层容错搜索** — DuckDuckGo HTML → DuckDuckGo Lite → Brave Search → Google
 - **搜索进度反馈** — 联网时显示"正在联网搜索..."进度提示
 - **自动内容注入** — 搜索结果作为 system context 传递给 AI，附引用卡片展示
 
@@ -119,6 +149,7 @@
 - **停止生成按钮** — AI 回复过程中可随时中断（红色 Stop 图标）
 - **回到底部按钮** — 向上滚动时出现悬浮按钮，一键跳到最新消息
 - **分类问题过滤** — 点击话题标签过滤展示对应问题，再次点击复位
+- **游客体验模式** — 未登录用户点击"先探索一下"即可直接使用 AI 对话（不保存历史）
 
 ### 文档集合系统
 
@@ -186,8 +217,9 @@ pnpm dev
 | 国际化 | i18next + react-i18next | 中英双语 + locale 传 AI |
 | 后端 | Supabase Edge Functions (Deno) | AI 聊天、搜索、Agent API、MCP |
 | AI | 多模型（Claude / GPT / Gemini / GLM） | 流式响应 + 可中断 + 模型切换 |
-| 搜索 | DuckDuckGo（双层容错） | 结果注入 system context |
-| 存储 | localStorage | 修炼数据 + 深色模式持久化 |
+| 搜索 | DuckDuckGo / Brave / Google（四层容错） | 结果注入 system context |
+| 数据库 | Supabase PostgreSQL | 对话历史 + 用户数据持久化 |
+| 存储 | localStorage + Supabase | 修炼数据 + 深色模式持久化 |
 
 ### 目录结构
 
@@ -195,7 +227,10 @@ pnpm dev
 dao-yan/
 ├── src/
 │   ├── components/
-│   │   ├── ChatMessage.tsx          # 消息组件（复制/重生成/来源卡片）
+│   │   ├── ChatMessage.tsx          # 消息组件（复制/分享/来源卡片）
+│   │   ├── ShareMenu.tsx            # 分享菜单（文本/链接/图卡/PDF/社交）
+│   │   ├── ShareCardRenderer.tsx    # 古典意境图卡生成器（宣纸+水墨）
+│   │   ├── ChangePasswordModal.tsx  # 修改密码弹窗
 │   │   ├── MarkdownRenderer.tsx     # marked 渲染器（高亮/复制/XSS）
 │   │   ├── SearchBar.tsx            # 搜索栏（自动伸缩/停止按钮/工具栏）
 │   │   ├── SuggestedPrompts.tsx     # 分类标签过滤 + 8 个道衍问题
@@ -206,6 +241,7 @@ dao-yan/
 │   │   └── ui/                      # shadcn/ui 基础组件
 │   ├── hooks/
 │   │   ├── useAIChat.ts             # AI 聊天（SSE + 停止 + 搜索）
+│   │   ├── useChatHistory.ts        # 对话历史持久化（Supabase）
 │   │   ├── useCultivation.ts        # 修炼系统（境界/打卡/积分）
 │   │   └── useDocumentCollections.ts
 │   ├── lib/
